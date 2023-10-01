@@ -4,15 +4,16 @@ import {
   SimpleGrid,
   Slider,
   SliderFilledTrack,
-  SliderMark,
   SliderThumb,
   SliderTrack,
   Text,
 } from "@chakra-ui/react";
 import { SectionContainer } from "components/container";
-import "./styles.css";
 import { useState } from "react";
+import HistoryButton from "./historyButton";
+import LuckyNumberBox from "./luckyNumber";
 import Pools from "./pools";
+import "./styles.css";
 
 const Predict = () => {
   const [sliderValue, setSliderValue] = useState(50);
@@ -39,7 +40,7 @@ const Predict = () => {
     <SectionContainer>
       <Box>
         <SimpleGrid columns={2} spacing={10}>
-          <Box></Box>
+          <LuckyNumberBox />
           <Box className="container">
             <Text className="title">Prediction</Text>
             <SimpleGrid columns={2} spacing="24px">
@@ -123,8 +124,8 @@ const Predict = () => {
 
                 <Box ml="14px" w="120px">
                   <Text className="small-header">Multiplier</Text>
-                  <Box columns={2} className="bet-amount-box-content">
-                    <Text className="linear-text win-chance-text">2.0456X</Text>
+                  <Box className="small-content-container horizontal-box">
+                    <Text className="linear-text small-content">2.0456x</Text>
                   </Box>
                 </Box>
               </Box>
@@ -144,6 +145,7 @@ const Predict = () => {
           </Box>
         </SimpleGrid>
         <Pools />
+        <HistoryButton />
       </Box>
     </SectionContainer>
   );
