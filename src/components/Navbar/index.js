@@ -6,7 +6,7 @@ import WalletButton from "components/wallet/WalletButton";
 const Navbar = () => {
   return (
     <Box
-      // border="2px solid var(--support-color-stoke-liner, rgba(255, 255, 255, 0.70))"
+      border="2px solid rgba(255, 255, 255, 0.4)"
       borderima
       zIndex="100"
       // right="0"

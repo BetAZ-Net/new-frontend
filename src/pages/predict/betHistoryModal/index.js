@@ -184,35 +184,72 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
             })}
           </Box>
           <TableContainer mt="24px">
-            <Table variant="unstyled">
+            <Table variant="unstyled" className="history-table">
               <Thead>
                 <Tr className="history-table-header-container">
-                  {historyTableData.headers.map((e, index) => (
-                    <Th className="history-table-header-column">
-                      <Box
-                        display="flex"
-                        justifyContent={index > 0 && "center"}
-                        alignItems="center"
-                      >
-                        {e?.icon}
-                        {e.label}
-                      </Box>
-                    </Th>
-                  ))}
+                  {historyTableData.headers.map((e, index) => {
+                    const isFirstChild = index == 0;
+                    const isLastChild =
+                      index == historyTableData.headers.length - 1;
+                    return (
+                      <Th className="history-table-header-column">
+                        <Box
+                          sx={{
+                            borderY: "1px solid #1beca6",
+                            borderLeft: isFirstChild && "1px solid #1beca6",
+                            borderRight: isLastChild && "1px solid #1beca6",
+                            borderLeftRadius: isFirstChild && "8px",
+                            borderRightRadius: isLastChild && "8px",
+                            paddingLeft: isFirstChild && "20px",
+                            width: "full",
+                            py: "20px",
+                          }}
+                          display="flex"
+                          justifyContent={index > 0 && "center"}
+                          alignItems="center"
+                        >
+                          {e?.icon}
+                          {e.label}
+                        </Box>
+                      </Th>
+                    );
+                  })}
                 </Tr>
               </Thead>
               <Tbody>
-                {historyTableData.data.map((e, index) => {
+                {historyTableData.data.map((e, rowIndex) => {
                   const keyValues = Object.keys(e);
+
                   return (
-                    <Tr
-                      sx={{ mt: "8px" }}
-                      mt="8"
-                      className="history-table-row-container"
-                    >
-                      {keyValues.map((keyvalue, index) => (
-                        <Td>{formatTableValue(e[keyvalue], keyvalue)}</Td>
-                      ))}
+                    <Tr>
+                      {keyValues.map((keyvalue, index) => {
+                        const isFirstChild = index == 0;
+                        const isLastChild =
+                          index == historyTableData.headers.length - 1;
+                        return (
+                          <Td>
+                            <Box
+                              sx={{
+                                marginTop: rowIndex == 0 ? "24px" : "8px",
+                                background: "#0d171b",
+                                py: "16px",
+                                pl: isFirstChild && "24px",
+                                borderY: "1px solid rgba(255, 255, 255, 0.4)",
+                                borderLeft:
+                                  isFirstChild &&
+                                  "1px solid rgba(255, 255, 255, 0.4)",
+                                borderRight:
+                                  isLastChild &&
+                                  "1px solid rgba(255, 255, 255, 0.4)",
+                                borderLeftRadius: isFirstChild && "8px",
+                                borderRightRadius: isLastChild && "8px",
+                              }}
+                            >
+                              {formatTableValue(e[keyvalue], keyvalue)}
+                            </Box>
+                          </Td>
+                        );
+                      })}
                     </Tr>
                   );
                 })}
