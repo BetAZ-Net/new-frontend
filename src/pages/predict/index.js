@@ -14,10 +14,12 @@ import HistoryButton from "./historyButton";
 import LuckyNumberBox from "./luckyNumber";
 import Pools from "./pools";
 import "./styles.css";
+import BetHistoryModal from "./betHistoryModal";
 
 const Predict = () => {
   const [sliderValue, setSliderValue] = useState(50);
   const [betAmount, setBetAmount] = useState(0);
+  const [betHistoryModalVisible, setBetHistoryModalVisible] = useState(false);
 
   const labelStyles = {
     fontSize: "20px",
@@ -87,7 +89,7 @@ const Predict = () => {
                           <Text
                             color={isActive ? "#0D171B" : "#F7F7F8"}
                             fontSize="16px"
-                            fontWeight="500"
+                            fontWeight={isActive ? "700" : "500"}
                           >
                             {e?.label}
                           </Text>
@@ -137,15 +139,22 @@ const Predict = () => {
                 </Box>
               </Box>
             </SimpleGrid>
-            <Box className="horizontal-box" mt="24px">
+            <SimpleGrid columns={2} spacing="24px">
               <Button minW="300px" py="10px">
                 ROLL OVER 50
               </Button>
-            </Box>
+              <Button minW="300px" py="10px">
+                ROLL OVER 50
+              </Button>
+            </SimpleGrid>
           </Box>
         </SimpleGrid>
         <Pools />
-        <HistoryButton />
+        <HistoryButton onClick={() => setBetHistoryModalVisible(true)} />
+        <BetHistoryModal
+          isOpen={betHistoryModalVisible}
+          onClose={() => setBetHistoryModalVisible(false)}
+        />
       </Box>
     </SectionContainer>
   );

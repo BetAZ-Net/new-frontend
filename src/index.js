@@ -6,6 +6,9 @@ import { ChakraProvider } from "@chakra-ui/react";
 import customTheme from "theme";
 import { WalletProvider } from "contexts/useWallet";
 import { BrowserRouter } from "react-router-dom";
+import "@fontsource/space-grotesk"; // Defaults to weight 400
+import "@fontsource/space-grotesk/500.css"; // Specify weight
+import { Toaster } from "react-hot-toast";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,6 +16,19 @@ root.render(
     <BrowserRouter>
       <ChakraProvider theme={customTheme}>
         <WalletProvider>
+          <Toaster
+            position="bottom-right"
+            reverseOrder={true}
+            toastOptions={{
+              style: {
+                padding: "8px",
+                fontSize: "16px",
+                color: "#57527E",
+                borderRadius: "5px",
+                background: "#E8FDFF",
+              },
+            }}
+          />
           <App />
         </WalletProvider>
       </ChakraProvider>

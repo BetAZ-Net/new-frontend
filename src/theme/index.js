@@ -1,6 +1,17 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const customTheme = extendTheme({
+  fonts: {
+    heading: `'Space Grotesk', sans-serif`,
+    body: `'Space Grotesk', sans-serif`,
+    // Add more font styles if needed
+  },
+  styles: {
+    global: {
+      // Set the default text color here
+      color: "#F7F7F8",
+    },
+  },
   components: {
     Button: {
       baseStyle: {
@@ -17,6 +28,11 @@ const customTheme = extendTheme({
     ModalContent: {
       baseStyle: {
         background: "red",
+      },
+    },
+    Text: {
+      baseStyle: {
+        color: "#F7F7F8",
       },
     },
   },
