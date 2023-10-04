@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import HistoryButtonImage from "assets/img/historyButton.png";
 import { BsChevronCompactUp } from "react-icons/bs";
 
-const HistoryButton = () => {
+const HistoryButton = ({ onClick }) => {
   return (
     <Box
       sx={{
@@ -17,6 +17,7 @@ const HistoryButton = () => {
       bgSize="cover"
       w="full"
       cursor="pointer"
+      onClick={onClick}
     >
       <BsChevronCompactUp size="24px" color="#1BECA6" />
       <Text
