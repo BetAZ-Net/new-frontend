@@ -1,8 +1,10 @@
 import { Box } from "@chakra-ui/react";
 import Navbar from "components/Navbar";
 import BackgroundImage from "assets/img/background.png";
-const DefaultLayout = ({ children }) => {
-  console.log(children);
+import { useLocation } from "react-router-dom";
+import { NavbarLandingPage } from "components/Navbar/NavbarLandingPage";
+
+const AppLayout = ({ children }) => {
   return (
     <Box
       background="#0F3435"
@@ -24,6 +26,22 @@ const DefaultLayout = ({ children }) => {
       </Box>
     </Box>
   );
+};
+
+const LandingPageLayout = ({ children }) => {
+  return (
+    <Box background="#0F3435" sx={{ minHeight: "100vh" }}>
+      {/* <NavbarLandingPage /> */}
+      <Box overflow="auto">{children}</Box>
+    </Box>
+  );
+};
+
+const DefaultLayout = ({ children }) => {
+  const location = useLocation();
+  if (["/"].includes(location.pathname))
+    return <LandingPageLayout>{children}</LandingPageLayout>;
+  return <AppLayout>{children}</AppLayout>;
 };
 
 export default DefaultLayout;
