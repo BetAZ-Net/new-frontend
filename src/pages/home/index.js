@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Divider,
   Flex,
   Heading,
   Image,
@@ -16,11 +17,44 @@ import RoadmapBG from "assets/img/roadmap-bg.png";
 import TeamBG from "assets/img/team-bg.png";
 import TokenomicBG from "assets/img/tokenomic-bg.png";
 import TokenomicCup from "assets/img/tokenomic-cup.png";
+import ContactBg from "assets/img/contact-bg.png";
 import { NavbarLandingPage } from "components/Navbar/NavbarLandingPage";
 import { SectionContainer } from "components/container";
 import { AppIcon } from "components/icons";
 import "./styles.css";
-import { BsFillDiamondFill } from "react-icons/bs";
+import AvatarImage from "assets/img/avatar.png";
+import { LuAtSign } from "react-icons/lu";
+
+const teamList = [
+  {
+    name: "Romeo De Luca - CTO",
+    role: "Head of Technology",
+    description:
+      "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
+    avatar: AvatarImage,
+  },
+  {
+    name: "Romeo De Luca - CTO",
+    role: "Head of Technology",
+    description:
+      "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
+    avatar: AvatarImage,
+  },
+  {
+    name: "Romeo De Luca - CTO",
+    role: "Head of Technology",
+    description:
+      "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
+    avatar: AvatarImage,
+  },
+  {
+    name: "Romeo De Luca - CTO",
+    role: "Head of Technology",
+    description:
+      "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
+    avatar: AvatarImage,
+  },
+];
 
 const HomePage = () => {
   return (
@@ -431,8 +465,62 @@ const HomePage = () => {
           bgImage={TeamBG}
           bgRepeat="no-repeat"
           bgSize="cover"
+          pt="48px"
         >
-          <Heading className="heading">Team Member</Heading>
+          <Heading className="heading" textAlign="center">
+            Team Member
+          </Heading>
+          <SimpleGrid columns={teamList.length} spacing="24px">
+            {teamList.map((e, index) => (
+              <Flex direction="column">
+                <Image
+                  w="full"
+                  aspectRatio={0.8}
+                  alt="Tokenomic-cup"
+                  src={e.avatar}
+                />
+                <Box className="member-infor-container">
+                  <Box py="24px" px="12px" bg="#131a20">
+                    <Text className="member-name-text linear-text-color-01">
+                      {e.name}
+                    </Text>
+                  </Box>
+                  <Box className="member-description-container">
+                    <Text className="member-role-text">{e.role}</Text>
+                    <Box h="2px" bg="#2A3741" />
+                    <Text className="member-description-text">
+                      {e.description}
+                    </Text>
+                  </Box>
+                </Box>
+              </Flex>
+            ))}
+          </SimpleGrid>
+        </SectionContainer>
+        <SectionContainer pb="84px">
+          <Flex bgImage={ContactBg} className="contact-container">
+            <Text className="contact-title linear-text-color-01">
+              Keep in touch
+            </Text>
+            <Box>
+              <Text className="contact-description">
+                Ink Whale lets you earn fixed interest and other rewards
+              </Text>
+              <Flex className="contact-email-container">
+                <Flex className="contact-email-icon">
+                  <LuAtSign size="24px" color="#FFF" />
+                </Flex>
+                <Input
+                  focusBorderColor="transparent"
+                  className="contact-email-input"
+                  placeholder="Enter your email"
+                />
+              </Flex>
+            </Box>
+            <Button px="24px" minW="300px" height="44px">
+              Subscribe
+            </Button>
+          </Flex>
         </SectionContainer>
       </Box>
     </Box>
