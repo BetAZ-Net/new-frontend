@@ -20,6 +20,7 @@ import { NavbarLandingPage } from "components/Navbar/NavbarLandingPage";
 import { SectionContainer } from "components/container";
 import { AppIcon } from "components/icons";
 import "./styles.css";
+import { BsFillDiamondFill } from "react-icons/bs";
 
 const HomePage = () => {
   return (
@@ -263,7 +264,167 @@ const HomePage = () => {
           bgSize="cover"
         >
           <Heading className="heading">Roadmap</Heading>
-          <Box py="256px"></Box>
+          <Box py="256px">
+            <SimpleGrid
+              alignItems="center"
+              display="flex"
+              flexDirection="column"
+              spacing="40px"
+            >
+              <Box className="shining-container">
+                <Text className="shining-text">H1-2023</Text>
+              </Box>
+              <Box
+                borderRadius="12px"
+                border={"2px solid #1BBEF5"}
+                maxW="760px"
+              >
+                <Box className="roadmap-title-container">
+                  <Text>Foundation and Infrastructure Development</Text>
+                </Box>
+                <SimpleGrid
+                  p="24px"
+                  spacing="12px"
+                  bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
+                  borderBottomRadius="12px"
+                >
+                  {[
+                    "Core infrastructure and architecture development for a decentralized trading platform",
+                    "Implementation of connections to multiple exchanges to provide liquidity",
+                    "Development of advanced trading features and tools",
+                    "Research and implementation of robust security measures",
+                  ].map((e) => (
+                    <Flex alignItems="center">
+                      <Box className="diamon-icon" />
+                      <Text color="#A4B0B6">{e}</Text>
+                    </Flex>
+                  ))}
+                </SimpleGrid>
+              </Box>
+              <Box className="shining-container">
+                <Text className="shining-text">H2-2023</Text>
+              </Box>
+              <Box
+                borderRadius="12px"
+                border={"2px solid #1BBEF5"}
+                maxW="760px"
+              >
+                <Box className="roadmap-title-container">
+                  <Text>Beta Launch</Text>
+                </Box>
+                <SimpleGrid
+                  p="24px"
+                  spacing="12px"
+                  bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
+                  borderBottomRadius="12px"
+                >
+                  {[
+                    "Release the trading application with a variety of advanced trading bots and customization settings",
+                    "Launch NFT collection genesis and enable trading of NFT assets",
+                    "Conduct thorough user testing and gather feedback for iterative improvements",
+                    "Implement risk management features to ensure user fund safety",
+                    "Integration of KYC/AML compliance protocols",
+                  ].map((e) => (
+                    <Flex alignItems="center">
+                      <Box className="diamon-icon" />
+                      <Text color="#A4B0B6">{e}</Text>
+                    </Flex>
+                  ))}
+                </SimpleGrid>
+              </Box>
+              <Box className="shining-container">
+                <Text className="shining-text">H1-2024</Text>
+              </Box>
+              <Box
+                borderRadius="12px"
+                border={"2px solid #1BBEF5"}
+                maxW="760px"
+              >
+                <Box className="roadmap-title-container">
+                  <Text>Ecosystem Expansion</Text>
+                </Box>
+                <SimpleGrid
+                  p="24px"
+                  spacing="12px"
+                  bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
+                  borderBottomRadius="12px"
+                >
+                  {[
+                    "Expand the platform's functionality by integrating with other trading platforms and decentralized exchanges (DEX)",
+                    "Provide users with access to a wider range of trading options and liquidity pools",
+                    "Enable seamless and secure asset transfers between integrated platforms",
+                    "Implement cross-platform portfolio tracking and management features",
+                  ].map((e) => (
+                    <Flex alignItems="center">
+                      <Box className="diamon-icon" />
+                      <Text color="#A4B0B6">{e}</Text>
+                    </Flex>
+                  ))}
+                </SimpleGrid>
+              </Box>
+              <Box className="shining-container">
+                <Text className="shining-text">H2-2024</Text>
+              </Box>
+              <Box
+                borderRadius="12px"
+                border={"2px solid #1BBEF5"}
+                maxW="760px"
+              >
+                <Box className="roadmap-title-container">
+                  <Text>AI Trading</Text>
+                </Box>
+                <SimpleGrid
+                  p="24px"
+                  spacing="12px"
+                  bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
+                  borderBottomRadius="12px"
+                >
+                  {[
+                    "Integrate AI Trading capabilities to enhance trading strategies",
+                    "Implement machine learning algorithms and predictive models to assist users in making informed trading decisions",
+                    "Offer AI-powered trade signals and market analysis tools",
+                    "Develop customizable AI trading bots to cater to different user preferences",
+                    "Continuously refine AI algorithms based on real-time market data",
+                  ].map((e) => (
+                    <Flex alignItems="center">
+                      <Box className="diamon-icon" />
+                      <Text color="#A4B0B6">{e}</Text>
+                    </Flex>
+                  ))}
+                </SimpleGrid>
+              </Box>
+              <Box className="shining-container">
+                <Text className="shining-text">H1-2025</Text>
+              </Box>
+              <Box
+                borderRadius="12px"
+                border={"2px solid #1BBEF5"}
+                maxW="760px"
+              >
+                <Box className="roadmap-title-container">
+                  <Text>Mobile App Development</Text>
+                </Box>
+                <SimpleGrid
+                  p="24px"
+                  spacing="12px"
+                  bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
+                  borderBottomRadius="12px"
+                >
+                  {[
+                    "Begin development of a mobile app for iOS and Android",
+                    "Design intuitive and user-friendly mobile interfaces for seamless trading experiences",
+                    "Implement core trading functionalities in the mobile app, including order placement, portfolio tracking, and real-time market data",
+                    "Enable push notifications and real-time alerts for price movements and trading opportunities",
+                  ].map((e) => (
+                    <Flex alignItems="center">
+                      <Box className="diamon-icon" />
+                      <Text color="#A4B0B6">{e}</Text>
+                    </Flex>
+                  ))}
+                </SimpleGrid>
+              </Box>
+            </SimpleGrid>
+          </Box>
         </SectionContainer>
         <SectionContainer
           aspectRatio={1.8}
