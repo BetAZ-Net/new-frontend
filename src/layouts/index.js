@@ -3,6 +3,7 @@ import Navbar from "components/Navbar";
 import BackgroundImage from "assets/img/background.png";
 import { useLocation } from "react-router-dom";
 import { NavbarLandingPage } from "components/Navbar/NavbarLandingPage";
+import BETAZFooter from "components/Footer";
 
 const AppLayout = ({ children }) => {
   return (
@@ -33,6 +34,7 @@ const LandingPageLayout = ({ children }) => {
     <Box background="#0F3435" sx={{ minHeight: "100vh" }}>
       {/* <NavbarLandingPage /> */}
       <Box overflow="auto">{children}</Box>
+      <BETAZFooter />
     </Box>
   );
 };
