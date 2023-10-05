@@ -6,6 +6,8 @@ import OptimismLogo from "assets/img/networks/optimism.png";
 import AlephLogo from "assets/img/networks/aleph.png";
 
 import SubWalletLogo from "assets/img/wallets/SubWallet.png";
+import NightlyLogo from "assets/img/wallets/Nightly.png";
+import PolkadotLogo from "assets/img/wallets/Polkadot.svg";
 import MetaMaskLogo from "assets/img/wallets/MetaMask.png";
 import TrustWalletLogo from "assets/img/wallets/TrustWallet.png";
 import WalletConnectLogo from "assets/img/wallets/Walletconnect.png";
@@ -91,6 +93,18 @@ export const supportedChain = [
         key: "subwallet-js",
         icon: SubWalletLogo,
         url: "https://www.subwallet.app/",
+      },
+      {
+        label: "Nightly",
+        key: "Nightly",
+        icon: NightlyLogo,
+        url: "https://wallet.nightly.app/",
+      },
+      {
+        label: "Polkadot",
+        key: "polkadot-js",
+        icon: PolkadotLogo,
+        url: "https://polkadot.js.org/",
       },
     ],
   },
