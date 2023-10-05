@@ -145,6 +145,7 @@ const WalletConnectModal = ({ connectModalVisible, onClose }) => {
             background: "#122126",
             boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
             border: "1px solid rgba(255, 255, 255, 0.70)",
+            zIndex: 200
           }}
         >
           <ModalHeader sx={{ color: "#1BECA7" }}>Connect a wallet</ModalHeader>

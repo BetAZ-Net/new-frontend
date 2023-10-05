@@ -16,11 +16,13 @@ import Pools from "./pools";
 import "./styles.css";
 import BetHistoryModal from "./betHistoryModal";
 import FloorImage from "assets/img/floor.png";
+import DepositModal from "./depositModal";
 
 const Predict = () => {
   const [sliderValue, setSliderValue] = useState(50);
   const [betAmount, setBetAmount] = useState(0);
   const [betHistoryModalVisible, setBetHistoryModalVisible] = useState(false);
+  const [depositModalVisible, setDepositModalVisible] = useState(false);
 
   const labelStyles = {
     fontSize: "20px",
@@ -41,6 +43,10 @@ const Predict = () => {
 
   return (
     <SectionContainer>
+      <DepositModal
+        visible={depositModalVisible}
+        onClose={() => setDepositModalVisible(false)}
+      />
       <Box>
         <Box
           bgSize="contain"
@@ -64,7 +70,7 @@ const Predict = () => {
                 </Box>
               </SimpleGrid>
               <Box py="14px" px="80px" className="inforBox">
-                <Slider onChange={(val) => setSliderValue(val)}>
+                <Slider onChange={(val) => setSliderValue(val)} zIndex={10}>
                   <SliderTrack bg="#FFA000" h="12px" borderRadius="8px">
                     <SliderFilledTrack bg="#1A74E4" />
                   </SliderTrack>
@@ -154,6 +160,7 @@ const Predict = () => {
                   color="#F7F7F8"
                   boxShadow="4px 4px 6px 0px rgba(255, 255, 255, 0.20) inset"
                   _hover={{ color: "#000", bg: "#E2E8F0" }}
+                  onClick={() => setDepositModalVisible(true)}
                 >
                   Deposit
                 </Button>
