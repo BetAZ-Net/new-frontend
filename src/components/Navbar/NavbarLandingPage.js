@@ -10,23 +10,23 @@ export const NavbarLandingPage = () => {
   const tabs = [
     {
       label: "Tokenomic",
-      key: "tokenomic",
+      key: "section-tokenomic",
     },
     {
       label: "Deposit",
-      key: "deposit",
+      key: "section-deposit",
     },
     {
       label: "Roadmap",
-      key: "roadmap",
+      key: "section-roadmap",
     },
     {
       label: "Team Member",
-      key: "team-member",
+      key: "section-team-member",
     },
     {
       label: "Contact Us",
-      key: "contact-us",
+      key: "section-contact-us",
     },
   ];
   return (
@@ -34,10 +34,18 @@ export const NavbarLandingPage = () => {
       <Flex className="navbar-logo-container">
         <Image className="navbar-logo" alt="logo-app" src={AppLogo} />
       </Flex>
-      <Flex justify="center" flex={1} cursor="pointer">
+      <Flex justify="center" flex={1}>
         {tabs?.map((e, index) => {
           return (
-            <Box sx={{ px: "16px", py: "8px" }}>
+            <Box
+              sx={{ px: "16px", py: "8px" }}
+              cursor="pointer"
+              onClick={() => {
+                document
+                  .getElementById(e.key)
+                  .scrollIntoView({ behavior: "smooth" });
+              }}
+            >
               <Text>{e.label}</Text>
             </Box>
           );

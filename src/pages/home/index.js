@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   Image,
@@ -10,6 +9,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import AppLogoText from "assets/img/app-logo-text.png";
+import AvatarImage from "assets/img/avatar.png";
+import ContactBg from "assets/img/contact-bg.png";
 import DepositAmountCircle from "assets/img/deposit-amount-circle.png";
 import DepositBG from "assets/img/deposit-home-bg.png";
 import HomeBannerBG from "assets/img/home-banner-bg.png";
@@ -17,13 +18,11 @@ import RoadmapBG from "assets/img/roadmap-bg.png";
 import TeamBG from "assets/img/team-bg.png";
 import TokenomicBG from "assets/img/tokenomic-bg.png";
 import TokenomicCup from "assets/img/tokenomic-cup.png";
-import ContactBg from "assets/img/contact-bg.png";
 import { NavbarLandingPage } from "components/Navbar/NavbarLandingPage";
 import { SectionContainer } from "components/container";
 import { AppIcon } from "components/icons";
-import "./styles.css";
-import AvatarImage from "assets/img/avatar.png";
 import { LuAtSign } from "react-icons/lu";
+import "./styles.css";
 
 const teamList = [
   {
@@ -98,6 +97,7 @@ const HomePage = () => {
           bgImage={TokenomicBG}
           bgRepeat="no-repeat"
           bgSize="cover"
+          id="section-tokenomic"
         >
           <SimpleGrid columns={2}>
             <Box pt="48px">
@@ -186,6 +186,7 @@ const HomePage = () => {
           bgRepeat="no-repeat"
           bgSize="cover"
           pt="48px"
+          id="section-deposit"
         >
           <Heading className="heading">Deposit and Play</Heading>
           <SimpleGrid columns={2} spacing="100px">
@@ -296,6 +297,7 @@ const HomePage = () => {
           bgImage={RoadmapBG}
           bgRepeat="no-repeat"
           bgSize="cover"
+          id="section-roadmap"
         >
           <Heading className="heading">Roadmap</Heading>
           <Box py="256px">
@@ -466,6 +468,7 @@ const HomePage = () => {
           bgRepeat="no-repeat"
           bgSize="cover"
           pt="48px"
+          id="section-team-member"
         >
           <Heading className="heading" textAlign="center">
             Team Member
@@ -497,7 +500,7 @@ const HomePage = () => {
             ))}
           </SimpleGrid>
         </SectionContainer>
-        <SectionContainer pb="84px">
+        <SectionContainer pb="84px" id="section-contact-us">
           <Flex bgImage={ContactBg} className="contact-container">
             <Text className="contact-title linear-text-color-01">
               Keep in touch

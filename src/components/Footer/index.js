@@ -73,31 +73,31 @@ const BETAZFooter = () => {
               {[
                 {
                   label: "Tokenomic",
-                  key: "tokenomic",
+                  key: "section-tokenomic",
                 },
                 {
                   label: "Roadmap",
-                  key: "roadmap",
+                  key: "section-roadmap",
                 },
                 {
                   label: "CONTACT US",
-                  key: "contact-us",
+                  key: "section-contact-us",
                 },
                 {
                   label: "PRIVACY POLICY",
-                  key: "privacy-policy",
+                  // key: "privacy-policy",
                 },
                 {
                   label: "deposit",
-                  key: "deposit",
+                  key: "section-deposit",
                 },
                 {
                   label: "team",
-                  key: "team-member",
+                  key: "section-team-member",
                 },
                 {
                   label: "TERMS OF USE",
-                  key: "term-of-use",
+                  // key: "term-of-use",
                 },
               ].map((e, index) => {
                 return (
@@ -107,6 +107,12 @@ const BETAZFooter = () => {
                     fontWeight="500"
                     py="4px"
                     cursor="pointer"
+                    onClick={() => {
+                      if (e?.key)
+                        document
+                          .getElementById(e.key)
+                          .scrollIntoView({ behavior: "smooth" });
+                    }}
                   >
                     {e.label.toUpperCase()}
                   </Text>
