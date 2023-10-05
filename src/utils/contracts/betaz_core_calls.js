@@ -1,11 +1,6 @@
 import BN from "bn.js";
 import toast from "react-hot-toast";
-import { web3FromSource } from "../wallets/extension-dapp";
-import { getEstimatedGas, readOnlyGasLimit } from "../utils";
-
 import { Keyring } from "@polkadot/api";
-
-import { isValidAddressPolkadotAddress } from "../utils";
 import { ContractPromise } from "@polkadot/api-contract";
 
 let contract;
@@ -16,4 +11,6 @@ export const setBetazCoreContract = (api, data) => {
     data?.CONTRACT_ABI,
     data?.CONTRACT_ADDRESS
   );
+
+  console.log({contract: contract})
 };

@@ -6,31 +6,37 @@ import { ChakraProvider } from "@chakra-ui/react";
 import customTheme from "theme";
 import { WalletProvider } from "contexts/useWallet";
 import { BrowserRouter } from "react-router-dom";
+import {
+  Provider as ReduxProvider,
+} from "react-redux";
 import "@fontsource/space-grotesk"; // Defaults to weight 400
 import "@fontsource/space-grotesk/500.css"; // Specify weight
 import { Toaster } from "react-hot-toast";
+import store from "store/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider theme={customTheme}>
-        <WalletProvider>
-          <Toaster
-            position="bottom-right"
-            reverseOrder={true}
-            toastOptions={{
-              style: {
-                padding: "8px",
-                fontSize: "16px",
-                color: "#57527E",
-                borderRadius: "5px",
-                background: "#E8FDFF",
-              },
-            }}
-          />
-          <App />
-        </WalletProvider>
+        <ReduxProvider store={store}>
+          <WalletProvider>
+            <Toaster
+              position="bottom-right"
+              reverseOrder={true}
+              toastOptions={{
+                style: {
+                  padding: "8px",
+                  fontSize: "16px",
+                  color: "#57527E",
+                  borderRadius: "5px",
+                  background: "#E8FDFF",
+                },
+              }}
+            />
+            <App />
+          </WalletProvider>
+        </ReduxProvider>
       </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,6 +1,12 @@
 import numeral from "numeral";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
-import { hexToU8a, isHex, BN, BN_ONE } from "@polkadot/util";
+import { hexToU8a, formatBalance, isHex, BN, BN_ONE } from "@polkadot/util";
+
+export const formatChainStringToNumber = (str) => {
+  if (typeof str !== "string") return str;
+
+  return str.replace(/,/g, "").replace(/"/g, "");
+};
 
 export const addressShortener = (addr = "", digits = 5) => {
   digits = 2 * digits >= addr.length ? addr.length : digits;
@@ -22,22 +28,42 @@ export const formatNumDynDecimal = (num = 0, dec = 4) => {
   return intPart + `${dotIdx === -1 ? "" : `.${decPart}`}`;
 };
 
-////////////////////////////////////////////////////////////////
-export function randomString(length) {
-  var result = "";
-  var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+export const formatQueryResultToNumber = (result, chainDecimals = 12) => {
+  const ret = result?.toHuman()?.Ok?.replaceAll(",", "");
+
+  const formattedStrBal = formatBalance(ret, {
+    withSi: false,
+    forceUnit: "-",
+    decimals: chainDecimals,
+  });
+
+  return formattedStrBal;
+};
+
+export function isAddressValid(address) {
+  try {
+    const formattedAddress = isHex(address)
+      ? hexToU8a(address)
+      : decodeAddress(address);
+
+    encodeAddress(formattedAddress);
+
+    return true;
+  } catch (error) {
+    // console.log(error);
+    return false;
   }
-  return result;
 }
 
-export function randomInt(min, max) {
-  const randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
-  return randomValue;
-}
+export const formatNumToBN = (number = 0, decimal = 12) => {
+  let numberMul = 6;
+  if (number > 10 ** 6) {
+    numberMul = 0;
+  }
+  return new BN(+number * 10 ** numberMul)
+    .mul(new BN(10 ** (decimal - numberMul)))
+    .toString();
+};
 
 export function shortenNumber(number) {
   return nFormatter(number, 1);
