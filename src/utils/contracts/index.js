@@ -2,13 +2,12 @@ import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { hexToU8a, isHex, BN, BN_ONE, formatBalance } from "@polkadot/util";
 import toast from "react-hot-toast";
 import { ContractPromise } from "@polkadot/api-contract";
+import { web3FromSource } from "@polkadot/extension-dapp";
 
 let wsApi;
 
 export function initialApi(a) {
   wsApi = a;
-
-  console.log(wsApi)
 }
 
 export const toastMessages = {
@@ -178,8 +177,9 @@ export async function execContractQuerybyMetadata(
   ...args
 ) {
   const contract = new ContractPromise(wsApi, contractAbi, contractAddress);
-  
-  const gasLimit = readOnlyGasLimit(wsApi);
+
+  const gasLimit = readOnlyGasLimit(contract);
+
   try {
     const { result, output } = await contract.query[queryName](
       callerAddress,
@@ -189,6 +189,34 @@ export async function execContractQuerybyMetadata(
 
     if (result.isOk) {
       return output;
+    }
+  } catch (error) {
+    console.log("@_@ ", queryName, " error >>", error.message);
+  }
+}
+
+export async function execContractQuerybyMetadataConvertResult(
+  callerAddress, // -> currentAccount?.address
+  contractAbi,
+  contractAddress,
+  value = 0,
+  queryName,
+  ...args
+) {
+  const contract = new ContractPromise(wsApi, contractAbi, contractAddress);
+
+  const gasLimit = readOnlyGasLimit(contract);
+
+  try {
+    const { result, output } = await contract.query[queryName](
+      callerAddress,
+      { gasLimit, storageDepositLimit: null, value },
+      ...args
+    );
+
+    if (result.isOk) {
+      const number = output.toHuman();
+      return number.Ok;
     }
   } catch (error) {
     console.log("@_@ ", queryName, " error >>", error.message);
@@ -216,8 +244,8 @@ export async function execContractTx(
   }
 
   let unsubscribe;
-  // const { signer } = await web3FromSource(caller?.meta?.source);
-  const signer = window.nightlySigner;
+  const { signer } = await web3FromSource(caller?.meta?.source);
+
   const gasLimitResult = await getGasLimit(
     wsApi,
     caller?.address,
@@ -269,7 +297,7 @@ export async function execContractTx(
   return unsubscribe;
 }
 
-export async function getAzeroBalanceOfAddress({ api, address }) {
+export async function getAzeroBalanceOfAddress({ address }) {
   if (!address || !wsApi) return console.log("acct , wsApi invalid!");
   if (!wsApi) {
     toast.error(toastMessages.ERR_API_CONN);
@@ -398,5 +426,4 @@ export const txResponseErrorHandler = async ({
     }
   }
 };
-
 

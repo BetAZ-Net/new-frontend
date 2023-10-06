@@ -57,7 +57,18 @@ export const NavbarLandingPage = () => {
         display="flex"
         alignItems="center"
         justifyContent="center"
+        gap="24px"
       >
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap="24px"
+        >
+          <NetWorkButton />
+          <WalletButton />
+        </Box>
+
         <Button onClick={() => window.open("/app", "_blank")}>
           Launch App
         </Button>

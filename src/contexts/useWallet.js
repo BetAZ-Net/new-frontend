@@ -1,14 +1,16 @@
 import {
   web3Accounts,
   web3Enable,
-  web3FromSource,
 } from "@polkadot/extension-dapp";
 import { useNetwork } from "components/Network/useNetWork";
 import { NetworkProvider } from "components/Network/useNetWork";
 import WalletConnectModal from "components/wallet/WalletConnectModal";
 import {
   updateAccountsList,
+  fetchBalance,
   fetchUserBalance,
+  fetchRollNumbers,
+  fetchRates
 } from "store/slices/substrateSlice";
 import { useDispatch, useSelector } from "react-redux";
 // import toast from "react-hot-toast";
@@ -21,7 +23,7 @@ export const WalletProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   const [currentAccount, setCurrentAccount] = useState(null);
-  const [currentExtensions, setCurrentExtensions] = useState([]);
+  // const [currentExtensions, setCurrentExtensions] = useState([]);
   const [walletAccounts, setWalletAccounts] = useState(null);
   const [api, setApi] = useState(null);
 
@@ -41,13 +43,14 @@ export const WalletProvider = ({ children }) => {
   };
 
   const initAlephNetwork = async (keyWallet) => {
-    const extentions = await web3Enable(process.env.REACT_APP_NAME);
+    await web3Enable(process.env.REACT_APP_NAME);
     const accounts = await web3Accounts();
+
     dispatch(
       updateAccountsList(accounts?.filter((e) => e?.meta?.source == keyWallet))
     );
     setWalletAccounts(accounts?.filter((e) => e?.meta?.source == keyWallet));
-    setCurrentExtensions(extentions);
+    // setCurrentExtensions(extentions);
   };
 
   const connectWallet = async (network, key) => {
@@ -69,7 +72,13 @@ export const WalletProvider = ({ children }) => {
   useEffect(() => {
     if (!currentAccount?.balance && api && currentAccount) {
       dispatch(fetchUserBalance({ currentAccount, api }));
+      dispatch(fetchBalance({ currentAccount, api }));
+      dispatch(fetchRollNumbers({ currentAccount, api }));
+      dispatch(fetchRates({ currentAccount, api }));
     }
+
+    // if (api && currentAccount) {
+    // }
   }, [api, currentAccount]);
   return (
     <NetworkProvider>
@@ -80,8 +89,8 @@ export const WalletProvider = ({ children }) => {
           currentAccount,
           updateWalletAccount,
           logoutAccountHandler,
-          updateExtentions: setCurrentExtensions,
-          currentExtensions,
+          // updateExtentions: setCurrentExtensions,
+          // currentExtensions,
           updateWalletAccounts: setWalletAccounts,
           walletAccounts,
           connectWallet,

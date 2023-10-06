@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import customTheme from "theme";
 import { WalletProvider } from "contexts/useWallet";
+import { GameProvider } from "contexts/useGame";
 import { BrowserRouter } from "react-router-dom";
 import {
   Provider as ReduxProvider,
@@ -21,20 +22,22 @@ root.render(
       <ChakraProvider theme={customTheme}>
         <ReduxProvider store={store}>
           <WalletProvider>
-            <Toaster
-              position="bottom-right"
-              reverseOrder={true}
-              toastOptions={{
-                style: {
-                  padding: "8px",
-                  fontSize: "16px",
-                  color: "#57527E",
-                  borderRadius: "5px",
-                  background: "#E8FDFF",
-                },
-              }}
-            />
-            <App />
+            <GameProvider>
+              <Toaster
+                position="bottom-right"
+                reverseOrder={true}
+                toastOptions={{
+                  style: {
+                    padding: "8px",
+                    fontSize: "16px",
+                    color: "#57527E",
+                    borderRadius: "5px",
+                    background: "#E8FDFF",
+                  },
+                }}
+              />
+              <App />
+            </GameProvider>
           </WalletProvider>
         </ReduxProvider>
       </ChakraProvider>

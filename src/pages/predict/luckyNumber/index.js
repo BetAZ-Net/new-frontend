@@ -2,8 +2,12 @@ import { Box, Text } from "@chakra-ui/react";
 import LuckyNumberCircleImage from "assets/img/luckyNumberCircle.png";
 import BetStageImage from "assets/img/bet-stage.png";
 import "./styles.css";
+import useInterval from "hooks/useInterval";
+import { useState, useEffect, useCallback } from "react";
+import { useGame } from "contexts/useGame";
 
 const LuckyNumberBox = () => {
+  const { luckyNumber, setLuckyNumber, gameOn, setGameOn } = useGame();
   return (
     <Box
       className="lucky-number-container"
@@ -19,7 +23,9 @@ const LuckyNumberBox = () => {
         bgPosition="center"
       >
         <Text className="lucky-number-title">Lucky Number</Text>
-        <Text className="lucky-number-text">--</Text>
+        <Text className="lucky-number-text">
+          {luckyNumber < 0 ? "--" : luckyNumber}
+        </Text>
       </Box>
     </Box>
   );

@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { formatNumDynDecimal, formatQueryResultToNumber } from "utils";
-import { execContractQuerybyMetadata, getAzeroBalanceOfAddress } from "utils/contracts";
+import {
+  execContractQuerybyMetadata,
+  execContractQuerybyMetadataConvertResult,
+  getAzeroBalanceOfAddress,
+} from "utils/contracts";
 import betaz_core_contract from "utils/contracts/betaz_core";
 import betaz_token_contract from "utils/contracts/betaz_token";
 import staking_pool_contract from "utils/contracts/staking_pool";
@@ -15,6 +19,44 @@ const initialState = {
   allAccounts: [],
   currentAccount: JSON.parse(localCurrentAccount) || null,
   adapter: null,
+  poolBalance: {
+    betaz: 0,
+    azero: 0,
+    contract: 0,
+    core: 0,
+  },
+  betRates: {
+    overRates: [
+      0, 0, 0, 0, 10368, 10478, 10591, 10706, 10824, 10944, 11067, 11193, 11321,
+      11453, 11588, 11726, 11867, 12012, 12160, 12312, 12468, 12628, 12792,
+      12960, 13133, 13310, 13493, 13680, 13873, 14071, 14275, 14485, 14701,
+      14924, 15153, 15390, 15634, 15887, 16147, 16416, 16694, 16982, 17280,
+      17589, 17909, 18240, 18584, 18942, 19313, 19700, 20102, 20520, 20957,
+      21413, 21888, 22386, 22906, 23452, 24024, 24625, 25256, 25921, 26621,
+      27361, 28142, 28970, 29848, 30781, 31774, 32833, 33965, 35178, 36481,
+      37884, 39400, 41041, 42826, 44772, 46904, 49250, 51842, 54722, 57941,
+      61562, 65666, 70357, 75769, 82083, 89545, 98500, 109444, 123125, 140714,
+      164166, 197000, 246250, 328333, 492500, 985000, 0,
+    ],
+    underRates: [
+      0, 985000, 492500, 328333, 246250, 197000, 164166, 140714, 123125, 109444,
+      98500, 89545, 82083, 75769, 70357, 65666, 61562, 57941, 54722, 51842,
+      49250, 46904, 44772, 42826, 41041, 39400, 37884, 36481, 35178, 33965,
+      32833, 31774, 30781, 29848, 28970, 28142, 27361, 26621, 25921, 25256,
+      24625, 24024, 23452, 22906, 22386, 21888, 21413, 20957, 20520, 20102,
+      19700, 19313, 18942, 18584, 18240, 17909, 17589, 17280, 16982, 16694,
+      16416, 16147, 15887, 15634, 15390, 15153, 14924, 14701, 14485, 14275,
+      14071, 13873, 13680, 13493, 13310, 13133, 12960, 12792, 12628, 12468,
+      12312, 12160, 12012, 11867, 11726, 11588, 11453, 11321, 11193, 11067,
+      10944, 10824, 10706, 10591, 10478, 10368, 0, 0, 0, 0,
+    ],
+  },
+  betRollNumbers: {
+    numberOverRollMin: 4,
+    numberOverRollMax: 98,
+    numberUnerRollMin: 1,
+    numberUnerRollMax: 95,
+  },
 };
 
 export const substrateSlice = createSlice({
@@ -36,7 +78,7 @@ export const substrateSlice = createSlice({
     updateAccountsList: (state, action) => {
       state.allAccounts = action.payload;
     },
-    
+
     updateAdapter: (state, action) => {
       state.adapter = action.payload;
     },
@@ -47,6 +89,15 @@ export const substrateSlice = createSlice({
         ...state.currentAccount,
         balance: action.payload,
       };
+    });
+    builder.addCase(fetchBalance.fulfilled, (state, action) => {
+      state.poolBalance = action.payload;
+    });
+    builder.addCase(fetchRollNumbers.fulfilled, (state, action) => {
+      state.betRollNumbers = action.payload;
+    });
+    builder.addCase(fetchRates.fulfilled, (state, action) => {
+      state.betRates = action.payload;
     });
   },
 });
@@ -62,28 +113,149 @@ export const {
 export default substrateSlice.reducer;
 
 export const fetchUserBalance = createAsyncThunk(
-  "wallet/fetchUserBalance",
+  "substrate/fetchUserBalance",
   async ({ currentAccount, api }, thunkAPI) => {
-    // TODO: check can fix warning about storing api on redux?
-    const tokenBalance = await execContractQuerybyMetadata(
-      currentAccount?.address,
-      api,
-      betaz_token_contract.CONTRACT_ABI,
-      betaz_core_contract.CONTRACT_ADDRESS,
-      0,
-      "psp22::balanceOf",
-      currentAccount?.address
-    );
+    const [tokenBalance, azeroBalance] = await Promise.all([
+      execContractQuerybyMetadata(
+        currentAccount?.address,
+        betaz_token_contract.CONTRACT_ABI,
+        betaz_token_contract.CONTRACT_ADDRESS,
+        0,
+        "psp22::balanceOf",
+        currentAccount?.address
+      ),
+      getAzeroBalanceOfAddress({
+        address: currentAccount?.address,
+      }),
+    ]);
 
     const betaz = formatQueryResultToNumber(tokenBalance);
-
-    const azeroBalance = await getAzeroBalanceOfAddress({
-      api,
-      address: currentAccount?.address,
-    });
-
     const azero = formatNumDynDecimal(azeroBalance);
+
     return { betaz, azero };
   }
 );
 
+export const fetchBalance = createAsyncThunk(
+  "substrate/fetchBalance",
+  async ({ currentAccount, api }, thunkAPI) => {
+    // TODO: check can fix warning about storing api on redux?
+
+    const [
+      corePoolBalance,
+      stakingPoolBalance,
+      treasuryPoolBalance,
+      contractBalance,
+    ] = await Promise.all([
+      execContractQuerybyMetadata(
+        currentAccount?.address,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
+        0,
+        "betA0CoreTrait::getCorePoolAmout"
+      ),
+      getAzeroBalanceOfAddress({
+        address: staking_pool_contract?.CONTRACT_ADDRESS,
+      }),
+      execContractQuerybyMetadata(
+        currentAccount?.address,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
+        0,
+        "betA0CoreTrait::getTreasuryPoolAmount"
+      ),
+      getAzeroBalanceOfAddress({
+        address: betaz_core_contract?.CONTRACT_ADDRESS,
+      }),
+    ]);
+
+    const core = formatQueryResultToNumber(corePoolBalance);
+    const staking = formatNumDynDecimal(stakingPoolBalance);
+    const treasury = formatQueryResultToNumber(treasuryPoolBalance);
+    const contract = formatNumDynDecimal(contractBalance);
+
+    return { contract, core, staking, treasury };
+  }
+);
+
+export const fetchRates = createAsyncThunk(
+  "substrate/fetchRates",
+  async ({ currentAccount, api }, thunkAPI) => {
+    const [over, under] = await Promise.all([
+      execContractQuerybyMetadataConvertResult(
+        currentAccount?.address,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
+        0,
+        "betA0CoreTrait::getOverRates"
+      ),
+      execContractQuerybyMetadataConvertResult(
+        currentAccount?.address,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
+        0,
+        "betA0CoreTrait::getUnderRates"
+      ),
+    ]);
+
+    let overRates = over.map((element) => element.toNumber());
+    let underRates = under.map((element) => element.toNumber());
+    console.log(overRates)
+    return {
+      overRates,
+      underRates,
+    };
+  }
+);
+
+export const fetchRollNumbers = createAsyncThunk(
+  "substrate/fetchRollNumbers",
+  async ({ currentAccount, api }, thunkAPI) => {
+    let [
+      numberOverRollMin,
+      numberOverRollMax,
+      numberUnerRollMin,
+      numberUnerRollMax,
+    ] = await Promise.all([
+      execContractQuerybyMetadataConvertResult(
+        currentAccount?.address,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
+        0,
+        "betA0CoreTrait::getMinNumberOverRoll"
+      ),
+      execContractQuerybyMetadataConvertResult(
+        currentAccount?.address,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
+        0,
+        "betA0CoreTrait::getMaxNumberOverRoll"
+      ),
+      execContractQuerybyMetadataConvertResult(
+        currentAccount?.address,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
+        0,
+        "betA0CoreTrait::getMinNumberUnderRoll"
+      ),
+      execContractQuerybyMetadataConvertResult(
+        currentAccount?.address,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
+        0,
+        "betA0CoreTrait::getMaxNumberUnderRoll"
+      ),
+    ]);
+
+    numberOverRollMin = parseInt(numberOverRollMin);
+    numberOverRollMax = parseInt(numberOverRollMax);
+    numberUnerRollMin = parseInt(numberUnerRollMin);
+    numberUnerRollMax = parseInt(numberUnerRollMax);
+    return {
+      numberOverRollMin,
+      numberOverRollMax,
+      numberUnerRollMin,
+      numberUnerRollMax,
+    };
+  }
+);

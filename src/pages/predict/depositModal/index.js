@@ -18,9 +18,11 @@ import "./styles.css";
 import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 import { AppIcon } from "components/icons";
+import { useDispatch, useSelector } from "react-redux";
 
 const DepositModal = ({ visible, onClose }) => {
   const [tabIndex, setTabIndex] = useState(0);
+  const { currentAccount, poolBalance } = useSelector((s) => s.substrate);
   return (
     <>
       <Modal size="full" isCentered isOpen={visible} onClose={onClose}>
@@ -66,7 +68,7 @@ const DepositModal = ({ visible, onClose }) => {
                   <Box className="deposit-box-amount-box">
                     <Text>Your AZero Balance</Text>
                     <Flex className="deposit-box-amount-input">
-                      <Text className="linear-text azero-amount">20.3406</Text>
+                      <Text className="linear-text azero-amount">{currentAccount?.balance?.azero}</Text>
                       <Text className="azero-unit">AZero</Text>
                     </Flex>
                   </Box>
