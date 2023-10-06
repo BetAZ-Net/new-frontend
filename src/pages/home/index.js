@@ -23,6 +23,11 @@ import { SectionContainer } from "components/container";
 import { AppIcon } from "components/icons";
 import { LuAtSign } from "react-icons/lu";
 import "./styles.css";
+import betaz_token from "utils/contracts/betaz_token_calls";
+import { useState, useCallback } from "react";
+import toast from "react-hot-toast";
+import useInterval from "hooks/useInterval";
+import { useSelector } from "react-redux";
 
 const teamList = [
   {
@@ -56,6 +61,47 @@ const teamList = [
 ];
 
 const HomePage = () => {
+  const { currentAccount } = useSelector((s) => s.substrate);
+  const [maxbuyAmount, setMaxbuyAmount] = useState(10);
+  const [azeroAmount, setAzeroAmount] = useState(0);
+
+  const getMaxbuy = async () => {
+    const [amountTokenSold, amountMaxBuy] = await Promise.all([
+      await betaz_token.getAmountTokenSold(currentAccount?.address),
+      await betaz_token.getMaxBuyAmount(currentAccount?.address),
+    ]);
+    setMaxbuyAmount(amountMaxBuy - amountTokenSold);
+  };
+
+  const onChangeToken = useCallback((e) => {
+    const { value } = e.target;
+    const reg = /^-?\d*(\.\d*)?$/;
+    let tokenValue = 0;
+    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+      tokenValue = parseFloat(value);
+      if (tokenValue < 0) tokenValue = 1;
+      if (tokenValue > maxbuyAmount) {
+        toast.error("Max Bet AZ token is " + maxbuyAmount);
+        setAzeroAmount(maxbuyAmount);
+      } else {
+        setAzeroAmount(tokenValue);
+      }
+    }
+  });
+
+  const buy = async () => {
+    if (currentAccount?.address) {
+      const result = await betaz_token.buy(currentAccount, azeroAmount);
+      if (result) toast.success(`Buy BetAZ success`);
+    }
+  };
+
+  useInterval(() => {
+    if (currentAccount?.address) {
+      getMaxbuy();
+    }
+  }, 1000);
+
   return (
     <Box>
       <Box className="landing-page-banner-container" bgImage={HomeBannerBG}>
@@ -199,7 +245,8 @@ const HomePage = () => {
                     <Input
                       focusBorderColor="transparent"
                       sx={{ border: "0px" }}
-                      value={0.001}
+                      value={azeroAmount}
+                      onChange={onChangeToken}
                     />
                     <Flex
                       w="100px"
@@ -213,7 +260,14 @@ const HomePage = () => {
                   </Flex>
                 </Box>
                 <Flex direction="column" alignItems="center" mt="24px">
-                  <Button>START PLAYING</Button>
+                  <Button
+                    onClick={() => {
+                      console.log("haha")
+                      buy();
+                    }}
+                  >
+                    START PLAYING
+                  </Button>
                   <Text mt="24px">By Clicking your agree with our</Text>
                   <Text className="linear-text-color-01 term-aggreement-text">
                     Terms and Conditions, Privacy Policy
