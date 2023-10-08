@@ -91,14 +91,20 @@ const DepositModal = ({ visible, onClose }) => {
   };
 
   useEffect(() => {
-    if (currentAccount?.address) getHoldAmount();
+    getHoldAmount();
   }, [currentAccount]);
 
-  useInterval(() => {
+  useEffect(() => {
     if (currentAccount?.address) {
       getMaxbuy();
     }
-  }, 1000);
+  }, [onChangeToken]);
+
+  // useInterval(() => {
+  //   if (currentAccount?.address) {
+  //     getMaxbuy();
+  //   }
+  // }, 1000);
   return (
     <>
       <Modal size="full" isCentered isOpen={visible} onClose={onClose}>

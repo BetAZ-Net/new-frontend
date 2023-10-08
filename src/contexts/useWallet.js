@@ -18,7 +18,7 @@ const WalletContext = createContext();
 
 export const WalletProvider = ({ children }) => {
   const dispatch = useDispatch();
-
+  
   const [currentAccount, setCurrentAccount] = useState(null);
   // const [currentExtensions, setCurrentExtensions] = useState([]);
   const [walletAccounts, setWalletAccounts] = useState(null);

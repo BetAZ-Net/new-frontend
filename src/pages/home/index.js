@@ -24,7 +24,7 @@ import { AppIcon } from "components/icons";
 import { LuAtSign } from "react-icons/lu";
 import "./styles.css";
 import betaz_token from "utils/contracts/betaz_token_calls";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import useInterval from "hooks/useInterval";
 import { useSelector, useDispatch } from "react-redux";
@@ -102,11 +102,17 @@ const HomePage = () => {
     }
   };
 
-  useInterval(() => {
+  useEffect(() => {
     if (currentAccount?.address) {
       getMaxbuy();
     }
-  }, 1000);
+  }, [onChangeToken]);
+
+  // useInterval(() => {
+  //   if (currentAccount?.address) {
+  //     getMaxbuy();
+  //   }
+  // }, 1000);
 
   return (
     <Box>

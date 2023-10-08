@@ -17,6 +17,8 @@ import { supportedChain } from "./data";
 import { useWallet } from "contexts/useWallet";
 import { addressShortener } from "utils";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentAccount } from "store/slices/substrateSlice";
 
 const WalletItem = ({ data }) => {
   const { connectWallet } = useWallet();
@@ -63,9 +65,10 @@ const WalletItem = ({ data }) => {
   );
 };
 
-const AccountItem = ({ data }) => {
+const AccountItem = ({ data, onClose }) => {
   const { updateWalletAccount } = useWallet();
   const { currentNetwork } = useNetwork();
+  const dispatch = useDispatch();
   return (
     <Box
       sx={{
@@ -80,9 +83,11 @@ const AccountItem = ({ data }) => {
       }}
       cursor="pointer"
       _hover={{ border: "2px solid #1BECA6" }}
-      onClick={() =>
-        updateWalletAccount({ ...data, network: currentNetwork.key })
-      }
+      onClick={() => {
+        updateWalletAccount({ ...data, network: currentNetwork.key });
+        dispatch(setCurrentAccount(data));
+        onClose();
+      }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <Box
@@ -145,11 +150,11 @@ const WalletConnectModal = ({ connectModalVisible, onClose }) => {
             background: "#122126",
             boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
             border: "1px solid rgba(255, 255, 255, 0.70)",
-            zIndex: 200
+            zIndex: 200,
           }}
         >
           <ModalHeader sx={{ color: "#1BECA7" }}>Connect a wallet</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton color={"white"} />
           <ModalBody>
             {supportWallets?.map((e, index) => (
               <WalletItem data={e} key={`wallet-item-${index}`} />
@@ -168,7 +173,13 @@ const WalletConnectModal = ({ connectModalVisible, onClose }) => {
                   Select Account
                 </Text>
                 {walletAccounts?.map((e, index) => {
-                  return <AccountItem key={`account-item-${index}`} data={e} />;
+                  return (
+                    <AccountItem
+                      key={`account-item-${index}`}
+                      data={e}
+                      onClose={onClose}
+                    />
+                  );
                 })}
               </Box>
             )}
