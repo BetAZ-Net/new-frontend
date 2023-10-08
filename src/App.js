@@ -35,7 +35,7 @@ const App = () => {
   const [api, setApi] = useState(null);
   const setupProvider = async () => {
     await web3Enable(process.env.REACT_APP_NAME);
-    
+
     toast(`Connecting to ${providerUrl}...`);
     const provider = new WsProvider(providerUrl);
 
@@ -83,14 +83,14 @@ const App = () => {
   useEffect(() => {
     delay(100);
     if (!currentAccount?.balance) {
-      dispatch(fetchUserBalance({ currentAccount, api }));
+      dispatch(fetchUserBalance({ currentAccount }));
     }
 
     if (api) {
       // dispatch(fetchUserBalance({ currentAccount, api }));
-      dispatch(fetchBalance({ currentAccount, api }));
-      dispatch(fetchRollNumbers({ currentAccount, api }));
-      dispatch(fetchRates({ currentAccount, api }));
+      dispatch(fetchBalance({ currentAccount }));
+      dispatch(fetchRollNumbers({ currentAccount }));
+      dispatch(fetchRates({ currentAccount }));
     }
   }, [api, currentAccount?.address]);
 

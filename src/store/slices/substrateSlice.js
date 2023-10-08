@@ -114,7 +114,7 @@ export default substrateSlice.reducer;
 
 export const fetchUserBalance = createAsyncThunk(
   "substrate/fetchUserBalance",
-  async ({ currentAccount, api }, thunkAPI) => {
+  async ({ currentAccount }) => {
     const [tokenBalance, azeroBalance] = await Promise.all([
       execContractQuerybyMetadata(
         currentAccount?.address,
@@ -138,7 +138,7 @@ export const fetchUserBalance = createAsyncThunk(
 
 export const fetchBalance = createAsyncThunk(
   "substrate/fetchBalance",
-  async ({ currentAccount, api }, thunkAPI) => {
+  async ({ currentAccount }) => {
     // TODO: check can fix warning about storing api on redux?
 
     const [
@@ -180,7 +180,7 @@ export const fetchBalance = createAsyncThunk(
 
 export const fetchRates = createAsyncThunk(
   "substrate/fetchRates",
-  async ({ currentAccount, api }, thunkAPI) => {
+  async ({ currentAccount }) => {
     const [over, under] = await Promise.all([
       execContractQuerybyMetadataConvertResult(
         currentAccount?.address,
@@ -200,7 +200,7 @@ export const fetchRates = createAsyncThunk(
 
     let overRates = over.map((element) => element.toNumber());
     let underRates = under.map((element) => element.toNumber());
-    console.log(overRates)
+    console.log(overRates);
     return {
       overRates,
       underRates,
@@ -210,7 +210,7 @@ export const fetchRates = createAsyncThunk(
 
 export const fetchRollNumbers = createAsyncThunk(
   "substrate/fetchRollNumbers",
-  async ({ currentAccount, api }, thunkAPI) => {
+  async ({ currentAccount }) => {
     let [
       numberOverRollMin,
       numberOverRollMax,

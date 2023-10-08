@@ -1,7 +1,4 @@
-import {
-  web3Accounts,
-  web3Enable,
-} from "@polkadot/extension-dapp";
+import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 import { useNetwork } from "components/Network/useNetWork";
 import { NetworkProvider } from "components/Network/useNetWork";
 import WalletConnectModal from "components/wallet/WalletConnectModal";
@@ -10,7 +7,7 @@ import {
   fetchBalance,
   fetchUserBalance,
   fetchRollNumbers,
-  fetchRates
+  fetchRates,
 } from "store/slices/substrateSlice";
 import { useDispatch, useSelector } from "react-redux";
 // import toast from "react-hot-toast";
@@ -71,10 +68,10 @@ export const WalletProvider = ({ children }) => {
 
   useEffect(() => {
     if (!currentAccount?.balance && api && currentAccount) {
-      dispatch(fetchUserBalance({ currentAccount, api }));
-      dispatch(fetchBalance({ currentAccount, api }));
-      dispatch(fetchRollNumbers({ currentAccount, api }));
-      dispatch(fetchRates({ currentAccount, api }));
+      dispatch(fetchUserBalance({ currentAccount }));
+      dispatch(fetchBalance({ currentAccount }));
+      dispatch(fetchRollNumbers({ currentAccount }));
+      dispatch(fetchRates({ currentAccount }));
     }
 
     // if (api && currentAccount) {

@@ -142,10 +142,85 @@ async function getBet(caller) {
   return null;
 }
 
+async function getHoldAmountPlayers(caller) {
+  if (!contract || !caller) {
+    return null;
+  }
+
+  const gasLimit = readOnlyGasLimit(contract);
+  const azero_value = 0;
+
+  try {
+    const { result, output } = await contract.query[
+      "betA0CoreTrait::getHoldAmountPlayers"
+    ](
+      caller,
+      {
+        value: azero_value,
+        gasLimit,
+      },
+      caller?.address
+    );
+    if (result.isOk) {
+      const a = output.toHuman().Ok.replace(/\,/g, "");
+      return a / 10 ** 12;
+    }
+  } catch (e) {
+    return null;
+  }
+
+  return null;
+}
+
+async function withdrawHoldAmount(caller) {
+  if (!contract || !caller?.address) {
+    return null;
+  }
+
+  let unsubscribe;
+  let gasLimit;
+
+  const { signer } = await web3FromSource(caller?.meta?.source);
+  let value = 0;
+
+  gasLimit = await getEstimatedGas(
+    caller?.address,
+    contract,
+    value,
+    "betA0CoreTrait::withdrawHoldAmount"
+  );
+
+  await contract.tx["betA0CoreTrait::withdrawHoldAmount"]({ gasLimit, value })
+    .signAndSend(
+      caller?.address,
+      { signer },
+      async ({ status, dispatchError }) => {
+        if (dispatchError) {
+          if (dispatchError.isModule) {
+            console.log(dispatchError);
+            toast.error(`There is some error with your request`);
+          } else {
+            console.log("dispatchError", dispatchError.toString());
+          }
+        }
+
+        if (status) {
+          const statusText = Object.keys(status.toHuman())[0];
+          if (statusText === "0") toast.success(`Withdraw hold amount ...`);
+        }
+      }
+    )
+    .then((unsub) => (unsubscribe = unsub))
+    .catch((e) => console.log("e", e));
+  return unsubscribe;
+}
+
 const contract_calls = {
   getMaxBet,
   play,
   getBet,
+  getHoldAmountPlayers,
+  withdrawHoldAmount
 };
 
 export default contract_calls;

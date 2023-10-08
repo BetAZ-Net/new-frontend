@@ -16,13 +16,89 @@ import AppLogoText from "assets/img/app-logo-text.png";
 import DepositAmountCircle from "assets/img/deposit-amount-circle.png";
 import "./styles.css";
 import { IoMdClose } from "react-icons/io";
-import { useState } from "react";
 import { AppIcon } from "components/icons";
 import { useDispatch, useSelector } from "react-redux";
+import betaz_token from "utils/contracts/betaz_token_calls";
+import betaz_core from "utils/contracts/betaz_core_calls";
+import { useState, useCallback, useEffect } from "react";
+import toast from "react-hot-toast";
+import useInterval from "hooks/useInterval";
+import { useDebounce } from "hooks/useDebounce";
+import { fetchUserBalance } from "store/slices/substrateSlice";
 
 const DepositModal = ({ visible, onClose }) => {
   const [tabIndex, setTabIndex] = useState(0);
-  const { currentAccount, poolBalance } = useSelector((s) => s.substrate);
+  const dispatch = useDispatch();
+  const { currentAccount } = useSelector((s) => s.substrate);
+  const [maxbuyAmount, setMaxbuyAmount] = useState(10);
+  const [azeroAmount, setAzeroAmount] = useState(0);
+  const [holdAmount, setHoldAmount] = useState(0);
+
+  const getMaxbuy = async () => {
+    const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
+      await betaz_token.getAmountTokenSold(currentAccount?.address),
+      await betaz_token.getMaxBuyAmount(currentAccount?.address),
+      await betaz_token.getTokenRatio(currentAccount?.address),
+    ]);
+    setMaxbuyAmount((amountMaxBuy - amountTokenSold) / tokenRatio);
+  };
+
+  const onChangeToken = useCallback((e) => {
+    const { value } = e.target;
+    const reg = /^-?\d*(\.\d*)?$/;
+    let tokenValue = 0;
+    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+      tokenValue = parseFloat(value);
+      if (tokenValue < 0) tokenValue = 1;
+      if (tokenValue > maxbuyAmount) {
+        toast.error("Not enough Balance!");
+        setAzeroAmount(maxbuyAmount);
+      } else {
+        setAzeroAmount(tokenValue);
+      }
+    }
+  });
+
+  const buy = async () => {
+    if (currentAccount?.address) {
+      const result = await betaz_token.buy(currentAccount, azeroAmount);
+      if (result) {
+        toast.success(`Buy BetAZ success`);
+        dispatch(fetchUserBalance({ currentAccount }));
+      }
+    }
+  };
+
+  const getHoldAmount = async () => {
+    const holdAmount = await betaz_core.getHoldAmountPlayers(currentAccount);
+    if (holdAmount) setHoldAmount(holdAmount);
+    else setHoldAmount(0);
+  };
+
+  const withdraw = async () => {
+    if (currentAccount?.address) {
+      if (!holdAmount) {
+        toast.error("You not hold amount!");
+        return;
+      }
+      const result = await betaz_core.withdrawHoldAmount(currentAccount);
+      if (result) {
+        toast.success(`Withdraw success`);
+        dispatch(fetchUserBalance({ currentAccount }));
+        getHoldAmount();
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (currentAccount?.address) getHoldAmount();
+  }, [currentAccount]);
+
+  useInterval(() => {
+    if (currentAccount?.address) {
+      getMaxbuy();
+    }
+  }, 1000);
   return (
     <>
       <Modal size="full" isCentered isOpen={visible} onClose={onClose}>
@@ -64,46 +140,99 @@ const DepositModal = ({ visible, onClose }) => {
                     Withdraw
                   </Box>
                 </Flex>
-                <SimpleGrid spacing="24px" mt="24px">
-                  <Box className="deposit-box-amount-box">
-                    <Text>Your AZero Balance</Text>
-                    <Flex className="deposit-box-amount-input">
-                      <Text className="linear-text azero-amount">{currentAccount?.balance?.azero}</Text>
-                      <Text className="azero-unit">AZero</Text>
-                    </Flex>
-                  </Box>
-                  <Box className="deposit-box-amount-box">
-                    <Text>Deposit</Text>
-                    <Flex className="deposit-box-amount-input">
-                      <Input
-                        focusBorderColor="transparent"
-                        sx={{ border: "0px" }}
-                        value={0.001}
-                      />
-                      <Flex
-                        cursor="pointer"
-                        w="100px"
-                        alignItems="center"
-                        textAlign="center"
-                        flexDirection="column"
-                        borderLeft="2px solid rgba(255, 255, 255, 0.4)"
-                      >
-                        Max
+                {/* buy */}
+                <SimpleGrid
+                  display={tabIndex === 0 ? "block" : "none"}
+                  spacing="24px"
+                  mt="24px"
+                >
+                  <Flex flexDirection="column" gap="24px">
+                    <Box className="deposit-box-amount-box">
+                      <Text>Your AZero Balance</Text>
+                      <Flex className="deposit-box-amount-input">
+                        <Text className="linear-text azero-amount">
+                          {currentAccount?.balance?.azero}
+                        </Text>
+                        <Text className="azero-unit">AZero</Text>
                       </Flex>
-                    </Flex>
-                  </Box>
-                  <Button>Deposit</Button>
-                  <Box>
-                    <Text textAlign="center">
-                      By Clicking your agree with our
-                    </Text>
-                    <Text
-                      className="linear-text-color-01 term-aggreement-text"
-                      textAlign="center"
-                    >
-                      Terms and Conditions, Privacy Policy
-                    </Text>
-                  </Box>
+                    </Box>
+                    <Box className="deposit-box-amount-box">
+                      <Text>Deposit</Text>
+                      <Flex className="deposit-box-amount-input">
+                        <Input
+                          focusBorderColor="transparent"
+                          sx={{ border: "0px" }}
+                          value={azeroAmount}
+                          onChange={onChangeToken}
+                          type="Number"
+                        />
+                        <Flex
+                          cursor="pointer"
+                          w="100px"
+                          alignItems="center"
+                          textAlign="center"
+                          flexDirection="column"
+                          borderLeft="2px solid rgba(255, 255, 255, 0.4)"
+                          onClick={() => setAzeroAmount(maxbuyAmount)}
+                        >
+                          Max
+                        </Flex>
+                      </Flex>
+                    </Box>
+                    <Button onClick={() => buy()}>Deposit</Button>
+                    <Box>
+                      <Text textAlign="center">
+                        By Clicking your agree with our
+                      </Text>
+                      <Text
+                        className="linear-text-color-01 term-aggreement-text"
+                        textAlign="center"
+                      >
+                        Terms and Conditions, Privacy Policy
+                      </Text>
+                    </Box>
+                  </Flex>
+                </SimpleGrid>
+                {/* withdraw */}
+                <SimpleGrid
+                  display={tabIndex === 1 ? "block" : "none"}
+                  spacing="24px"
+                  mt="24px"
+                >
+                  <Flex flexDirection="column" gap="24px">
+                    <Box className="deposit-box-amount-box">
+                      <Text>Your AZero Balance</Text>
+                      <Flex className="deposit-box-amount-input">
+                        <Text className="linear-text azero-amount">
+                          {currentAccount?.balance?.azero}
+                        </Text>
+                        <Text className="azero-unit">AZero</Text>
+                      </Flex>
+                    </Box>
+                    <Box className="deposit-box-amount-box">
+                      <Text>Hold amount</Text>
+                      <Flex className="deposit-box-amount-input">
+                        <Input
+                          focusBorderColor="transparent"
+                          sx={{ border: "0px" }}
+                          value={holdAmount}
+                          type="Number"
+                        />
+                      </Flex>
+                    </Box>
+                    <Button onClick={withdraw}>Withdraw hold amount</Button>
+                    <Box>
+                      <Text textAlign="center">
+                        By Clicking your agree with our
+                      </Text>
+                      <Text
+                        className="linear-text-color-01 term-aggreement-text"
+                        textAlign="center"
+                      >
+                        Terms and Conditions, Privacy Policy
+                      </Text>
+                    </Box>
+                  </Flex>
                 </SimpleGrid>
               </Box>
             </Box>

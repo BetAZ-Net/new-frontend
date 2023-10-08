@@ -27,7 +27,8 @@ import betaz_token from "utils/contracts/betaz_token_calls";
 import { useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import useInterval from "hooks/useInterval";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserBalance } from "store/slices/substrateSlice";
 
 const teamList = [
   {
@@ -61,16 +62,18 @@ const teamList = [
 ];
 
 const HomePage = () => {
+  const dispatch = useDispatch();
   const { currentAccount } = useSelector((s) => s.substrate);
   const [maxbuyAmount, setMaxbuyAmount] = useState(10);
   const [azeroAmount, setAzeroAmount] = useState(0);
 
   const getMaxbuy = async () => {
-    const [amountTokenSold, amountMaxBuy] = await Promise.all([
+    const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
       await betaz_token.getAmountTokenSold(currentAccount?.address),
       await betaz_token.getMaxBuyAmount(currentAccount?.address),
+      await betaz_token.getTokenRatio(currentAccount?.address),
     ]);
-    setMaxbuyAmount(amountMaxBuy - amountTokenSold);
+    setMaxbuyAmount((amountMaxBuy - amountTokenSold) / tokenRatio);
   };
 
   const onChangeToken = useCallback((e) => {
@@ -81,7 +84,7 @@ const HomePage = () => {
       tokenValue = parseFloat(value);
       if (tokenValue < 0) tokenValue = 1;
       if (tokenValue > maxbuyAmount) {
-        toast.error("Max Bet AZ token is " + maxbuyAmount);
+        toast.error("Not enough Balance!");
         setAzeroAmount(maxbuyAmount);
       } else {
         setAzeroAmount(tokenValue);
@@ -92,7 +95,10 @@ const HomePage = () => {
   const buy = async () => {
     if (currentAccount?.address) {
       const result = await betaz_token.buy(currentAccount, azeroAmount);
-      if (result) toast.success(`Buy BetAZ success`);
+      if (result) {
+        toast.success(`Buy BetAZ success`);
+        dispatch(fetchUserBalance({ currentAccount }));
+      }
     }
   };
 
@@ -247,6 +253,7 @@ const HomePage = () => {
                       sx={{ border: "0px" }}
                       value={azeroAmount}
                       onChange={onChangeToken}
+                      type="Number"
                     />
                     <Flex
                       w="100px"
@@ -260,14 +267,7 @@ const HomePage = () => {
                   </Flex>
                 </Box>
                 <Flex direction="column" alignItems="center" mt="24px">
-                  <Button
-                    onClick={() => {
-                      console.log("haha")
-                      buy();
-                    }}
-                  >
-                    START PLAYING
-                  </Button>
+                  <Button onClick={() => buy()}>START PLAYING</Button>
                   <Text mt="24px">By Clicking your agree with our</Text>
                   <Text className="linear-text-color-01 term-aggreement-text">
                     Terms and Conditions, Privacy Policy

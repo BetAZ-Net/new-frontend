@@ -119,10 +119,37 @@ async function getMaxBuyAmount(caller) {
   return null;
 }
 
+async function getTokenRatio(caller) {
+  if (!contract || !caller) {
+    return null;
+  }
+
+  const gasLimit = readOnlyGasLimit(contract);
+  const azero_value = 0;
+
+  try {
+    const { result, output } = await contract.query[
+      "betAZTrait::getTokenRatio"
+    ](caller, {
+      value: azero_value,
+      gasLimit,
+    });
+    if (result.isOk) {
+      const a = output.toHuman().Ok.replace(/\,/g, "");
+      return a;
+    }
+  } catch (e) {
+    return null;
+  }
+
+  return null;
+}
+
 const contract_calls = {
   buy,
   getAmountTokenSold,
   getMaxBuyAmount,
+  getTokenRatio
 };
 
 export default contract_calls;
