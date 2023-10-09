@@ -206,7 +206,7 @@ const Predict = () => {
     // finalize
     setGameOn(false);
     setLuckyNumber(parseInt(finalized.random_number));
-    if (finalized.is_win) toast("Try again next time");
+    if (finalized.is_win) toast("You won " + finalized.win_amount);
     else toast("You lose");
     await loadBalance();
   };

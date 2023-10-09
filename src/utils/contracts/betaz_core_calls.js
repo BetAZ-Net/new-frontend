@@ -43,60 +43,6 @@ async function getMaxBet(caller) {
   return null;
 }
 
-// async function play(caller, amount, bet_number, is_over) {
-//   if (!contract || !caller?.address) {
-//     return null;
-//   }
-
-//   if (parseInt(amount) <= 0) {
-//     toast.error(`invalid inputs`);
-//     return;
-//   }
-//   let unsubscribe;
-//   let gasLimit;
-
-//   if (is_over) is_over = 1;
-//   else is_over = 0;
-
-//   const { signer } = await web3FromSource(caller?.meta?.source);
-//   let value = new BN(amount * 10 ** 6).mul(new BN(10 ** 6)).toString();
-
-//   gasLimit = await getEstimatedGas(
-//     caller?.address,
-//     contract,
-//     value,
-//     "play",
-//     bet_number,
-//     is_over
-//   );
-
-//   await contract.tx["play"]({ gasLimit, value }, bet_number, is_over)
-//     .signAndSend(
-//       caller?.address,
-//       { signer },
-//       async ({ status, dispatchError }) => {
-//         if (dispatchError) {
-//           if (dispatchError.isModule) {
-//             console.log(dispatchError);
-//             toast.error(`There is some error with your request`);
-//           } else {
-//             console.log("dispatchError", dispatchError.toString());
-//           }
-//         }
-
-//         if (status) {
-//           const statusText = Object.keys(status.toHuman())[0];
-//           if (statusText === "0") toast.success(`Placing Bet ...`);
-//         }
-//       }
-//     )
-//     .then((unsub) => (unsubscribe = unsub))
-//     .catch((e) => console.log("e", e));
-//   return unsubscribe;
-// }
-
-//get_bet
-
 async function play(caller, amount, bet_number, is_over) {
   if (!contract || !caller?.address) {
     return null;
@@ -106,12 +52,66 @@ async function play(caller, amount, bet_number, is_over) {
     toast.error(`invalid inputs`);
     return;
   }
+  let unsubscribe;
+  let gasLimit;
 
   if (is_over) is_over = 1;
   else is_over = 0;
 
-  await execContractTx(caller, contract, amount, "play", bet_number, is_over);
+  const { signer } = await web3FromSource(caller?.meta?.source);
+  let value = new BN(amount * 10 ** 6).mul(new BN(10 ** 6)).toString();
+
+  gasLimit = await getEstimatedGas(
+    caller?.address,
+    contract,
+    value,
+    "play",
+    bet_number,
+    is_over
+  );
+
+  await contract.tx["play"]({ gasLimit, value }, bet_number, is_over)
+    .signAndSend(
+      caller?.address,
+      { signer },
+      async ({ status, dispatchError }) => {
+        if (dispatchError) {
+          if (dispatchError.isModule) {
+            console.log(dispatchError);
+            toast.error(`There is some error with your request`);
+          } else {
+            console.log("dispatchError", dispatchError.toString());
+          }
+        }
+
+        if (status) {
+          const statusText = Object.keys(status.toHuman())[0];
+          if (statusText === "0") toast.success(`Placing Bet ...`);
+        }
+      }
+    )
+    .then((unsub) => (unsubscribe = unsub))
+    .catch((e) => console.log("e", e));
+  return unsubscribe;
 }
+
+//get_bet
+
+// async function play(caller, amount, bet_number, is_over) {
+//   if (!contract || !caller?.address) {
+//     return null;
+//   }
+
+//   if (parseInt(amount) <= 0) {
+//     toast.error(`invalid inputs`);
+//     return;
+//   }
+
+//   if (is_over) is_over = 1;
+//   else is_over = 0;
+
+//   await execContractTx(caller, contract, amount, "play", bet_number, is_over);
+// }
 
 async function getBet(caller) {
   if (!contract || !caller) {
