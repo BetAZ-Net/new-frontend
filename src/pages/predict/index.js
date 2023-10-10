@@ -8,6 +8,7 @@ import {
   SliderTrack,
   Text,
   Input,
+  Flex,
 } from "@chakra-ui/react";
 import { SectionContainer } from "components/container";
 import { useState, useEffect, useCallback } from "react";
@@ -86,7 +87,7 @@ const Predict = () => {
       } else {
         if (currentAccount?.balance?.azero > 0)
           setBetValue(currentAccount?.balance?.azero);
-        else setBetValue(10);
+        else setBetValue(maxBet);
       }
     } else {
       let new_betValue = betValue * ratio;
@@ -148,8 +149,8 @@ const Predict = () => {
       // finalize
       setGameOn(false);
       setLuckyNumber(parseInt(finalized.random_number));
-      if (finalized.is_win) toast("You won " + finalized.win_amount);
-      else toast("You lose");
+      if (finalized.is_win) toast("You won " + finalized.win_amount + " azero");
+      else toast("Try again next time");
       await loadBalance();
       return;
     }
@@ -206,15 +207,15 @@ const Predict = () => {
     // finalize
     setGameOn(false);
     setLuckyNumber(parseInt(finalized.random_number));
-    if (finalized.is_win) toast("You won " + finalized.win_amount);
-    else toast("You lose");
+    if (finalized.is_win) toast("You won " + finalized.win_amount + " azero");
+    else toast("Try again next time");
     await loadBalance();
   };
 
   const loadMaxBet = async () => {
     const max_Bet = await betaz_core.getMaxBet(currentAccount?.address);
     if (maxBet != max_Bet) {
-      setMaxBet(max_Bet);
+      setMaxBet(max_Bet?.toFixed(1));
     }
   };
 
@@ -358,21 +359,22 @@ const Predict = () => {
                 <Box py="14px" px="14px" className="inforBox" display="flex">
                   <Box className="bet-amount-box">
                     <Text className="small-header">Bet Amount</Text>
-                    <Box
-                      className="small-content-container horizontal-box"
-                      sx={{
-                        padding: 0,
-                      }}
-                    >
+                    <Box className="small-content-container horizontal-box">
                       <Input
                         focusBorderColor="transparent"
                         sx={{
                           border: "0px",
-                          borderRadius: "4px",
+                          color: rollOver ? "#FFA000" : "#1A74E4",
+                          maxHeight: "max-content",
+                          fontsize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: "500",
+                          lineHeight: "normal",
+                          textAlign: "center",
                         }}
                         value={betValue}
+                        type="Number"
                         onChange={onChangeBet}
-                        className="small-content linear-text-color"
                       />
                     </Box>
                   </Box>

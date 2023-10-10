@@ -154,7 +154,7 @@ async function getHoldAmountPlayers(caller) {
     const { result, output } = await contract.query[
       "betA0CoreTrait::getHoldAmountPlayers"
     ](
-      caller,
+      caller?.address,
       {
         value: azero_value,
         gasLimit,
@@ -187,10 +187,14 @@ async function withdrawHoldAmount(caller) {
     caller?.address,
     contract,
     value,
-    "betA0CoreTrait::withdrawHoldAmount"
+    "betA0CoreTrait::withdrawHoldAmount",
+    caller?.address
   );
 
-  await contract.tx["betA0CoreTrait::withdrawHoldAmount"]({ gasLimit, value })
+  await contract.tx["betA0CoreTrait::withdrawHoldAmount"](
+    { gasLimit, value },
+    caller?.address
+  )
     .signAndSend(
       caller?.address,
       { signer },
@@ -220,7 +224,7 @@ const contract_calls = {
   play,
   getBet,
   getHoldAmountPlayers,
-  withdrawHoldAmount
+  withdrawHoldAmount,
 };
 
 export default contract_calls;

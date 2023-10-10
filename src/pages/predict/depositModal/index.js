@@ -24,12 +24,12 @@ import { useState, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import useInterval from "hooks/useInterval";
 import { useDebounce } from "hooks/useDebounce";
-import { fetchUserBalance } from "store/slices/substrateSlice";
+import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 
 const DepositModal = ({ visible, onClose }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const dispatch = useDispatch();
-  const { currentAccount } = useSelector((s) => s.substrate);
+  const { currentAccount, poolBalance } = useSelector((s) => s.substrate);
   const [maxbuyAmount, setMaxbuyAmount] = useState(10);
   const [azeroAmount, setAzeroAmount] = useState(0);
   const [holdAmount, setHoldAmount] = useState(0);
@@ -65,7 +65,7 @@ const DepositModal = ({ visible, onClose }) => {
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
-      }
+      } else toast.success(`Buy failure`)
     }
   };
 
@@ -80,12 +80,17 @@ const DepositModal = ({ visible, onClose }) => {
       if (!holdAmount) {
         toast.error("You not hold amount!");
         return;
-      }
-      const result = await betaz_core.withdrawHoldAmount(currentAccount);
-      if (result) {
-        toast.success(`Withdraw success`);
-        dispatch(fetchUserBalance({ currentAccount }));
-        getHoldAmount();
+      } else if (holdAmount > poolBalance?.core) {
+        toast.error("Not enough balance!");
+        return;
+      } else {
+        const result = await betaz_core.withdrawHoldAmount(currentAccount);
+        if (result) {
+          toast.success(`Withdraw success`);
+          dispatch(fetchUserBalance({ currentAccount }));
+          dispatch(fetchBalance({ currentAccount }));
+          getHoldAmount();
+        } else toast.success(`Withdraw failure`);
       }
     }
   };

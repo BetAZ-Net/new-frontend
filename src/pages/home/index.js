@@ -98,7 +98,7 @@ const HomePage = () => {
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
-      }
+      } else toast.success(`Buy failure`)
     }
   };
 

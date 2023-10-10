@@ -34,8 +34,6 @@ const App = () => {
   const { setCurrentApi } = useWallet();
   const [api, setApi] = useState(null);
   const setupProvider = async () => {
-    await web3Enable(process.env.REACT_APP_NAME);
-
     toast(`Connecting to ${providerUrl}...`);
     const provider = new WsProvider(providerUrl);
 
@@ -71,6 +69,8 @@ const App = () => {
       // setLastChainBlock(lastBlock);
       // setLastBlockParent(lastHeader.parentHash.toRawType);
     });
+
+    await web3Enable(process.env.REACT_APP_NAME);
   };
 
   useEffect(() => {
