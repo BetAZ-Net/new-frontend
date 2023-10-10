@@ -24,6 +24,7 @@ const WalletNotConnected = ({ openModal }) => {
         sx={{
           px: "24px",
           height: "46px",
+          width: "max-content",
         }}
         onClick={() => openModal()}
       >
@@ -44,7 +45,7 @@ const WalletConnected = ({ onClickSwitch, isOpen, SetIsOpen }) => {
         py: "10px",
         px: "12px",
         borderRadius: "12px",
-        position: "relative",
+        width: "max-content",
       }}
       cursor="pointer"
     >
@@ -95,8 +96,8 @@ const DetailAccountModal = ({ onClickSwitch, isOpen }) => {
         m="0px"
         borderRadius="10px"
         position="absolute"
-        top="100px"
-        right="20px"
+        top={{ sm: "158px", md: "100px" }}
+        right={{sm: "0px", md: "30px"}}
         background="#122126"
         boxShadow="0px 4px 4px 0px rgba(64, 64, 64, 0.20)"
         border="1px solid rgba(255, 255, 255, 0.70)"
@@ -174,7 +175,7 @@ const WalletButton = () => {
 
   const [isOpen, SetIsOpen] = useState(false);
   return (
-    <>
+    <Box>
       <WalletConnectModal
         connectModalVisible={connectModalVisible}
         onClose={() => setConnectModalVisible(false)}
@@ -189,7 +190,7 @@ const WalletButton = () => {
       ) : (
         <WalletNotConnected openModal={openModal} />
       )}
-    </>
+    </Box>
   );
 };
 

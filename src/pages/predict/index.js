@@ -237,7 +237,7 @@ const Predict = () => {
           bgImage={FloorImage}
           bgPosition="bottom"
         >
-          <SimpleGrid columns={2} spacing={10}>
+          <SimpleGrid columns={{ md: 1, lg: 2 }} spacing={10}>
             <LuckyNumberBox />
             <Box className="container">
               <Text className="title">Prediction</Text>
@@ -302,8 +302,15 @@ const Predict = () => {
                 </Box>
               </Box>
               <SimpleGrid columns={2} spacing="24px">
-                <Box py="14px" px="14px" className="inforBox" display="flex">
-                  <Box className="bet-amount-box">
+                <Box
+                  py="14px"
+                  px="14px"
+                  className="inforBox"
+                  display="flex"
+                  flexWrap="wrap"
+                  gap="14px"
+                >
+                  <Box className="bet-amount-box" minW="100px">
                     <Text className="small-header">Bet Amount</Text>
                     <SimpleGrid columns={3} className="bet-amount-box-content">
                       {betAmountList.map((e, index) => {
@@ -331,7 +338,7 @@ const Predict = () => {
                     </SimpleGrid>
                   </Box>
 
-                  <Box ml="14px" w="120px">
+                  <Box w="120px" minW="100px">
                     <Text className="small-header">Win Chance</Text>
                     <SimpleGrid columns={2} className="bet-amount-box-content">
                       <Text className="linear-text win-chance-text">
@@ -344,7 +351,7 @@ const Predict = () => {
                     </SimpleGrid>
                   </Box>
                 </Box>
-                <Box py="14px" px="14px" className="inforBox">
+                <Box py="14px" px="14px" className="inforBox" >
                   <Text className="small-header">Your AZero Balance</Text>
                   <Box className="small-content-container horizontal-box">
                     <Text className="linear-text small-content">
@@ -355,10 +362,16 @@ const Predict = () => {
                 </Box>
               </SimpleGrid>
               <SimpleGrid columns={2} spacing="24px">
-                <Box py="14px" px="14px" className="inforBox" display="flex">
-                  <Box className="bet-amount-box">
+                <Box py="14px" px="14px" className="inforBox" display="flex" flexWrap="wrap"
+                  gap="14px">
+                  <Box className="bet-amount-box" minW="100px">
                     <Text className="small-header">Bet Amount</Text>
-                    <Box className="small-content-container horizontal-box">
+                    <Box
+                      className="small-content-container horizontal-box"
+                      sx={{
+                        padding: "0 !important",
+                      }}
+                    >
                       <Input
                         focusBorderColor="transparent"
                         sx={{
@@ -378,7 +391,7 @@ const Predict = () => {
                     </Box>
                   </Box>
 
-                  <Box ml="14px" w="120px">
+                  <Box w="120px" minW="100px">
                     <Text className="small-header">Multiplier</Text>
                     <Box className="small-content-container horizontal-box">
                       <Text className="linear-text small-content">
@@ -404,7 +417,7 @@ const Predict = () => {
               </SimpleGrid>
               <SimpleGrid columns={2} spacing="24px" mt="24px">
                 <Button
-                  minW="300px"
+                  minW="50%"
                   py="10px"
                   bg="#122126"
                   color="#F7F7F8"
@@ -414,7 +427,7 @@ const Predict = () => {
                 >
                   Deposit
                 </Button>
-                <Button minW="300px" py="10px" onClick={() => onRoll()}>
+                <Button minW="50%" py="10px" onClick={() => onRoll()}>
                   ROLL {rollOver ? "OVER" : "UNDER"} {position}
                 </Button>
               </SimpleGrid>

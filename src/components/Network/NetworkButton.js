@@ -56,8 +56,7 @@ const NetWorkButton = () => {
                 background: "#0D171B",
                 px: "12px",
                 py: "10px",
-                marginRight: "24px",
-                minW: "222px",
+                minW: "180px",
               }}
             >
               <Box

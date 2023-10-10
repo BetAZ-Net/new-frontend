@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Image } from "@chakra-ui/react";
+import { Box, Flex, Heading, Image, SimpleGrid } from "@chakra-ui/react";
 import AppLogo from "assets/img/app-logo-text.png";
 import NetWorkButton from "components/Network/NetworkButton";
 import WalletButton from "components/wallet/WalletButton";
@@ -16,6 +16,9 @@ const Navbar = () => {
         display="flex"
         alignItems="center"
         justifyContent="center"
+        flexWrap="wrap"
+        gap="14px"
+        position="relative"
       >
         {/* <NavbarLinks
             onOpen={props.onOpen}

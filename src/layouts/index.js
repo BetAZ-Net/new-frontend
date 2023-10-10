@@ -18,7 +18,7 @@ const AppLayout = ({ children }) => {
     >
       <Navbar />
       <Box
-        w="calc(100vw - 140px)"
+        width={{ sm: "100%", md: "calc(100vw - 140px)" }}
         mx="auto"
         sx={{ paddingTop: "20px" }}
         overflow="auto"
