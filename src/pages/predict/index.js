@@ -8,7 +8,6 @@ import {
   SliderTrack,
   Text,
   Input,
-  Flex,
 } from "@chakra-ui/react";
 import { SectionContainer } from "components/container";
 import { useState, useEffect, useCallback } from "react";
@@ -83,19 +82,19 @@ const Predict = () => {
       //all
       if (currentAccount?.balance?.azero > maxBet) {
         toast.error("Max Bet is " + maxBet + " AZERO");
-        setBetValue(maxBet);
+        setBetValue(Number(maxBet));
       } else {
         if (currentAccount?.balance?.azero > 0)
-          setBetValue(currentAccount?.balance?.azero);
-        else setBetValue(maxBet);
+          setBetValue(Number(currentAccount?.balance?.azero));
+        else setBetValue(Number(maxBet));
       }
     } else {
       let new_betValue = betValue * ratio;
       if (new_betValue > maxBet) {
         toast.error("Max Bet is " + maxBet + " AZERO");
-        setBetValue(maxBet);
+        setBetValue(Number(maxBet));
       } else {
-        setBetValue(new_betValue);
+        setBetValue(Number(new_betValue));
       }
     }
   });
@@ -109,7 +108,7 @@ const Predict = () => {
       if (betValue < 0) betValue = 1;
       if (betValue > maxBet) {
         toast.error("Max Bet is " + maxBet + " AZERO");
-        setBetValue(maxBet);
+        setBetValue(Number(maxBet));
       } else {
         setBetValue(betValue);
       }
@@ -122,7 +121,7 @@ const Predict = () => {
   };
 
   const onRoll = async () => {
-    if (currentAccount?.address == "") {
+    if (currentAccount?.address === "") {
       toast.error("Please connect your wallet and select an account");
       return;
     }
@@ -142,16 +141,16 @@ const Predict = () => {
         toast.error("Something wrong with your roll");
         setLuckyNumber(-1);
         setGameOn(false);
-        await loadBalance();
+        loadBalance();
         return;
       }
 
       // finalize
       setGameOn(false);
       setLuckyNumber(parseInt(finalized.random_number));
-      if (finalized.is_win) toast("You won " + finalized.win_amount + " azero");
+      if (finalized.is_win) toast("You won " + finalized.win_amount + " AZERO");
       else toast("Try again next time");
-      await loadBalance();
+      loadBalance();
       return;
     }
 
@@ -160,7 +159,7 @@ const Predict = () => {
       return;
     }
 
-    if (betValue >= currentAccount?.balance.azero) {
+    if (betValue >= Number(currentAccount?.balance.azero)) {
       toast.error("You dont have enough balance to roll");
       return;
     }
@@ -180,7 +179,7 @@ const Predict = () => {
         toast.error("Something wrong with your roll");
         setLuckyNumber(-1);
         setGameOn(false);
-        await loadBalance();
+        loadBalance();
         return;
       }
     } else {
@@ -200,22 +199,22 @@ const Predict = () => {
       toast.error("Something wrong with your roll");
       setLuckyNumber(-1);
       setGameOn(false);
-      await loadBalance();
+      loadBalance();
       return;
     }
 
     // finalize
     setGameOn(false);
     setLuckyNumber(parseInt(finalized.random_number));
-    if (finalized.is_win) toast("You won " + finalized.win_amount + " azero");
+    if (finalized.is_win) toast("You won " + finalized.win_amount + " AZERO");
     else toast("Try again next time");
-    await loadBalance();
+    loadBalance();
   };
 
   const loadMaxBet = async () => {
     const max_Bet = await betaz_core.getMaxBet(currentAccount?.address);
     if (maxBet != max_Bet) {
-      setMaxBet(max_Bet?.toFixed(1));
+      setMaxBet(max_Bet?.toFixed(2));
     }
   };
 

@@ -2,7 +2,6 @@ import { Box, Text } from "@chakra-ui/react";
 import { AddressCopier } from "components/addressCopier";
 import { AppIcon } from "components/icons";
 import { formatNumDynDecimal } from "utils";
-import { addressShortener } from "utils";
 
 export const formatTableValue = (value, key) => {
   switch (key) {
@@ -26,7 +25,7 @@ export const formatTableValue = (value, key) => {
       );
 
     case "type":
-      return value == 0 ? (
+      return value ? (
         <Text textAlign="center" color="#1A74E4">
           OVER
         </Text>

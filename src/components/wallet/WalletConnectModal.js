@@ -65,7 +65,7 @@ const WalletItem = ({ data }) => {
   );
 };
 
-const AccountItem = ({ data, onClose }) => {
+const AccountItem = ({ data, onClose, SetIsOpen }) => {
   const { updateWalletAccount } = useWallet();
   const { currentNetwork } = useNetwork();
   const dispatch = useDispatch();
@@ -87,6 +87,7 @@ const AccountItem = ({ data, onClose }) => {
         updateWalletAccount({ ...data, network: currentNetwork.key });
         dispatch(setCurrentAccount(data));
         onClose();
+        SetIsOpen(false);
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -126,7 +127,7 @@ const AccountItem = ({ data, onClose }) => {
     </Box>
   );
 };
-const WalletConnectModal = ({ connectModalVisible, onClose }) => {
+const WalletConnectModal = ({ connectModalVisible, onClose, SetIsOpen }) => {
   const { currentNetwork } = useNetwork();
   const { walletAccounts } = useWallet();
   const supportWallets = useMemo(
@@ -178,6 +179,7 @@ const WalletConnectModal = ({ connectModalVisible, onClose }) => {
                       key={`account-item-${index}`}
                       data={e}
                       onClose={onClose}
+                      SetIsOpen={SetIsOpen}
                     />
                   );
                 })}

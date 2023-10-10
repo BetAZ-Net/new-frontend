@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   IconButton,
   Modal,
   ModalBody,
@@ -18,7 +17,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { BiLayer } from "react-icons/bi";
 import { GiTwoCoins } from "react-icons/gi";
 import { TbMoodSmileFilled } from "react-icons/tb";
@@ -28,20 +27,78 @@ import "./styles.css";
 import { AiFillStar } from "react-icons/ai";
 import { formatTableValue } from "./formatTable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import toast from "react-hot-toast";
+import { clientAPI } from "api/client";
+import { useSelector } from "react-redux";
+import useInterval from "hooks/useInterval";
+
+const tabData = [
+  {
+    label: "My Bets",
+  },
+  {
+    label: "All Bets",
+  },
+  {
+    label: "Rare Win",
+  },
+];
+
+let currentPage = 1;
 
 const BetHistoryModal = ({ isOpen, onClose }) => {
+  const { currentAccount } = useSelector((s) => s.substrate);
   const [currentTab, setCurrentTab] = useState(0);
-  const tabData = [
-    {
-      label: "My Bets",
-    },
-    {
-      label: "All Bets",
-    },
-    {
-      label: "Rare Win",
-    },
-  ];
+  const [uiPage, setUIPage] = useState(1);
+  const [data, setdata] = useState([]);
+
+  const getData = async () => {
+    if (currentTab === 0) {
+      if (currentAccount === "") {
+        setdata([]);
+        return;
+      }
+      let data = await clientAPI("post", "/getEventsByPlayer", {
+        player: currentAccount?.address,
+        limit: 10,
+        offset: 10 * (currentPage - 1),
+      });
+      // console.log({mybets: data});
+      setdata(data);
+    } else if (currentTab === 1) {
+      let data = await clientAPI("post", "/getEvents", {
+        limit: 10,
+        offset: 10 * (currentPage - 1),
+      });
+      // console.log({ all: data });
+      setdata(data);
+    } else if (currentTab === 2) {
+      let data = await clientAPI("post", "/getRareWins", {
+        limit: 10,
+        offset: 10 * (currentPage - 1),
+      });
+      // console.log({rarewins: data});
+      setdata(data);
+    }
+  };
+  useInterval(() => getData(), 3000);
+
+  useEffect(() => {
+    getData();
+  }, [currentTab]);
+
+  const nextPage = useCallback(() => {
+    if (currentPage < 5) currentPage++;
+    else toast("Only 5 pages can be displayed");
+    setUIPage(currentPage);
+    getData();
+  });
+
+  const previousPage = useCallback(() => {
+    if (currentPage > 1) currentPage--;
+    setUIPage(currentPage);
+    getData();
+  });
 
   const historyTableData = {
     headers: [
@@ -85,71 +142,7 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
         icon: <RiVipDiamondFill size="24px" style={{ marginRight: "8px" }} />,
       },
     ],
-    data: [
-      {
-        player: "5EfUESCp28GXw1v9CXmpAL5BfoCNW2y4skipcEoKAbN5Ykfn",
-        blockNumber: "41412423",
-        betAmount: 10,
-        type: 0,
-        prediction: 78,
-        result: 73,
-        wonAmount: 12.16,
-      },
-      {
-        player: "5EfUESCp28GXw1v9CXmpAL5BfoCNW2y4skipcEoKAbN5Ykfn",
-        blockNumber: "41412423",
-        betAmount: 10,
-        type: 1,
-        prediction: 78,
-        result: 73,
-        wonAmount: 12.16,
-      },
-      {
-        player: "5EfUESCp28GXw1v9CXmpAL5BfoCNW2y4skipcEoKAbN5Ykfn",
-        blockNumber: "41412423",
-        betAmount: 10,
-        type: 1,
-        prediction: 78,
-        result: 73,
-        wonAmount: 12.16,
-      },
-      {
-        player: "5EfUESCp28GXw1v9CXmpAL5BfoCNW2y4skipcEoKAbN5Ykfn",
-        blockNumber: "41412423",
-        betAmount: 10,
-        type: 0,
-        prediction: 78,
-        result: 73,
-        wonAmount: 12.16,
-      },
-      {
-        player: "5EfUESCp28GXw1v9CXmpAL5BfoCNW2y4skipcEoKAbN5Ykfn",
-        blockNumber: "41412423",
-        betAmount: 10,
-        type: 0,
-        prediction: 78,
-        result: 73,
-        wonAmount: 12.16,
-      },
-      {
-        player: "5EfUESCp28GXw1v9CXmpAL5BfoCNW2y4skipcEoKAbN5Ykfn",
-        blockNumber: "41412423",
-        betAmount: 10,
-        type: 0,
-        prediction: 78,
-        result: 73,
-        wonAmount: 12.16,
-      },
-      {
-        player: "5EfUESCp28GXw1v9CXmpAL5BfoCNW2y4skipcEoKAbN5Ykfn",
-        blockNumber: "41412423",
-        betAmount: 10,
-        type: 0,
-        prediction: 78,
-        result: 73,
-        wonAmount: 12.16,
-      },
-    ],
+    data: data,
   };
 
   return (
@@ -161,9 +154,9 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
         </ModalHeader>
         <ModalCloseButton color="#FFF" />
         <ModalBody>
-          <Box className="history-modal-tabs ">
+          <Box className="history-modal-tabs">
             {tabData.map((e, index) => {
-              const isActive = currentTab == index;
+              const isActive = currentTab === index;
               return (
                 <Box
                   key={`tab-${index}`}
@@ -183,14 +176,21 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
               );
             })}
           </Box>
-          <TableContainer mt="24px">
-            <Table variant="unstyled" className="history-table">
+          <TableContainer mt="24px" overflowY="hidden">
+            <Table
+              sx={{
+                overflowX: "auto",
+                minWidth: "1320px",
+              }}
+              variant="unstyled"
+              className="history-table"
+            >
               <Thead>
                 <Tr className="history-table-header-container">
                   {historyTableData.headers.map((e, index) => {
-                    const isFirstChild = index == 0;
+                    const isFirstChild = index === 0;
                     const isLastChild =
-                      index == historyTableData.headers.length - 1;
+                      index === historyTableData.headers.length - 1;
                     return (
                       <Th className="history-table-header-column">
                         <Box
@@ -223,14 +223,14 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
                   return (
                     <Tr>
                       {keyValues.map((keyvalue, index) => {
-                        const isFirstChild = index == 0;
+                        const isFirstChild = index === 0;
                         const isLastChild =
-                          index == historyTableData.headers.length - 1;
+                          index === historyTableData.headers.length - 1;
                         return (
                           <Td>
                             <Box
                               sx={{
-                                marginTop: rowIndex == 0 ? "24px" : "8px",
+                                marginTop: rowIndex === 0 ? "24px" : "8px",
                                 background: "#0d171b",
                                 py: "16px",
                                 pl: isFirstChild && "24px",
@@ -258,11 +258,29 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
           </TableContainer>
         </ModalBody>
         <ModalFooter className="history-table-footer-container">
-          <Box>
-            <IconButton variant="outline" color="#FFFFFF">
+          <Box display="flex" gap="8px">
+            <IconButton
+              variant="outline"
+              color="#FFFFFF"
+              onClick={() => previousPage()}
+            >
               <IoIosArrowBack />
             </IconButton>
-            <IconButton ml="8px" variant="outline" color="#FFFFFF">
+            <IconButton variant="outline" color="#FFFFFF" disabled="disabled">
+              <span
+                style={{
+                  color: "#FFFFFF",
+                }}
+              >
+                {uiPage}
+              </span>
+            </IconButton>
+            <IconButton
+              // ml="8px"
+              variant="outline"
+              color="#FFFFFF"
+              onClick={() => nextPage()}
+            >
               <IoIosArrowForward />
             </IconButton>
           </Box>

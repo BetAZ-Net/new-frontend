@@ -32,9 +32,9 @@ const WalletNotConnected = ({ openModal }) => {
     </>
   );
 };
-const WalletConnected = ({ onClickSwitch }) => {
+const WalletConnected = ({ onClickSwitch, isOpen, SetIsOpen }) => {
   const { currentAccount } = useWallet();
-  const [isOpen, SetIsOpen] = useState(false);
+
   return (
     <Box
       sx={{
@@ -89,7 +89,7 @@ const DetailAccountModal = ({ onClickSwitch, isOpen }) => {
   }, [currentAccount]);
 
   return (
-    <Modal isOpen={isOpen}>
+    <Modal isOpen={isOpen} id="detail-account-modal">
       <Box
         p="0px"
         m="0px"
@@ -171,14 +171,21 @@ const WalletButton = () => {
   const onClickSwitch = async () => {
     if (currentAccount) openModal();
   };
+
+  const [isOpen, SetIsOpen] = useState(false);
   return (
     <>
       <WalletConnectModal
         connectModalVisible={connectModalVisible}
         onClose={() => setConnectModalVisible(false)}
+        SetIsOpen={SetIsOpen}
       />
       {currentAccount ? (
-        <WalletConnected onClickSwitch={onClickSwitch} />
+        <WalletConnected
+          onClickSwitch={onClickSwitch}
+          isOpen={isOpen}
+          SetIsOpen={SetIsOpen}
+        />
       ) : (
         <WalletNotConnected openModal={openModal} />
       )}
