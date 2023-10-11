@@ -73,7 +73,9 @@ const HomePage = () => {
       await betaz_token.getMaxBuyAmount(currentAccount?.address),
       await betaz_token.getTokenRatio(currentAccount?.address),
     ]);
-    setMaxbuyAmount((amountMaxBuy - amountTokenSold) / tokenRatio);
+    setMaxbuyAmount(
+      Math.floor(((amountMaxBuy - amountTokenSold) / tokenRatio) * 100) / 100
+    );
   };
 
   const onChangeToken = useCallback((e) => {
@@ -98,7 +100,7 @@ const HomePage = () => {
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
-      } else toast.success(`Buy failure`)
+      } else toast.success(`Buy failure`);
     }
   };
 

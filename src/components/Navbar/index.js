@@ -18,7 +18,6 @@ const Navbar = () => {
         justifyContent="center"
         flexWrap="wrap"
         gap="14px"
-        position="relative"
       >
         {/* <NavbarLinks
             onOpen={props.onOpen}

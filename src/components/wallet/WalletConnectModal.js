@@ -65,7 +65,7 @@ const WalletItem = ({ data }) => {
   );
 };
 
-const AccountItem = ({ data, onClose, SetIsOpen }) => {
+const AccountItem = ({ data, onClose, onCloseModal }) => {
   const { updateWalletAccount } = useWallet();
   const { currentNetwork } = useNetwork();
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ const AccountItem = ({ data, onClose, SetIsOpen }) => {
         updateWalletAccount({ ...data, network: currentNetwork.key });
         dispatch(setCurrentAccount(data));
         onClose();
-        SetIsOpen(false);
+        onCloseModal();
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -127,7 +127,7 @@ const AccountItem = ({ data, onClose, SetIsOpen }) => {
     </Box>
   );
 };
-const WalletConnectModal = ({ connectModalVisible, onClose, SetIsOpen }) => {
+const WalletConnectModal = ({ connectModalVisible, onClose, onCloseModal }) => {
   const { currentNetwork } = useNetwork();
   const { walletAccounts } = useWallet();
   const supportWallets = useMemo(
@@ -173,16 +173,18 @@ const WalletConnectModal = ({ connectModalVisible, onClose, SetIsOpen }) => {
                 >
                   Select Account
                 </Text>
-                {walletAccounts?.map((e, index) => {
-                  return (
-                    <AccountItem
-                      key={`account-item-${index}`}
-                      data={e}
-                      onClose={onClose}
-                      SetIsOpen={SetIsOpen}
-                    />
-                  );
-                })}
+                <Box overflowY="auto" maxH="210px">
+                  {walletAccounts?.map((e, index) => {
+                    return (
+                      <AccountItem
+                        key={`account-item-${index}`}
+                        data={e}
+                        onClose={onClose}
+                        onCloseModal={onCloseModal}
+                      />
+                    );
+                  })}
+                </Box>
               </Box>
             )}
           </ModalBody>

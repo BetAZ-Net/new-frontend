@@ -95,8 +95,6 @@ async function play(caller, amount, bet_number, is_over) {
   return unsubscribe;
 }
 
-//get_bet
-
 // async function play(caller, amount, bet_number, is_over) {
 //   if (!contract || !caller?.address) {
 //     return null;

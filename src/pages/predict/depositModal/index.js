@@ -40,7 +40,9 @@ const DepositModal = ({ visible, onClose }) => {
       await betaz_token.getMaxBuyAmount(currentAccount?.address),
       await betaz_token.getTokenRatio(currentAccount?.address),
     ]);
-    setMaxbuyAmount((amountMaxBuy - amountTokenSold) / tokenRatio);
+    setMaxbuyAmount(
+      Math.floor(((amountMaxBuy - amountTokenSold) / tokenRatio) * 100) / 100
+    );
   };
 
   const onChangeToken = useCallback((e) => {
@@ -65,13 +67,13 @@ const DepositModal = ({ visible, onClose }) => {
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
-      } else toast.success(`Buy failure`)
+      } else toast.success(`Buy failure`);
     }
   };
 
   const getHoldAmount = async () => {
     const holdAmount = await betaz_core.getHoldAmountPlayers(currentAccount);
-    if (holdAmount) setHoldAmount(holdAmount);
+    if (holdAmount) setHoldAmount(Math.floor(holdAmount * 100) / 100);
     else setHoldAmount(0);
   };
 

@@ -214,7 +214,7 @@ const Predict = () => {
   const loadMaxBet = async () => {
     const max_Bet = await betaz_core.getMaxBet(currentAccount?.address);
     if (maxBet != max_Bet) {
-      setMaxBet(max_Bet?.toFixed(2));
+      setMaxBet(Math.floor(max_Bet * 100) / 100);
     }
   };
 
@@ -351,7 +351,7 @@ const Predict = () => {
                     </SimpleGrid>
                   </Box>
                 </Box>
-                <Box py="14px" px="14px" className="inforBox" >
+                <Box py="14px" px="14px" className="inforBox">
                   <Text className="small-header">Your AZero Balance</Text>
                   <Box className="small-content-container horizontal-box">
                     <Text className="linear-text small-content">
@@ -362,8 +362,14 @@ const Predict = () => {
                 </Box>
               </SimpleGrid>
               <SimpleGrid columns={2} spacing="24px">
-                <Box py="14px" px="14px" className="inforBox" display="flex" flexWrap="wrap"
-                  gap="14px">
+                <Box
+                  py="14px"
+                  px="14px"
+                  className="inforBox"
+                  display="flex"
+                  flexWrap="wrap"
+                  gap="14px"
+                >
                   <Box className="bet-amount-box" minW="100px">
                     <Text className="small-header">Bet Amount</Text>
                     <Box

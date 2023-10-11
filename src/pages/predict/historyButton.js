@@ -14,8 +14,8 @@ const HistoryButton = ({ onClick }) => {
         flexDirection: "column",
       }}
       bgImage={HistoryButtonImage}
-      bgSize="cover"
-      w="full"
+      backgroundSize="cover"
+      w="100%"
       cursor="pointer"
       onClick={onClick}
     >
