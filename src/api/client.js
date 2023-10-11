@@ -2,7 +2,7 @@ import axios from "axios";
 
 // const baseURL = "https://api-dev.a0bet.net/";
 
-const baseURL = "https://localhost:443/";
+const baseURL = "http://154.26.139.170/api";
 
 export const clientAPI = async (method, url, options) => {
   if (!options) options = {};
