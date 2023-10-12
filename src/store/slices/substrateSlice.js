@@ -145,7 +145,7 @@ export const fetchBalance = createAsyncThunk(
       corePoolBalance,
       stakingPoolBalance,
       treasuryPoolBalance,
-      contractBalance,
+      rewardBalance,
     ] = await Promise.all([
       execContractQuerybyMetadata(
         currentAccount?.address,
@@ -164,17 +164,21 @@ export const fetchBalance = createAsyncThunk(
         0,
         "betA0CoreTrait::getTreasuryPoolAmount"
       ),
-      getAzeroBalanceOfAddress({
-        address: betaz_core_contract?.CONTRACT_ADDRESS,
-      }),
+      execContractQuerybyMetadata(
+        currentAccount?.address,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
+        0,
+        "betA0CoreTrait::getRewardPoolAmount"
+      ),
     ]);
 
     const core = formatQueryResultToNumber(corePoolBalance);
     const staking = formatNumDynDecimal(stakingPoolBalance);
     const treasury = formatQueryResultToNumber(treasuryPoolBalance);
-    const contract = formatNumDynDecimal(contractBalance);
+    const reward = formatQueryResultToNumber(rewardBalance);
 
-    return { contract, core, staking, treasury };
+    return { reward, core, staking, treasury };
   }
 );
 

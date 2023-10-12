@@ -9,23 +9,23 @@ const Pools = () => {
   return (
     <SimpleGrid columns={{sm: 1, md: 2, lg: 3}} spacing="24px">
       <Box className="pool-container">
-        <Text className="pool-title">Core Pool</Text>
+        <Text className="pool-title">Reward Pool</Text>
         <Box className="pool-amount-container">
-          <Text className="pool-amount">{poolBalance.core}</Text>
+          <Text className="pool-amount">{poolBalance?.reward}</Text>
           <AppIcon size="18px" padding="8px" />
         </Box>
       </Box>
       <Box className="pool-container">
         <Text className="pool-title">Staking Pool</Text>
         <Box className="pool-amount-container">
-          <Text className="pool-amount">{poolBalance.staking}</Text>
+          <Text className="pool-amount">{poolBalance?.staking}</Text>
           <AppIcon size="18px" padding="8px" />
         </Box>
       </Box>
       <Box className="pool-container">
         <Text className="pool-title">Treasury Pool</Text>
         <Box className="pool-amount-container">
-          <Text className="pool-amount">{poolBalance.treasury}</Text>
+          <Text className="pool-amount">{poolBalance?.treasury}</Text>
           <AppIcon size="18px" padding="8px" />
         </Box>
       </Box>

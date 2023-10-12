@@ -170,7 +170,7 @@ async function getHoldAmountPlayers(caller) {
   return null;
 }
 
-async function withdrawHoldAmount(caller) {
+async function withdrawHoldAmount(caller, amount) {
   if (!contract || !caller?.address) {
     return null;
   }
@@ -180,18 +180,21 @@ async function withdrawHoldAmount(caller) {
 
   const { signer } = await web3FromSource(caller?.meta?.source);
   let value = 0;
+  amount = new BN(amount * 10 ** 6).mul(new BN(10 ** 6)).toString();
 
   gasLimit = await getEstimatedGas(
     caller?.address,
     contract,
     value,
     "betA0CoreTrait::withdrawHoldAmount",
-    caller?.address
+    caller?.address,
+    amount
   );
 
   await contract.tx["betA0CoreTrait::withdrawHoldAmount"](
     { gasLimit, value },
-    caller?.address
+    caller?.address,
+    amount
   )
     .signAndSend(
       caller?.address,

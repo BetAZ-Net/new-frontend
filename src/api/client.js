@@ -1,8 +1,7 @@
 import axios from "axios";
 
-// const baseURL = "https://api-dev.a0bet.net/";
-
-const baseURL = "http://154.26.139.170/api";
+// const baseURL = "http://backend.betaz.io/";
+const baseURL = "http://localhost:3000/";
 
 export const clientAPI = async (method, url, options) => {
   if (!options) options = {};
@@ -30,3 +29,4 @@ export const clientAPI = async (method, url, options) => {
     else return data;
   }
 };
+ 

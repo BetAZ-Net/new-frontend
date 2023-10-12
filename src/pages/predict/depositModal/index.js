@@ -33,6 +33,7 @@ const DepositModal = ({ visible, onClose }) => {
   const [maxbuyAmount, setMaxbuyAmount] = useState(10);
   const [azeroAmount, setAzeroAmount] = useState(0);
   const [holdAmount, setHoldAmount] = useState(0);
+  const [holdAmountVal, setHoldAmountVal] = useState(0);
 
   const getMaxbuy = async () => {
     const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
@@ -82,11 +83,11 @@ const DepositModal = ({ visible, onClose }) => {
       if (!holdAmount) {
         toast.error("You not hold amount!");
         return;
-      } else if (holdAmount > poolBalance?.core) {
+      } else if (poolBalance?.core == 0) {
         toast.error("Not enough balance!");
         return;
       } else {
-        const result = await betaz_core.withdrawHoldAmount(currentAccount);
+        const result = await betaz_core.withdrawHoldAmount(currentAccount, holdAmountVal);
         if (result) {
           toast.success(`Withdraw success`);
           dispatch(fetchUserBalance({ currentAccount }));
@@ -96,6 +97,22 @@ const DepositModal = ({ visible, onClose }) => {
       }
     }
   };
+
+  const onChangeholdAmount = useCallback((e) => {
+    const { value } = e.target;
+    const reg = /^-?\d*(\.\d*)?$/;
+    let holdValue = 0;
+    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+      holdValue = parseFloat(value);
+      if (holdValue < 0) holdValue = 1;
+      if (holdValue > holdAmount) {
+        toast.error("Not enough Balance!");
+        setHoldAmountVal(holdAmount);
+      } else {
+        setHoldAmountVal(holdValue);
+      }
+    }
+  });
 
   useEffect(() => {
     getHoldAmount();
@@ -228,7 +245,8 @@ const DepositModal = ({ visible, onClose }) => {
                         <Input
                           focusBorderColor="transparent"
                           sx={{ border: "0px" }}
-                          value={holdAmount}
+                          onChange={onChangeholdAmount}
+                          value={holdAmountVal}
                           type="Number"
                         />
                       </Flex>

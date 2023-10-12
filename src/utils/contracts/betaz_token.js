@@ -1,8 +1,8 @@
 const betaz_token_contract = {
-  CONTRACT_ADDRESS: "5DHS33eYHtg5M5mHnZeHVS6XF6HJnxD19vMs2j1YC6Zpzwvs",
+  CONTRACT_ADDRESS: "5DLz62hTTrctbe6GJkxYNQyfEhPCWE78bL575ztL9qq3BZHR",
   CONTRACT_ABI: {
     source: {
-      hash: "0x04936700ad8f3a7d2048f99adb829b3d096dd156a7aeddf611011c748c24ef38",
+      hash: "0xb8f658a8a14f723ff8d7611c1f5e6087e8d0150df2a0bc560498ed1258c10aad",
       language: "ink! 4.3.0",
       compiler: "rustc 1.70.0-nightly",
       build_info: {
@@ -28,14 +28,14 @@ const betaz_token_contract = {
               label: "name",
               type: {
                 displayName: ["Option"],
-                type: 8,
+                type: 9,
               },
             },
             {
               label: "symbol",
               type: {
                 displayName: ["Option"],
-                type: 8,
+                type: 9,
               },
             },
             {
@@ -66,6 +66,13 @@ const betaz_token_contract = {
                 type: 1,
               },
             },
+            {
+              label: "limit_time_buy",
+              type: {
+                displayName: ["Timestamp"],
+                type: 8,
+              },
+            },
           ],
           default: false,
           docs: [],
@@ -73,7 +80,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink_primitives", "ConstructorResult"],
-            type: 9,
+            type: 10,
           },
           selector: "0x9bae9d5e",
         },
@@ -94,58 +101,24 @@ const betaz_token_contract = {
         },
         chainExtension: {
           displayName: ["ChainExtension"],
-          type: 38,
+          type: 39,
         },
         hash: {
           displayName: ["Hash"],
-          type: 32,
+          type: 33,
         },
         maxEventTopics: 4,
         timestamp: {
           displayName: ["Timestamp"],
-          type: 18,
+          type: 8,
         },
       },
       events: [],
       lang_error: {
         displayName: ["ink", "LangError"],
-        type: 10,
+        type: 11,
       },
       messages: [
-        {
-          args: [
-            {
-              label: "max_buy_amount",
-              type: {
-                displayName: ["betaztrait_external", "SetMaxBuyAmountInput1"],
-                type: 0,
-              },
-            },
-          ],
-          default: false,
-          docs: [" Set max buy amount"],
-          label: "BetAZTrait::set_max_buy_amount",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 11,
-          },
-          selector: "0xd9754de6",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [" Get token ratio"],
-          label: "BetAZTrait::get_token_ratio",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 20,
-          },
-          selector: "0x17c2dbc6",
-        },
         {
           args: [
             {
@@ -163,7 +136,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 11,
+            type: 12,
           },
           selector: "0x008cfce2",
         },
@@ -184,9 +157,56 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 11,
+            type: 12,
           },
           selector: "0x999e57af",
+        },
+        {
+          args: [
+            {
+              label: "limit_time_buy",
+              type: {
+                displayName: ["betaztrait_external", "SetLimitTimeBuyInput1"],
+                type: 8,
+              },
+            },
+          ],
+          default: false,
+          docs: [" Set buy token status"],
+          label: "BetAZTrait::set_limit_time_buy",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 12,
+          },
+          selector: "0x8f4b3c70",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Get token ratio"],
+          label: "BetAZTrait::get_token_ratio",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 20,
+          },
+          selector: "0x17c2dbc6",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "BetAZTrait::get_end_time_buy",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 21,
+          },
+          selector: "0x9169a5fe",
         },
         {
           args: [
@@ -212,9 +232,61 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 11,
+            type: 12,
           },
           selector: "0xec556c02",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Buy token function"],
+          label: "BetAZTrait::buy_token",
+          mutates: true,
+          payable: true,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 12,
+          },
+          selector: "0x5b5e91fc",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "BetAZTrait::change_state",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 12,
+          },
+          selector: "0x3bb03682",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Get max buy amount"],
+          label: "BetAZTrait::get_max_buy_amount",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 22,
+          },
+          selector: "0xc39a0447",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Get limit time buy"],
+          label: "BetAZTrait::get_limit_time_buy",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 21,
+          },
+          selector: "0x7ff5f380",
         },
         {
           args: [],
@@ -225,7 +297,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 21,
+            type: 23,
           },
           selector: "0xc1ae2921",
         },
@@ -241,19 +313,6 @@ const betaz_token_contract = {
             type: 22,
           },
           selector: "0x1922ed1c",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [" Buy token function"],
-          label: "BetAZTrait::buy_token",
-          mutates: true,
-          payable: true,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 11,
-          },
-          selector: "0x5b5e91fc",
         },
         {
           args: [
@@ -272,181 +331,30 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 11,
+            type: 12,
           },
           selector: "0x76a14475",
         },
         {
-          args: [],
-          default: false,
-          docs: [" Get max buy amount"],
-          label: "BetAZTrait::get_max_buy_amount",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 22,
-          },
-          selector: "0xc39a0447",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
-          label: "BetAZTrait::change_state",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 11,
-          },
-          selector: "0x3bb03682",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
-          label: "PSP22::total_supply",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 22,
-          },
-          selector: "0x162df8c2",
-        },
-        {
           args: [
             {
-              label: "to",
+              label: "max_buy_amount",
               type: {
-                displayName: ["psp22_external", "TransferInput1"],
-                type: 1,
-              },
-            },
-            {
-              label: "value",
-              type: {
-                displayName: ["psp22_external", "TransferInput2"],
-                type: 0,
-              },
-            },
-            {
-              label: "data",
-              type: {
-                displayName: ["psp22_external", "TransferInput3"],
-                type: 23,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "PSP22::transfer",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 24,
-          },
-          selector: "0xdb20f9f5",
-        },
-        {
-          args: [
-            {
-              label: "spender",
-              type: {
-                displayName: ["psp22_external", "IncreaseAllowanceInput1"],
-                type: 1,
-              },
-            },
-            {
-              label: "delta_value",
-              type: {
-                displayName: ["psp22_external", "IncreaseAllowanceInput2"],
+                displayName: ["betaztrait_external", "SetMaxBuyAmountInput1"],
                 type: 0,
               },
             },
           ],
           default: false,
-          docs: [],
-          label: "PSP22::increase_allowance",
+          docs: [" Set max buy amount"],
+          label: "BetAZTrait::set_max_buy_amount",
           mutates: true,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 24,
+            type: 12,
           },
-          selector: "0x96d6b57a",
-        },
-        {
-          args: [
-            {
-              label: "from",
-              type: {
-                displayName: ["psp22_external", "TransferFromInput1"],
-                type: 1,
-              },
-            },
-            {
-              label: "to",
-              type: {
-                displayName: ["psp22_external", "TransferFromInput2"],
-                type: 1,
-              },
-            },
-            {
-              label: "value",
-              type: {
-                displayName: ["psp22_external", "TransferFromInput3"],
-                type: 0,
-              },
-            },
-            {
-              label: "data",
-              type: {
-                displayName: ["psp22_external", "TransferFromInput4"],
-                type: 23,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "PSP22::transfer_from",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 24,
-          },
-          selector: "0x54b3c76e",
-        },
-        {
-          args: [
-            {
-              label: "spender",
-              type: {
-                displayName: ["psp22_external", "DecreaseAllowanceInput1"],
-                type: 1,
-              },
-            },
-            {
-              label: "delta_value",
-              type: {
-                displayName: ["psp22_external", "DecreaseAllowanceInput2"],
-                type: 0,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "PSP22::decrease_allowance",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 24,
-          },
-          selector: "0xfecb57d5",
+          selector: "0xd9754de6",
         },
         {
           args: [
@@ -498,17 +406,150 @@ const betaz_token_contract = {
           selector: "0x6568382f",
         },
         {
+          args: [
+            {
+              label: "from",
+              type: {
+                displayName: ["psp22_external", "TransferFromInput1"],
+                type: 1,
+              },
+            },
+            {
+              label: "to",
+              type: {
+                displayName: ["psp22_external", "TransferFromInput2"],
+                type: 1,
+              },
+            },
+            {
+              label: "value",
+              type: {
+                displayName: ["psp22_external", "TransferFromInput3"],
+                type: 0,
+              },
+            },
+            {
+              label: "data",
+              type: {
+                displayName: ["psp22_external", "TransferFromInput4"],
+                type: 24,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "PSP22::transfer_from",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 25,
+          },
+          selector: "0x54b3c76e",
+        },
+        {
+          args: [
+            {
+              label: "to",
+              type: {
+                displayName: ["psp22_external", "TransferInput1"],
+                type: 1,
+              },
+            },
+            {
+              label: "value",
+              type: {
+                displayName: ["psp22_external", "TransferInput2"],
+                type: 0,
+              },
+            },
+            {
+              label: "data",
+              type: {
+                displayName: ["psp22_external", "TransferInput3"],
+                type: 24,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "PSP22::transfer",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 25,
+          },
+          selector: "0xdb20f9f5",
+        },
+        {
+          args: [
+            {
+              label: "spender",
+              type: {
+                displayName: ["psp22_external", "IncreaseAllowanceInput1"],
+                type: 1,
+              },
+            },
+            {
+              label: "delta_value",
+              type: {
+                displayName: ["psp22_external", "IncreaseAllowanceInput2"],
+                type: 0,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "PSP22::increase_allowance",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 25,
+          },
+          selector: "0x96d6b57a",
+        },
+        {
+          args: [
+            {
+              label: "spender",
+              type: {
+                displayName: ["psp22_external", "DecreaseAllowanceInput1"],
+                type: 1,
+              },
+            },
+            {
+              label: "delta_value",
+              type: {
+                displayName: ["psp22_external", "DecreaseAllowanceInput2"],
+                type: 0,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "PSP22::decrease_allowance",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 25,
+          },
+          selector: "0xfecb57d5",
+        },
+        {
           args: [],
           default: false,
           docs: [],
-          label: "PSP22Metadata::token_name",
+          label: "PSP22::total_supply",
           mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 26,
+            type: 22,
           },
-          selector: "0x3d261bd4",
+          selector: "0x162df8c2",
         },
         {
           args: [],
@@ -519,9 +560,22 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 26,
+            type: 27,
           },
           selector: "0x34205be5",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "PSP22Metadata::token_name",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 27,
+          },
+          selector: "0x3d261bd4",
         },
         {
           args: [],
@@ -532,7 +586,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 27,
+            type: 28,
           },
           selector: "0x7271b782",
         },
@@ -560,7 +614,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 24,
+            type: 25,
           },
           selector: "0xfc3c75d4",
         },
@@ -588,7 +642,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 24,
+            type: 25,
           },
           selector: "0x7a9da510",
         },
@@ -601,30 +655,9 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 28,
+            type: 29,
           },
           selector: "0x5e228753",
-        },
-        {
-          args: [
-            {
-              label: "new_owner",
-              type: {
-                displayName: ["ownable_external", "TransferOwnershipInput1"],
-                type: 30,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "Ownable::transfer_ownership",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 28,
-          },
-          selector: "0x11f43efd",
         },
         {
           args: [],
@@ -640,6 +673,27 @@ const betaz_token_contract = {
           selector: "0x4fa43c8c",
         },
         {
+          args: [
+            {
+              label: "new_owner",
+              type: {
+                displayName: ["ownable_external", "TransferOwnershipInput1"],
+                type: 32,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "Ownable::transfer_ownership",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 29,
+          },
+          selector: "0x11f43efd",
+        },
+        {
           args: [],
           default: false,
           docs: [],
@@ -648,7 +702,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 21,
+            type: 23,
           },
           selector: "0xd123ce11",
         },
@@ -658,7 +712,7 @@ const betaz_token_contract = {
               label: "new_code_hash",
               type: {
                 displayName: ["upgradeable_external", "SetCodeHashInput1"],
-                type: 32,
+                type: 33,
               },
             },
           ],
@@ -669,7 +723,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 33,
+            type: 34,
           },
           selector: "0x1700ae80",
         },
@@ -686,7 +740,7 @@ const betaz_token_contract = {
               label: "address",
               type: {
                 displayName: ["accesscontrol_external", "HasRoleInput2"],
-                type: 30,
+                type: 32,
               },
             },
           ],
@@ -697,37 +751,9 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 21,
+            type: 23,
           },
           selector: "0xc1d9ac18",
-        },
-        {
-          args: [
-            {
-              label: "role",
-              type: {
-                displayName: ["accesscontrol_external", "RevokeRoleInput1"],
-                type: 5,
-              },
-            },
-            {
-              label: "account",
-              type: {
-                displayName: ["accesscontrol_external", "RevokeRoleInput2"],
-                type: 30,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "AccessControl::revoke_role",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 36,
-          },
-          selector: "0x6e4f0991",
         },
         {
           args: [
@@ -742,7 +768,7 @@ const betaz_token_contract = {
               label: "account",
               type: {
                 displayName: ["accesscontrol_external", "RenounceRoleInput2"],
-                type: 30,
+                type: 32,
               },
             },
           ],
@@ -753,9 +779,65 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 36,
+            type: 37,
           },
           selector: "0xeaf1248a",
+        },
+        {
+          args: [
+            {
+              label: "role",
+              type: {
+                displayName: ["accesscontrol_external", "RevokeRoleInput1"],
+                type: 5,
+              },
+            },
+            {
+              label: "account",
+              type: {
+                displayName: ["accesscontrol_external", "RevokeRoleInput2"],
+                type: 32,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "AccessControl::revoke_role",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 37,
+          },
+          selector: "0x6e4f0991",
+        },
+        {
+          args: [
+            {
+              label: "role",
+              type: {
+                displayName: ["accesscontrol_external", "GrantRoleInput1"],
+                type: 5,
+              },
+            },
+            {
+              label: "account",
+              type: {
+                displayName: ["accesscontrol_external", "GrantRoleInput2"],
+                type: 32,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "AccessControl::grant_role",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 37,
+          },
+          selector: "0x4ac062fd",
         },
         {
           args: [
@@ -783,28 +865,24 @@ const betaz_token_contract = {
             {
               label: "role",
               type: {
-                displayName: ["accesscontrol_external", "GrantRoleInput1"],
+                displayName: [
+                  "accesscontrolenumerable_external",
+                  "GetRoleMemberCountInput1",
+                ],
                 type: 5,
-              },
-            },
-            {
-              label: "account",
-              type: {
-                displayName: ["accesscontrol_external", "GrantRoleInput2"],
-                type: 30,
               },
             },
           ],
           default: false,
           docs: [],
-          label: "AccessControl::grant_role",
-          mutates: true,
+          label: "AccessControlEnumerable::get_role_member_count",
+          mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 36,
+            type: 20,
           },
-          selector: "0x4ac062fd",
+          selector: "0xf1b1a9d7",
         },
         {
           args: [
@@ -839,30 +917,6 @@ const betaz_token_contract = {
             type: 31,
           },
           selector: "0x163469e0",
-        },
-        {
-          args: [
-            {
-              label: "role",
-              type: {
-                displayName: [
-                  "accesscontrolenumerable_external",
-                  "GetRoleMemberCountInput1",
-                ],
-                type: 5,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "AccessControlEnumerable::get_role_member_count",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 20,
-          },
-          selector: "0xf1b1a9d7",
         },
       ],
     },
@@ -1219,6 +1273,24 @@ const betaz_token_contract = {
                         },
                         name: "amount_tokens_sold",
                       },
+                      {
+                        layout: {
+                          leaf: {
+                            key: "0x00000000",
+                            ty: 8,
+                          },
+                        },
+                        name: "limit_time_buy",
+                      },
+                      {
+                        layout: {
+                          leaf: {
+                            key: "0x00000000",
+                            ty: 8,
+                          },
+                        },
+                        name: "end_time_buy",
+                      },
                     ],
                     name: "Data",
                   },
@@ -1351,6 +1423,14 @@ const betaz_token_contract = {
         id: 8,
         type: {
           def: {
+            primitive: "u64",
+          },
+        },
+      },
+      {
+        id: 9,
+        type: {
+          def: {
             variant: {
               variants: [
                 {
@@ -1379,7 +1459,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 9,
+        id: 10,
         type: {
           def: {
             variant: {
@@ -1396,7 +1476,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 10,
+                      type: 11,
                     },
                   ],
                   index: 1,
@@ -1412,14 +1492,14 @@ const betaz_token_contract = {
             },
             {
               name: "E",
-              type: 10,
+              type: 11,
             },
           ],
           path: ["Result"],
         },
       },
       {
-        id: 10,
+        id: 11,
         type: {
           def: {
             variant: {
@@ -1435,7 +1515,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 11,
+        id: 12,
         type: {
           def: {
             variant: {
@@ -1443,7 +1523,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 12,
+                      type: 13,
                     },
                   ],
                   index: 0,
@@ -1452,7 +1532,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 10,
+                      type: 11,
                     },
                   ],
                   index: 1,
@@ -1464,18 +1544,18 @@ const betaz_token_contract = {
           params: [
             {
               name: "T",
-              type: 12,
+              type: 13,
             },
             {
               name: "E",
-              type: 10,
+              type: 11,
             },
           ],
           path: ["Result"],
         },
       },
       {
-        id: 12,
+        id: 13,
         type: {
           def: {
             variant: {
@@ -1492,7 +1572,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 13,
+                      type: 14,
                     },
                   ],
                   index: 1,
@@ -1508,14 +1588,14 @@ const betaz_token_contract = {
             },
             {
               name: "E",
-              type: 13,
+              type: 14,
             },
           ],
           path: ["Result"],
         },
       },
       {
-        id: 13,
+        id: 14,
         type: {
           def: {
             variant: {
@@ -1663,33 +1743,41 @@ const betaz_token_contract = {
                   name: "InvalidInputRatio",
                 },
                 {
-                  fields: [
-                    {
-                      type: 14,
-                      typeName: "OwnableError",
-                    },
-                  ],
                   index: 34,
-                  name: "OwnableError",
+                  name: "NotTimeBuyToken",
+                },
+                {
+                  index: 35,
+                  name: "CannotBuyAtThisTime",
                 },
                 {
                   fields: [
                     {
                       type: 15,
-                      typeName: "AccessControlError",
+                      typeName: "OwnableError",
                     },
                   ],
-                  index: 35,
-                  name: "AccessControlError",
+                  index: 36,
+                  name: "OwnableError",
                 },
                 {
                   fields: [
                     {
                       type: 16,
+                      typeName: "AccessControlError",
+                    },
+                  ],
+                  index: 37,
+                  name: "AccessControlError",
+                },
+                {
+                  fields: [
+                    {
+                      type: 17,
                       typeName: "PSP22Error",
                     },
                   ],
-                  index: 36,
+                  index: 38,
                   name: "PSP22Error",
                 },
                 {
@@ -1699,11 +1787,11 @@ const betaz_token_contract = {
                       typeName: "PausableError",
                     },
                   ],
-                  index: 37,
+                  index: 39,
                   name: "PausableError",
                 },
                 {
-                  index: 38,
+                  index: 40,
                   name: "CheckedOperations",
                 },
               ],
@@ -1713,7 +1801,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 14,
+        id: 15,
         type: {
           def: {
             variant: {
@@ -1739,7 +1827,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 15,
+        id: 16,
         type: {
           def: {
             variant: {
@@ -1769,7 +1857,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 16,
+        id: 17,
         type: {
           def: {
             variant: {
@@ -1821,7 +1909,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 17,
+                      type: 18,
                       typeName: "NoncesError",
                     },
                   ],
@@ -1841,7 +1929,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 17,
+        id: 18,
         type: {
           def: {
             variant: {
@@ -1853,7 +1941,7 @@ const betaz_token_contract = {
                       typeName: "AccountId",
                     },
                     {
-                      type: 18,
+                      type: 8,
                       typeName: "u64",
                     },
                   ],
@@ -1874,14 +1962,6 @@ const betaz_token_contract = {
             "nonces",
             "NoncesError",
           ],
-        },
-      },
-      {
-        id: 18,
-        type: {
-          def: {
-            primitive: "u64",
-          },
         },
       },
       {
@@ -1928,7 +2008,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 10,
+                      type: 11,
                     },
                   ],
                   index: 1,
@@ -1944,7 +2024,7 @@ const betaz_token_contract = {
             },
             {
               name: "E",
-              type: 10,
+              type: 11,
             },
           ],
           path: ["Result"],
@@ -1959,7 +2039,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 4,
+                      type: 8,
                     },
                   ],
                   index: 0,
@@ -1968,7 +2048,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 10,
+                      type: 11,
                     },
                   ],
                   index: 1,
@@ -1980,11 +2060,11 @@ const betaz_token_contract = {
           params: [
             {
               name: "T",
-              type: 4,
+              type: 8,
             },
             {
               name: "E",
-              type: 10,
+              type: 11,
             },
           ],
           path: ["Result"],
@@ -2008,7 +2088,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 10,
+                      type: 11,
                     },
                   ],
                   index: 1,
@@ -2024,7 +2104,7 @@ const betaz_token_contract = {
             },
             {
               name: "E",
-              type: 10,
+              type: 11,
             },
           ],
           path: ["Result"],
@@ -2034,22 +2114,12 @@ const betaz_token_contract = {
         id: 23,
         type: {
           def: {
-            sequence: {
-              type: 3,
-            },
-          },
-        },
-      },
-      {
-        id: 24,
-        type: {
-          def: {
             variant: {
               variants: [
                 {
                   fields: [
                     {
-                      type: 25,
+                      type: 4,
                     },
                   ],
                   index: 0,
@@ -2058,7 +2128,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 10,
+                      type: 11,
                     },
                   ],
                   index: 1,
@@ -2070,18 +2140,68 @@ const betaz_token_contract = {
           params: [
             {
               name: "T",
-              type: 25,
+              type: 4,
             },
             {
               name: "E",
-              type: 10,
+              type: 11,
             },
           ],
           path: ["Result"],
         },
       },
       {
+        id: 24,
+        type: {
+          def: {
+            sequence: {
+              type: 3,
+            },
+          },
+        },
+      },
+      {
         id: 25,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 26,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 11,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 26,
+            },
+            {
+              name: "E",
+              type: 11,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 26,
         type: {
           def: {
             variant: {
@@ -2098,7 +2218,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 16,
+                      type: 17,
                     },
                   ],
                   index: 1,
@@ -2114,14 +2234,14 @@ const betaz_token_contract = {
             },
             {
               name: "E",
-              type: 16,
+              type: 17,
             },
           ],
           path: ["Result"],
         },
       },
       {
-        id: 26,
+        id: 27,
         type: {
           def: {
             variant: {
@@ -2129,7 +2249,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 8,
+                      type: 9,
                     },
                   ],
                   index: 0,
@@ -2138,7 +2258,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 10,
+                      type: 11,
                     },
                   ],
                   index: 1,
@@ -2150,18 +2270,18 @@ const betaz_token_contract = {
           params: [
             {
               name: "T",
-              type: 8,
+              type: 9,
             },
             {
               name: "E",
-              type: 10,
+              type: 11,
             },
           ],
           path: ["Result"],
         },
       },
       {
-        id: 27,
+        id: 28,
         type: {
           def: {
             variant: {
@@ -2178,7 +2298,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 10,
+                      type: 11,
                     },
                   ],
                   index: 1,
@@ -2194,47 +2314,7 @@ const betaz_token_contract = {
             },
             {
               name: "E",
-              type: 10,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
-        id: 28,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 29,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 10,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 29,
-            },
-            {
-              name: "E",
-              type: 10,
+              type: 11,
             },
           ],
           path: ["Result"],
@@ -2242,77 +2322,6 @@ const betaz_token_contract = {
       },
       {
         id: 29,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 6,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 14,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 6,
-            },
-            {
-              name: "E",
-              type: 14,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
-        id: 30,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  index: 0,
-                  name: "None",
-                },
-                {
-                  fields: [
-                    {
-                      type: 1,
-                    },
-                  ],
-                  index: 1,
-                  name: "Some",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 1,
-            },
-          ],
-          path: ["Option"],
-        },
-      },
-      {
-        id: 31,
         type: {
           def: {
             variant: {
@@ -2329,7 +2338,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 10,
+                      type: 11,
                     },
                   ],
                   index: 1,
@@ -2345,202 +2354,14 @@ const betaz_token_contract = {
             },
             {
               name: "E",
-              type: 10,
+              type: 11,
             },
           ],
           path: ["Result"],
         },
       },
       {
-        id: 32,
-        type: {
-          def: {
-            composite: {
-              fields: [
-                {
-                  type: 2,
-                  typeName: "[u8; 32]",
-                },
-              ],
-            },
-          },
-          path: ["ink_primitives", "types", "Hash"],
-        },
-      },
-      {
-        id: 33,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 34,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 10,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 34,
-            },
-            {
-              name: "E",
-              type: 10,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
-        id: 34,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 6,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 35,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 6,
-            },
-            {
-              name: "E",
-              type: 35,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
-        id: 35,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 7,
-                      typeName: "String",
-                    },
-                  ],
-                  index: 0,
-                  name: "Custom",
-                },
-                {
-                  index: 1,
-                  name: "SetCodeHashFailed",
-                },
-                {
-                  fields: [
-                    {
-                      type: 14,
-                      typeName: "OwnableError",
-                    },
-                  ],
-                  index: 2,
-                  name: "OwnableError",
-                },
-                {
-                  fields: [
-                    {
-                      type: 15,
-                      typeName: "AccessControlError",
-                    },
-                  ],
-                  index: 3,
-                  name: "AccessControlError",
-                },
-              ],
-            },
-          },
-          path: [
-            "openbrush_contracts",
-            "traits",
-            "errors",
-            "upgradeable",
-            "UpgradeableError",
-          ],
-        },
-      },
-      {
-        id: 36,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 37,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 10,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 37,
-            },
-            {
-              name: "E",
-              type: 10,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
-        id: 37,
+        id: 30,
         type: {
           def: {
             variant: {
@@ -2580,7 +2401,306 @@ const betaz_token_contract = {
         },
       },
       {
+        id: 31,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 32,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 11,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 32,
+            },
+            {
+              name: "E",
+              type: 11,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 32,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  index: 0,
+                  name: "None",
+                },
+                {
+                  fields: [
+                    {
+                      type: 1,
+                    },
+                  ],
+                  index: 1,
+                  name: "Some",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 1,
+            },
+          ],
+          path: ["Option"],
+        },
+      },
+      {
+        id: 33,
+        type: {
+          def: {
+            composite: {
+              fields: [
+                {
+                  type: 2,
+                  typeName: "[u8; 32]",
+                },
+              ],
+            },
+          },
+          path: ["ink_primitives", "types", "Hash"],
+        },
+      },
+      {
+        id: 34,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 35,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 11,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 35,
+            },
+            {
+              name: "E",
+              type: 11,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 35,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 6,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 36,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 6,
+            },
+            {
+              name: "E",
+              type: 36,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 36,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 7,
+                      typeName: "String",
+                    },
+                  ],
+                  index: 0,
+                  name: "Custom",
+                },
+                {
+                  index: 1,
+                  name: "SetCodeHashFailed",
+                },
+                {
+                  fields: [
+                    {
+                      type: 15,
+                      typeName: "OwnableError",
+                    },
+                  ],
+                  index: 2,
+                  name: "OwnableError",
+                },
+                {
+                  fields: [
+                    {
+                      type: 16,
+                      typeName: "AccessControlError",
+                    },
+                  ],
+                  index: 3,
+                  name: "AccessControlError",
+                },
+              ],
+            },
+          },
+          path: [
+            "openbrush_contracts",
+            "traits",
+            "errors",
+            "upgradeable",
+            "UpgradeableError",
+          ],
+        },
+      },
+      {
+        id: 37,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 38,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 11,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 38,
+            },
+            {
+              name: "E",
+              type: 11,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
         id: 38,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 6,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 16,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 6,
+            },
+            {
+              name: "E",
+              type: 16,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 39,
         type: {
           def: {
             variant: {},

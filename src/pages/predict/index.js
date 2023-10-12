@@ -246,10 +246,10 @@ const Predict = () => {
                   <Text className="linear-text amount">{position}</Text>
                 </Box>
                 <Box py="14px" px="14px" className="inforBox">
-                  <Text className="small-header">Pool Balance</Text>
+                  <Text className="small-header">Core Pool</Text>
                   <Box className="small-content-container">
                     <Text className="linear-text small-content">
-                      {poolBalance.contract}
+                      {poolBalance?.core}
                     </Text>
                   </Box>
                 </Box>
