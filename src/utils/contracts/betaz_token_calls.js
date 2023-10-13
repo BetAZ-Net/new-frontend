@@ -9,6 +9,7 @@ import {
   execContractQuery,
 } from "./index";
 import { web3FromSource } from "@polkadot/extension-dapp";
+import { formatQueryResultToNumber } from "utils";
 
 let contract;
 
@@ -149,7 +150,7 @@ const contract_calls = {
   buy,
   getAmountTokenSold,
   getMaxBuyAmount,
-  getTokenRatio
+  getTokenRatio,
 };
 
 export default contract_calls;

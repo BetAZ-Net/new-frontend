@@ -22,6 +22,7 @@ import {
   fetchRollNumbers,
   fetchBalance,
   fetchRates,
+  fetchBuyStatus
 } from "store/slices/substrateSlice";
 import { web3Enable } from "@polkadot/extension-dapp";
 
@@ -91,6 +92,7 @@ const App = () => {
       dispatch(fetchBalance({ currentAccount }));
       dispatch(fetchRollNumbers({ currentAccount }));
       dispatch(fetchRates({ currentAccount }));
+      dispatch(fetchBuyStatus({ currentAccount }));
     }
   }, [api, currentAccount?.address]);
 

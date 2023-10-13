@@ -242,7 +242,11 @@ const Predict = () => {
             <Box className="container">
               <Text className="title">Prediction</Text>
               <SimpleGrid columns={2} spacing="24px">
-                <Box py="14px" className="inforBox">
+                <Box py="14px" className="inforBox" sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
                   <Text className="linear-text amount">{position}</Text>
                 </Box>
                 <Box py="14px" px="14px" className="inforBox">

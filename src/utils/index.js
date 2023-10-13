@@ -40,6 +40,16 @@ export const formatQueryResultToNumber = (result, chainDecimals = 12) => {
   return formattedStrBal;
 };
 
+export const formatTokenBalance = (result, number = 2) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: number
+  })
+  return formatter.format(result).replace(/^\$/, '');
+};
+
+
 export function isAddressValid(address) {
   try {
     const formattedAddress = isHex(address)

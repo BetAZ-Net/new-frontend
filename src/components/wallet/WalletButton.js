@@ -87,13 +87,7 @@ const WalletConnected = ({ onClickSwitch, isOpen, onOpen, onClose }) => {
 
 const DetailAccountModal = ({ onClickSwitch, isOpen, onClose }) => {
   const { logoutAccountHandler } = useWallet();
-
-  const dispatch = useDispatch();
   const { currentAccount } = useSelector((s) => s.substrate);
-
-  useEffect(() => {
-    dispatch(fetchUserBalance({ currentAccount }));
-  }, [currentAccount]);
 
   return (
     <Modal isOpen={isOpen} id="detail-account-modal" onClose={onClose}>

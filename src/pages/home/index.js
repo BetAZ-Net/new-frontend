@@ -275,7 +275,7 @@ const HomePage = () => {
                   </Flex>
                 </Box>
                 <Flex direction="column" alignItems="center" mt="24px">
-                  <Button onClick={() => buy()}>START PLAYING</Button>
+                  <Button onClick={() => buy()}>BUY NOW</Button>
                   <Text mt="24px">By Clicking your agree with our</Text>
                   <Text className="linear-text-color-01 term-aggreement-text">
                     Terms and Conditions, Privacy Policy

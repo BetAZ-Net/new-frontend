@@ -57,6 +57,10 @@ const initialState = {
     numberUnerRollMin: 1,
     numberUnerRollMax: 95,
   },
+  buyStatus: {
+    endTime: 0,
+    status: true,
+  }
 };
 
 export const substrateSlice = createSlice({
@@ -98,6 +102,9 @@ export const substrateSlice = createSlice({
     });
     builder.addCase(fetchRates.fulfilled, (state, action) => {
       state.betRates = action.payload;
+    });
+    builder.addCase(fetchBuyStatus.fulfilled, (state, action) => {
+      state.buyStatus = action.payload;
     });
   },
 });
@@ -261,5 +268,36 @@ export const fetchRollNumbers = createAsyncThunk(
       numberUnerRollMin,
       numberUnerRollMax,
     };
+  }
+);
+
+export const fetchBuyStatus = createAsyncThunk(
+  "substrate/fetchBuyStatus",
+  async ({ currentAccount }) => {
+    // TODO: check can fix warning about storing api on redux?
+    const [
+      endTimeBuy,
+      buyStatus,
+    ] = await Promise.all([
+      execContractQuerybyMetadata(
+        currentAccount?.address,
+        betaz_token_contract.CONTRACT_ABI,
+        betaz_token_contract.CONTRACT_ADDRESS,
+        0,
+        "betAZTrait::getEndTimeBuy"
+      ),
+      execContractQuerybyMetadata(
+        currentAccount?.address,
+        betaz_token_contract.CONTRACT_ABI,
+        betaz_token_contract.CONTRACT_ADDRESS,
+        0,
+        "betAZTrait::getBuyTokenStatus"
+      ),
+    ]);
+
+    let endTime = endTimeBuy?.toHuman().Ok;
+    let status = buyStatus?.toHuman().Ok;
+
+    return { endTime, status };
   }
 );

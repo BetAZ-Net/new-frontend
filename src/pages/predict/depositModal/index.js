@@ -20,21 +20,66 @@ import { AppIcon } from "components/icons";
 import { useDispatch, useSelector } from "react-redux";
 import betaz_token from "utils/contracts/betaz_token_calls";
 import betaz_core from "utils/contracts/betaz_core_calls";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import useInterval from "hooks/useInterval";
 import { useDebounce } from "hooks/useDebounce";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
+import { formatTokenBalance } from "utils";
 
 const DepositModal = ({ visible, onClose }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const dispatch = useDispatch();
-  const { currentAccount, poolBalance } = useSelector((s) => s.substrate);
+  const { currentAccount, poolBalance, buyStatus } = useSelector(
+    (s) => s.substrate
+  );
   const [maxbuyAmount, setMaxbuyAmount] = useState(10);
   const [azeroAmount, setAzeroAmount] = useState(0);
   const [holdAmount, setHoldAmount] = useState(0);
   const [holdAmountVal, setHoldAmountVal] = useState(0);
 
+  // count down
+  let endTimeString = buyStatus?.endTime?.toString();
+  let endTimeWithoutCommas = endTimeString
+    ? endTimeString.replace(/,/g, "")
+    : "";
+
+  let endTimeNumber = endTimeWithoutCommas
+    ? parseInt(endTimeWithoutCommas, 10)
+    : "";
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const timeoutRef = useRef(null);
+  function calculateTimeLeft() {
+    const difference = +new Date(endTimeNumber) - +new Date();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+
+    return timeLeft;
+  }
+
+  useEffect(() => {
+    timeoutRef.current = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  });
+
+  const { days, hours, minutes, seconds } = timeLeft;
+
+  /** */
   const getMaxbuy = async () => {
     const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
       await betaz_token.getAmountTokenSold(currentAccount?.address),
@@ -68,6 +113,8 @@ const DepositModal = ({ visible, onClose }) => {
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
+        dispatch(fetchBalance({ currentAccount }));
+        getMaxbuy();
       } else toast.success(`Buy failure`);
     }
   };
@@ -87,7 +134,10 @@ const DepositModal = ({ visible, onClose }) => {
         toast.error("Not enough balance!");
         return;
       } else {
-        const result = await betaz_core.withdrawHoldAmount(currentAccount, holdAmountVal);
+        const result = await betaz_core.withdrawHoldAmount(
+          currentAccount,
+          holdAmountVal
+        );
         if (result) {
           toast.success(`Withdraw success`);
           dispatch(fetchUserBalance({ currentAccount }));
@@ -231,10 +281,10 @@ const DepositModal = ({ visible, onClose }) => {
                 >
                   <Flex flexDirection="column" gap="24px">
                     <Box className="deposit-box-amount-box">
-                      <Text>Your AZero Balance</Text>
+                      <Text>Your Hold Amount Balance</Text>
                       <Flex className="deposit-box-amount-input">
                         <Text className="linear-text azero-amount">
-                          {currentAccount?.balance?.azero}
+                          {holdAmount}
                         </Text>
                         <Text className="azero-unit">AZero</Text>
                       </Flex>
@@ -290,16 +340,16 @@ const DepositModal = ({ visible, onClose }) => {
                     Easy way for crypto Play
                   </Text>
                   <Text className="deposit-circle-amount linear-text-color-01">
-                    $500,000
+                    {formatTokenBalance(maxbuyAmount)}
                   </Text>
                   <Box>
                     <Text className="deposit-circle-finish-title">
                       Finishes in:
                     </Text>
-                    <SimpleGrid columns={4} spacing="10px">
+                    {buyStatus?.endTime == 0 ? <Text>END TIME</Text> : <SimpleGrid columns={4} spacing="10px">
                       <Flex alignItems="flex-end">
                         <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          05
+                          {days}
                         </Text>
                         <Text className="deposit-circle-finish-countdown-unit">
                           d
@@ -307,7 +357,7 @@ const DepositModal = ({ visible, onClose }) => {
                       </Flex>
                       <Flex alignItems="flex-end">
                         <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          16
+                          {hours}
                         </Text>
                         <Text className="deposit-circle-finish-countdown-unit">
                           h
@@ -315,7 +365,7 @@ const DepositModal = ({ visible, onClose }) => {
                       </Flex>
                       <Flex alignItems="flex-end">
                         <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          32
+                          {minutes}
                         </Text>
                         <Text className="deposit-circle-finish-countdown-unit">
                           m
@@ -323,13 +373,13 @@ const DepositModal = ({ visible, onClose }) => {
                       </Flex>
                       <Flex alignItems="flex-end">
                         <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          10
+                          {seconds}
                         </Text>
                         <Text className="deposit-circle-finish-countdown-unit">
                           s
                         </Text>
                       </Flex>
-                    </SimpleGrid>
+                    </SimpleGrid>}
                   </Box>
                 </SimpleGrid>
               </Flex>
