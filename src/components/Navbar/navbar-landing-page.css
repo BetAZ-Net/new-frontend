@@ -15,7 +15,7 @@
   transition-timing-function: linear, linear, linear, linear;
   border-radius: 12px;
   backdrop-filter: blur(7.5px);
-  max-width: 1440px;
+  /* max-width: 1440px; */
 }
 
 .navbar-logo-container {

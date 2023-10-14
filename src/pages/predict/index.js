@@ -32,6 +32,7 @@ import {
   fetchRates,
 } from "store/slices/substrateSlice";
 import { delay } from "utils";
+import { AppIcon } from "components/icons";
 
 const labelStyles = {
   fontSize: "20px",
@@ -242,11 +243,15 @@ const Predict = () => {
             <Box className="container">
               <Text className="title">Prediction</Text>
               <SimpleGrid columns={2} spacing="24px">
-                <Box py="14px" className="inforBox" sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+                <Box
+                  py="14px"
+                  className="inforBox"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <Text className="linear-text amount">{position}</Text>
                 </Box>
                 <Box py="14px" px="14px" className="inforBox">
@@ -361,7 +366,7 @@ const Predict = () => {
                     <Text className="linear-text small-content">
                       {currentAccount?.balance?.azero}
                     </Text>
-                    <Text className="unit-text">Azero</Text>
+                    <AppIcon size="14px" padding="3px" />
                   </Box>
                 </Box>
               </SimpleGrid>
@@ -406,10 +411,16 @@ const Predict = () => {
                     <Box className="small-content-container horizontal-box">
                       <Text className="linear-text small-content">
                         {rollOver
-                          ? parseInt(betRates?.overRates[parseInt(position)]) /
-                            10000
-                          : parseInt(betRates?.underRates[parseInt(position)]) /
-                            10000}
+                          ? (
+                              parseInt(
+                                betRates?.overRates[parseInt(position)]
+                              ) / 10000
+                            ).toFixed(2)
+                          : (
+                              parseInt(
+                                betRates?.underRates[parseInt(position)]
+                              ) / 10000
+                            ).toFixed(2)}
                         X
                       </Text>
                     </Box>

@@ -62,6 +62,7 @@ const WalletConnected = ({ onClickSwitch, isOpen, onOpen, onClose }) => {
           width: "24px",
           height: "24px",
           borderRadius: "24px",
+          position: "relative",
         }}
       >
         <BiWallet size="24px" color="white" />
@@ -92,7 +93,14 @@ const DetailAccountModal = ({ onClickSwitch, isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} id="detail-account-modal" onClose={onClose}>
       {/* <ModalOverlay /> */}
-      <ModalContent top={{sm:"96px", md:"36px"}}>
+      <ModalContent
+        sx={{
+          position: "absolute",
+          top: { sm: "25px" },
+          right: { md: "75px" },
+          transform: "translate(0, 0)",
+        }}
+      >
         <ModalBody
           p="0px"
           m="0px"

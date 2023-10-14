@@ -38,7 +38,7 @@ const DepositModal = ({ visible, onClose }) => {
   const [holdAmount, setHoldAmount] = useState(0);
   const [holdAmountVal, setHoldAmountVal] = useState(0);
 
-  // count down
+  /** Count down time */
   let endTimeString = buyStatus?.endTime?.toString();
   let endTimeWithoutCommas = endTimeString
     ? endTimeString.replace(/,/g, "")
@@ -79,7 +79,7 @@ const DepositModal = ({ visible, onClose }) => {
 
   const { days, hours, minutes, seconds } = timeLeft;
 
-  /** */
+  /** Buy token */
   const getMaxbuy = async () => {
     const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
       await betaz_token.getAmountTokenSold(currentAccount?.address),
@@ -115,10 +115,17 @@ const DepositModal = ({ visible, onClose }) => {
         dispatch(fetchUserBalance({ currentAccount }));
         dispatch(fetchBalance({ currentAccount }));
         getMaxbuy();
-      } else toast.success(`Buy failure`);
+      } else toast.error(`Buy failure`);
     }
   };
 
+  useEffect(() => {
+    if (currentAccount?.address) {
+      getMaxbuy();
+    }
+  }, [onChangeToken]);
+
+  /** Withdraw azero */
   const getHoldAmount = async () => {
     const holdAmount = await betaz_core.getHoldAmountPlayers(currentAccount);
     if (holdAmount) setHoldAmount(Math.floor(holdAmount * 100) / 100);
@@ -143,7 +150,7 @@ const DepositModal = ({ visible, onClose }) => {
           dispatch(fetchUserBalance({ currentAccount }));
           dispatch(fetchBalance({ currentAccount }));
           getHoldAmount();
-        } else toast.success(`Withdraw failure`);
+        } else toast.error(`Withdraw failure`);
       }
     }
   };
@@ -167,12 +174,6 @@ const DepositModal = ({ visible, onClose }) => {
   useEffect(() => {
     getHoldAmount();
   }, [currentAccount]);
-
-  useEffect(() => {
-    if (currentAccount?.address) {
-      getMaxbuy();
-    }
-  }, [onChangeToken]);
 
   // useInterval(() => {
   //   if (currentAccount?.address) {
@@ -340,46 +341,50 @@ const DepositModal = ({ visible, onClose }) => {
                     Easy way for crypto Play
                   </Text>
                   <Text className="deposit-circle-amount linear-text-color-01">
-                    {formatTokenBalance(maxbuyAmount)}
+                    {maxbuyAmount ? formatTokenBalance(maxbuyAmount) : 0}
                   </Text>
                   <Box>
                     <Text className="deposit-circle-finish-title">
                       Finishes in:
                     </Text>
-                    {buyStatus?.endTime == 0 ? <Text>END TIME</Text> : <SimpleGrid columns={4} spacing="10px">
-                      <Flex alignItems="flex-end">
-                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          {days}
-                        </Text>
-                        <Text className="deposit-circle-finish-countdown-unit">
-                          d
-                        </Text>
-                      </Flex>
-                      <Flex alignItems="flex-end">
-                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          {hours}
-                        </Text>
-                        <Text className="deposit-circle-finish-countdown-unit">
-                          h
-                        </Text>
-                      </Flex>
-                      <Flex alignItems="flex-end">
-                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          {minutes}
-                        </Text>
-                        <Text className="deposit-circle-finish-countdown-unit">
-                          m
-                        </Text>
-                      </Flex>
-                      <Flex alignItems="flex-end">
-                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          {seconds}
-                        </Text>
-                        <Text className="deposit-circle-finish-countdown-unit">
-                          s
-                        </Text>
-                      </Flex>
-                    </SimpleGrid>}
+                    {buyStatus?.endTime == 0 ? (
+                      <Text>END TIME</Text>
+                    ) : (
+                      <SimpleGrid columns={4} spacing="10px">
+                        <Flex alignItems="flex-end">
+                          <Text className="deposit-circle-finish-countdown linear-text-color-01">
+                            {days || "00"}
+                          </Text>
+                          <Text className="deposit-circle-finish-countdown-unit">
+                            d
+                          </Text>
+                        </Flex>
+                        <Flex alignItems="flex-end">
+                          <Text className="deposit-circle-finish-countdown linear-text-color-01">
+                            {hours || "00"}
+                          </Text>
+                          <Text className="deposit-circle-finish-countdown-unit">
+                            h
+                          </Text>
+                        </Flex>
+                        <Flex alignItems="flex-end">
+                          <Text className="deposit-circle-finish-countdown linear-text-color-01">
+                            {minutes || "00"}
+                          </Text>
+                          <Text className="deposit-circle-finish-countdown-unit">
+                            m
+                          </Text>
+                        </Flex>
+                        <Flex alignItems="flex-end">
+                          <Text className="deposit-circle-finish-countdown linear-text-color-01">
+                            {seconds || "00"}
+                          </Text>
+                          <Text className="deposit-circle-finish-countdown-unit">
+                            s
+                          </Text>
+                        </Flex>
+                      </SimpleGrid>
+                    )}
                   </Box>
                 </SimpleGrid>
               </Flex>

@@ -6,7 +6,11 @@ import "./navbar-landing-page.css";
 
 const Navbar = () => {
   return (
-    <Flex className="navbar-container">
+    <Flex
+      className="navbar-container"
+      ml={{ sm: "unset", md: "20px" }}
+      mr={{ sm: "unset", md: "20px" }}
+    >
       <Flex className="navbar-logo-container">
         <Image className="navbar-logo" alt="logo-app" src={AppLogo} />
       </Flex>
