@@ -25,14 +25,17 @@ import {
   fetchBuyStatus
 } from "store/slices/substrateSlice";
 import { web3Enable } from "@polkadot/extension-dapp";
+import { useNetwork } from "components/Network/useNetWork";
 
 const providerUrl = process.env.REACT_APP_PROVIDER_URL;
+const AstarProviderUrl = process.env.ASTAR_PROVIDER_URL;
 
 const App = () => {
   const dispatch = useDispatch();
 
   const { currentAccount } = useSelector((s) => s.substrate);
   const { setCurrentApi } = useWallet();
+  const { currentNetwork } = useNetwork();
   const [api, setApi] = useState(null);
   const setupProvider = async () => {
     toast(`Connecting to ${providerUrl}...`);

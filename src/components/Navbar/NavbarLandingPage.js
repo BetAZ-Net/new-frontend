@@ -2,7 +2,7 @@ import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import AppLogo from "assets/img/app-logo-text.png";
 import NetWorkButton from "components/Network/NetworkButton";
 import WalletButton from "components/wallet/WalletButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./navbar-landing-page.css";
 
 export const NavbarLandingPage = () => {
@@ -32,7 +32,9 @@ export const NavbarLandingPage = () => {
   return (
     <Flex className="navbar-container">
       <Flex className="navbar-logo-container">
-        <Image className="navbar-logo" alt="logo-app" src={AppLogo} />
+        <Link to={"/"}>
+          <Image className="navbar-logo" alt="logo-app" src={AppLogo} />
+        </Link>
       </Flex>
       <Flex justify="center" flex={1}>
         {tabs?.map((e, index) => {

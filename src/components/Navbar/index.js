@@ -3,6 +3,7 @@ import AppLogo from "assets/img/app-logo-text.png";
 import NetWorkButton from "components/Network/NetworkButton";
 import WalletButton from "components/wallet/WalletButton";
 import "./navbar-landing-page.css";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -12,7 +13,9 @@ const Navbar = () => {
       mr={{ sm: "unset", md: "20px" }}
     >
       <Flex className="navbar-logo-container">
-        <Image className="navbar-logo" alt="logo-app" src={AppLogo} />
+        <Link to={"/"}>
+          <Image className="navbar-logo" alt="logo-app" src={AppLogo} />
+        </Link>
       </Flex>
       <Box
         ms="auto"
