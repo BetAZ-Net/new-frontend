@@ -124,7 +124,7 @@ const DetailAccountModal = ({ onClickSwitch, isOpen, onClose }) => {
             </Box>
             {[
               {
-                title: "AZERO Balance",
+                title: "ASTAR Balance",
                 content: currentAccount?.balance?.azero,
               },
               {

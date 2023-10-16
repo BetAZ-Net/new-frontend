@@ -361,7 +361,7 @@ const Predict = () => {
                   </Box>
                 </Box>
                 <Box py="14px" px="14px" className="inforBox">
-                  <Text className="small-header">Your AZero Balance</Text>
+                  <Text className="small-header">Your Astar Balance</Text>
                   <Box className="small-content-container horizontal-box">
                     <Text className="linear-text small-content">
                       {currentAccount?.balance?.azero}

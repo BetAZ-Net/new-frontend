@@ -4,7 +4,7 @@ import ArbLogo from "assets/img/networks/arb.png";
 import PolygonLogo from "assets/img/networks/polygon.png";
 import OptimismLogo from "assets/img/networks/optimism.png";
 import AlephLogo from "assets/img/networks/aleph.png";
-import AstarLogo from "assets/img/networks/astar.png"
+import AstarLogo from "assets/img/networks/astar.png";
 import SubWalletLogo from "assets/img/wallets/SubWallet.png";
 import NightlyLogo from "assets/img/wallets/Nightly.png";
 import PolkadotLogo from "assets/img/wallets/Polkadot.svg";
@@ -84,9 +84,9 @@ export const supportedChain = [
   //   ],
   // },
   {
-    label: "Aleph Zero",
-    key: "aleph-zero",
-    icon: AlephLogo,
+    label: "Astar",
+    key: "astar",
+    icon: AstarLogo,
     wallets: [
       {
         label: "SubWallet",
@@ -109,9 +109,9 @@ export const supportedChain = [
     ],
   },
   {
-    label: "Astar",
-    key: "astar",
-    icon: AstarLogo,
+    label: "Aleph Zero",
+    key: "aleph-zero",
+    icon: AlephLogo,
     wallets: [
       {
         label: "SubWallet",

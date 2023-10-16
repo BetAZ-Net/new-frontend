@@ -39,7 +39,7 @@ export const WalletProvider = ({ children }) => {
     localStorage.setItem("localCurrentAccount", null);
   };
 
-  const initAlephNetwork = async (keyWallet) => {
+  const initAstarNetwork = async (keyWallet) => {
     await web3Enable(process.env.REACT_APP_NAME);
     const accounts = await web3Accounts();
 
@@ -51,7 +51,7 @@ export const WalletProvider = ({ children }) => {
   };
 
   const connectWallet = async (network, key) => {
-    if (network == "aleph-zero") initAlephNetwork(key);
+    if (network == "astar") initAstarNetwork(key);
   };
 
   const initWallet = () => {
