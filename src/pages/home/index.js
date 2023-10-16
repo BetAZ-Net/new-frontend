@@ -2,6 +2,9 @@ import {
   Box,
   Button,
   Flex,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
   Heading,
   Image,
   Input,
@@ -30,6 +33,7 @@ import useInterval from "hooks/useInterval";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserBalance } from "store/slices/substrateSlice";
 import { formatTokenBalance } from "utils";
+import { clientAPI } from "api/client";
 
 const teamList = [
   {
@@ -68,7 +72,7 @@ const HomePage = () => {
   const [maxbuyAmount, setMaxbuyAmount] = useState(10);
   const [azeroAmount, setAzeroAmount] = useState(0);
 
-  /** Count down time */
+  /*************** Count down time ********************/
   let endTimeString = buyStatus?.endTime?.toString();
   let endTimeWithoutCommas = endTimeString
     ? endTimeString.replace(/,/g, "")
@@ -108,8 +112,9 @@ const HomePage = () => {
   });
 
   const { days, hours, minutes, seconds } = timeLeft;
+  /*************** End Count down time ********************/
 
-  /** buy token */
+  /*************** Buy token ******************************/
   const getMaxbuy = async () => {
     const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
       await betaz_token.getAmountTokenSold(currentAccount?.address),
@@ -158,6 +163,33 @@ const HomePage = () => {
   //     getMaxbuy();
   //   }
   // }, 1000);
+  /*************** End Buy token ******************************/
+
+  /*************** Send mail **********************************/
+  const [input, setInput] = useState("");
+
+  const handleInputChange = (e) => setInput(e.target.value);
+
+  const handleSendEmail = async (email) => {
+    const match = email.match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+    const options = {
+      email: email,
+      subject: "Welcome to BETAZ",
+      text: "Thanks for subscribe!",
+    };
+
+    if (email === "") toast.error("Email is required!");
+    else if (!match) {
+      toast.error("Email is invalid!");
+    } else {
+      const subscribe = await clientAPI("post", "/sendEmail", options);
+      console.log({subscribe})
+      if (subscribe) toast.success("subcribe success");
+    }
+  };
+  /*************** End Send mail ******************************/
 
   return (
     <Box>
@@ -610,29 +642,39 @@ const HomePage = () => {
           </SimpleGrid>
         </SectionContainer>
         <SectionContainer pb="84px" id="section-contact-us">
-          <Flex bgImage={ContactBg} className="contact-container">
-            <Text className="contact-title linear-text-color-01">
-              Keep in touch
-            </Text>
-            <Box>
-              <Text className="contact-description">
-                Ink Whale lets you earn fixed interest and other rewards
+          <FormControl>
+            <Flex bgImage={ContactBg} className="contact-container">
+              <Text className="contact-title linear-text-color-01">
+                Keep in touch
               </Text>
-              <Flex className="contact-email-container">
-                <Flex className="contact-email-icon">
-                  <LuAtSign size="24px" color="#FFF" />
+              <Box>
+                <Text className="contact-description">
+                  Ink Whale lets you earn fixed interest and other rewards
+                </Text>
+                <Flex className="contact-email-container">
+                  <Flex className="contact-email-icon">
+                    <LuAtSign size="24px" color="#FFF" />
+                  </Flex>
+                  <Input
+                    type="email"
+                    value={input}
+                    onChange={handleInputChange}
+                    focusBorderColor="transparent"
+                    className="contact-email-input"
+                    placeholder="Enter your email"
+                  />
                 </Flex>
-                <Input
-                  focusBorderColor="transparent"
-                  className="contact-email-input"
-                  placeholder="Enter your email"
-                />
-              </Flex>
-            </Box>
-            <Button px="24px" minW="300px" height="44px">
-              Subscribe
-            </Button>
-          </Flex>
+              </Box>
+              <Button
+                px="24px"
+                minW="300px"
+                height="44px"
+                onClick={() => handleSendEmail(input)}
+              >
+                Subscribe
+              </Button>
+            </Flex>
+          </FormControl>
         </SectionContainer>
       </Box>
     </Box>
