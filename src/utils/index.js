@@ -130,7 +130,7 @@ export function convertStringToDateTime(stringTimeStamp) {
 }
 
 export function convertTimeStampToNumber(timeStamp) {
-  let endTimeString = timeStamp.toString();
+  let endTimeString = timeStamp ? timeStamp.toString() : 0;
   let endTimeWithoutCommas = endTimeString
     ? endTimeString.replace(/\,/g, "")
     : "";
