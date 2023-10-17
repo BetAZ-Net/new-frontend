@@ -34,6 +34,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUserBalance } from "store/slices/substrateSlice";
 import { formatTokenBalance } from "utils";
 import { clientAPI } from "api/client";
+import { convertTimeStampToNumber } from "utils";
 
 const teamList = [
   {
@@ -73,18 +74,11 @@ const HomePage = () => {
   const [azeroAmount, setAzeroAmount] = useState(0);
 
   /*************** Count down time ********************/
-  let endTimeString = buyStatus?.endTime?.toString();
-  let endTimeWithoutCommas = endTimeString
-    ? endTimeString.replace(/,/g, "")
-    : "";
-
-  let endTimeNumber = endTimeWithoutCommas
-    ? parseInt(endTimeWithoutCommas, 10)
-    : "";
+  let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const timeoutRef = useRef(null);
   function calculateTimeLeft() {
-    const difference = +new Date(endTimeNumber) - +new Date();
+    const difference = endTimeNumber - +new Date();
     let timeLeft = {};
 
     if (difference > 0) {
@@ -93,6 +87,13 @@ const HomePage = () => {
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((difference / 1000 / 60) % 60),
         seconds: Math.floor((difference / 1000) % 60),
+      };
+    } else {
+      timeLeft = {
+        days: "00",
+        hours: "00",
+        minutes: "00",
+        seconds: "00",
       };
     }
 
@@ -185,7 +186,7 @@ const HomePage = () => {
       toast.error("Email is invalid!");
     } else {
       const subscribe = await clientAPI("post", "/sendEmail", options);
-      console.log({subscribe})
+      console.log({ subscribe });
       if (subscribe) toast.success("subcribe success");
     }
   };
@@ -389,10 +390,7 @@ const HomePage = () => {
                   <Text className="deposit-circle-finish-title">
                     Finishes in:
                   </Text>
-                  {buyStatus?.endTime == 0 ? (
-                    <Text>END TIME</Text>
-                  ) : (
-                    <SimpleGrid columns={4} spacing="10px">
+                  <SimpleGrid columns={4} spacing="10px">
                       <Flex alignItems="flex-end">
                         <Text className="deposit-circle-finish-countdown linear-text-color-01">
                           {days || "00"}
@@ -426,7 +424,6 @@ const HomePage = () => {
                         </Text>
                       </Flex>
                     </SimpleGrid>
-                  )}
                 </Box>
               </SimpleGrid>
             </Flex>

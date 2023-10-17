@@ -41,14 +41,13 @@ export const formatQueryResultToNumber = (result, chainDecimals = 12) => {
 };
 
 export const formatTokenBalance = (result, number = 2) => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: number
-  })
-  return formatter.format(result).replace(/^\$/, '');
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: number,
+  });
+  return formatter.format(result).replace(/^\$/, "");
 };
-
 
 export function isAddressValid(address) {
   try {
@@ -128,6 +127,14 @@ export function convertStringToDateTime(stringTimeStamp) {
   const a = stringTimeStamp.replace(/\,/g, "");
   const dateObject = new Date(parseInt(a));
   return dateObject.toLocaleString(); //2019-12-9 10:30:15
+}
+
+export function convertTimeStampToNumber(timeStamp) {
+  let endTimeString = timeStamp.toString();
+  let endTimeWithoutCommas = endTimeString
+    ? endTimeString.replace(/\,/g, "")
+    : "";
+  return +new Date(parseInt(endTimeWithoutCommas));
 }
 
 export function isValidAddressPolkadotAddress(address) {
