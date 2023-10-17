@@ -32,7 +32,7 @@ import {
   fetchRates,
 } from "store/slices/substrateSlice";
 import { delay } from "utils";
-import { AppIcon } from "components/icons";
+import { AppIcon, AstarIcon } from "components/icons";
 
 const labelStyles = {
   fontSize: "20px",
@@ -111,7 +111,7 @@ const Predict = () => {
         toast.error("Max Bet is " + maxBet + " AZERO");
         setBetValue(Number(maxBet));
       } else {
-        setBetValue(betValue);
+        setBetValue(value);
       }
     }
   });
@@ -122,6 +122,7 @@ const Predict = () => {
   };
 
   const onRoll = async () => {
+    let value = parseFloat(betValue);
     if (currentAccount?.address === "") {
       toast.error("Please connect your wallet and select an account");
       return;
@@ -160,7 +161,7 @@ const Predict = () => {
       return;
     }
 
-    if (betValue >= Number(currentAccount?.balance.azero)) {
+    if (value >= Number(currentAccount?.balance.azero)) {
       toast.error("You dont have enough balance to roll");
       return;
     }
@@ -168,10 +169,10 @@ const Predict = () => {
     setGameOn(true);
     setLuckyNumber(-1);
 
-    if (betValue <= maxBet) {
+    if (value <= maxBet) {
       let played = await betaz_core.play(
         currentAccount,
-        betValue,
+        value,
         position,
         rollOver
       );
@@ -366,7 +367,7 @@ const Predict = () => {
                     <Text className="linear-text small-content">
                       {currentAccount?.balance?.azero}
                     </Text>
-                    <AppIcon size="14px" padding="3px" />
+                    <AstarIcon size="14px" padding="3px" />
                   </Box>
                 </Box>
               </SimpleGrid>

@@ -26,7 +26,7 @@ async function buy(caller, amount) {
     return null;
   }
 
-  if (parseInt(amount) <= 0) {
+  if (parseFloat(amount) <= 0) {
     toast.error(`invalid inputs`);
     return;
   }
@@ -34,7 +34,7 @@ async function buy(caller, amount) {
   let gasLimit;
 
   const { signer } = await web3FromSource(caller?.meta?.source);
-  let value = new BN(amount * 10 ** 6).mul(new BN(10 ** 6)).toString();
+  let value = new BN(amount * 10 ** 6).mul(new BN(10 ** 12)).toString();
 
   gasLimit = await getEstimatedGas(
     caller?.address,
@@ -85,7 +85,7 @@ async function getAmountTokenSold(caller) {
     });
     if (result.isOk) {
       const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 12;
+      return a / 10 ** 18;
     }
   } catch (e) {
     return null;
@@ -111,7 +111,7 @@ async function getMaxBuyAmount(caller) {
     });
     if (result.isOk) {
       const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 12;
+      return a / 10 ** 18;
     }
   } catch (e) {
     return null;

@@ -1,6 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import { AddressCopier } from "components/addressCopier";
-import { AppIcon } from "components/icons";
+import { AppIcon, AstarIcon } from "components/icons";
 import { formatNumDynDecimal } from "utils";
 
 export const formatTableValue = (value, key) => {
@@ -20,7 +20,7 @@ export const formatTableValue = (value, key) => {
           }}
         >
           <Text textAlign="center">{formatNumDynDecimal(value)}</Text>
-          <AppIcon size="16px" />
+          <AstarIcon size="16px" />
         </Box>
       );
 

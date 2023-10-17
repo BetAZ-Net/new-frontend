@@ -28,7 +28,7 @@ export const formatNumDynDecimal = (num = 0, dec = 4) => {
   return intPart + `${dotIdx === -1 ? "" : `.${decPart}`}`;
 };
 
-export const formatQueryResultToNumber = (result, chainDecimals = 12) => {
+export const formatQueryResultToNumber = (result, chainDecimals = 18) => {
   const ret = result?.toHuman()?.Ok?.replaceAll(",", "");
 
   const formattedStrBal = formatBalance(ret, {
@@ -65,7 +65,7 @@ export function isAddressValid(address) {
   }
 }
 
-export const formatNumToBN = (number = 0, decimal = 12) => {
+export const formatNumToBN = (number = 0, decimal = 18) => {
   let numberMul = 6;
   if (number > 10 ** 6) {
     numberMul = 0;
@@ -116,7 +116,7 @@ export function convertStringToPrice(stringPrice) {
     /* eslint-disable no-useless-escape */
     const a = stringPrice.replace(/\,/g, "");
     // let price = new BN(a, 10).div(new BN(10 ** 6)).toNumber();
-    return a / 10 ** 12;
+    return a / 10 ** 18;
   } catch (error) {
     console.log(error);
     return 0;
@@ -128,6 +128,14 @@ export function convertStringToDateTime(stringTimeStamp) {
   const a = stringTimeStamp.replace(/\,/g, "");
   const dateObject = new Date(parseInt(a));
   return dateObject.toLocaleString(); //2019-12-9 10:30:15
+}
+
+export function convertTimeStampToNumber(timeStamp) {
+  let endTimeString = timeStamp ? timeStamp.toString() : 0;
+  let endTimeWithoutCommas = endTimeString
+    ? endTimeString.replace(/\,/g, "")
+    : "";
+  return +new Date(parseInt(endTimeWithoutCommas));
 }
 
 export function isValidAddressPolkadotAddress(address) {

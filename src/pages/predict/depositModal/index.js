@@ -16,7 +16,7 @@ import AppLogoText from "assets/img/app-logo-text.png";
 import DepositAmountCircle from "assets/img/deposit-amount-circle.png";
 import "./styles.css";
 import { IoMdClose } from "react-icons/io";
-import { AppIcon } from "components/icons";
+import { AppIcon, AstarIcon } from "components/icons";
 import { useDispatch, useSelector } from "react-redux";
 import betaz_token from "utils/contracts/betaz_token_calls";
 import betaz_core from "utils/contracts/betaz_core_calls";
@@ -26,6 +26,7 @@ import useInterval from "hooks/useInterval";
 import { useDebounce } from "hooks/useDebounce";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 import { formatTokenBalance } from "utils";
+import { convertTimeStampToNumber } from "utils";
 
 const DepositModal = ({ visible, onClose }) => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -39,18 +40,11 @@ const DepositModal = ({ visible, onClose }) => {
   const [holdAmountVal, setHoldAmountVal] = useState(0);
 
   /** Count down time */
-  let endTimeString = buyStatus?.endTime?.toString();
-  let endTimeWithoutCommas = endTimeString
-    ? endTimeString.replace(/,/g, "")
-    : "";
-
-  let endTimeNumber = endTimeWithoutCommas
-    ? parseInt(endTimeWithoutCommas, 10)
-    : "";
+  let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const timeoutRef = useRef(null);
   function calculateTimeLeft() {
-    const difference = +new Date(endTimeNumber) - +new Date();
+    const difference = endTimeNumber - +new Date();
     let timeLeft = {};
 
     if (difference > 0) {
@@ -59,6 +53,13 @@ const DepositModal = ({ visible, onClose }) => {
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((difference / 1000 / 60) % 60),
         seconds: Math.floor((difference / 1000) % 60),
+      };
+    } else {
+      timeLeft = {
+        days: "00",
+        hours: "00",
+        minutes: "00",
+        seconds: "00",
       };
     }
 
@@ -102,14 +103,15 @@ const DepositModal = ({ visible, onClose }) => {
         toast.error("Not enough Balance!");
         setAzeroAmount(maxbuyAmount);
       } else {
-        setAzeroAmount(tokenValue);
+        setAzeroAmount(value);
       }
     }
   });
 
   const buy = async () => {
     if (currentAccount?.address) {
-      const result = await betaz_token.buy(currentAccount, azeroAmount);
+      let buyAmount = parseFloat(azeroAmount);
+      const result = await betaz_token.buy(currentAccount, buyAmount);
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
@@ -141,9 +143,10 @@ const DepositModal = ({ visible, onClose }) => {
         toast.error("Not enough balance!");
         return;
       } else {
+        let amount = parseFloat(holdAmountVal);
         const result = await betaz_core.withdrawHoldAmount(
           currentAccount,
-          holdAmountVal
+          amount
         );
         if (result) {
           toast.success(`Withdraw success`);
@@ -166,7 +169,7 @@ const DepositModal = ({ visible, onClose }) => {
         toast.error("Not enough Balance!");
         setHoldAmountVal(holdAmount);
       } else {
-        setHoldAmountVal(holdValue);
+        setHoldAmountVal(value);
       }
     }
   });
@@ -229,12 +232,12 @@ const DepositModal = ({ visible, onClose }) => {
                 >
                   <Flex flexDirection="column" gap="24px">
                     <Box className="deposit-box-amount-box">
-                      <Text>Your AZero Balance</Text>
+                      <Text>Your Astar Balance</Text>
                       <Flex className="deposit-box-amount-input">
                         <Text className="linear-text azero-amount">
                           {currentAccount?.balance?.azero}
                         </Text>
-                        <Text className="azero-unit">AZero</Text>
+                        <AstarIcon size="14px" padding="3px" />
                       </Flex>
                     </Box>
                     <Box className="deposit-box-amount-box">
@@ -287,7 +290,7 @@ const DepositModal = ({ visible, onClose }) => {
                         <Text className="linear-text azero-amount">
                           {holdAmount}
                         </Text>
-                        <Text className="azero-unit">AZero</Text>
+                        <AstarIcon size="14px" padding="3px" />
                       </Flex>
                     </Box>
                     <Box className="deposit-box-amount-box">
@@ -347,44 +350,40 @@ const DepositModal = ({ visible, onClose }) => {
                     <Text className="deposit-circle-finish-title">
                       Finishes in:
                     </Text>
-                    {buyStatus?.endTime == 0 ? (
-                      <Text>END TIME</Text>
-                    ) : (
-                      <SimpleGrid columns={4} spacing="10px">
-                        <Flex alignItems="flex-end">
-                          <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                            {days || "00"}
-                          </Text>
-                          <Text className="deposit-circle-finish-countdown-unit">
-                            d
-                          </Text>
-                        </Flex>
-                        <Flex alignItems="flex-end">
-                          <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                            {hours || "00"}
-                          </Text>
-                          <Text className="deposit-circle-finish-countdown-unit">
-                            h
-                          </Text>
-                        </Flex>
-                        <Flex alignItems="flex-end">
-                          <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                            {minutes || "00"}
-                          </Text>
-                          <Text className="deposit-circle-finish-countdown-unit">
-                            m
-                          </Text>
-                        </Flex>
-                        <Flex alignItems="flex-end">
-                          <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                            {seconds || "00"}
-                          </Text>
-                          <Text className="deposit-circle-finish-countdown-unit">
-                            s
-                          </Text>
-                        </Flex>
-                      </SimpleGrid>
-                    )}
+                    <SimpleGrid columns={4} spacing="10px">
+                      <Flex alignItems="flex-end">
+                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
+                          {days || "00"}
+                        </Text>
+                        <Text className="deposit-circle-finish-countdown-unit">
+                          d
+                        </Text>
+                      </Flex>
+                      <Flex alignItems="flex-end">
+                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
+                          {hours || "00"}
+                        </Text>
+                        <Text className="deposit-circle-finish-countdown-unit">
+                          h
+                        </Text>
+                      </Flex>
+                      <Flex alignItems="flex-end">
+                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
+                          {minutes || "00"}
+                        </Text>
+                        <Text className="deposit-circle-finish-countdown-unit">
+                          m
+                        </Text>
+                      </Flex>
+                      <Flex alignItems="flex-end">
+                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
+                          {seconds || "00"}
+                        </Text>
+                        <Text className="deposit-circle-finish-countdown-unit">
+                          s
+                        </Text>
+                      </Flex>
+                    </SimpleGrid>
                   </Box>
                 </SimpleGrid>
               </Flex>

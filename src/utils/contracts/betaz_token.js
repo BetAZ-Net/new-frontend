@@ -1,5 +1,5 @@
 const betaz_token_contract = {
-  CONTRACT_ADDRESS: "5DLz62hTTrctbe6GJkxYNQyfEhPCWE78bL575ztL9qq3BZHR",
+  CONTRACT_ADDRESS: "bX8hLtFjhsdu42M2GYpHk63SyM2yHAewLWAqckBDbU2zLRp",
   CONTRACT_ABI: {
     source: {
       hash: "0xb8f658a8a14f723ff8d7611c1f5e6087e8d0150df2a0bc560498ed1258c10aad",

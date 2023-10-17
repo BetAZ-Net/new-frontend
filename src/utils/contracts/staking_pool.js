@@ -1,5 +1,5 @@
 const staking_pool_contract = {
-  CONTRACT_ADDRESS: "5DzcmDcuPJ1qGekKB472QCdrmfJReCYwakPHhorMT25jvLUv",
+  CONTRACT_ADDRESS: "XxKrqQ7ZwmXsbnLukjh6DRdhmYj9UdUT5py1jybqhWZWAFm",
   CONTRACT_ABI: {
     source: {
       hash: "0x4872facdac54ec4e0c8f3af9c11880c3cf06b6cd05726fc7bbad4f4e4ba1b949",

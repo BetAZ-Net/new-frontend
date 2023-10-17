@@ -34,7 +34,7 @@ async function getMaxBet(caller) {
     });
     if (result.isOk) {
       const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 12;
+      return a / 10 ** 18;
     }
   } catch (e) {
     return null;
@@ -48,7 +48,7 @@ async function play(caller, amount, bet_number, is_over) {
     return null;
   }
 
-  if (parseInt(amount) <= 0) {
+  if (parseFloat(amount) <= 0) {
     toast.error(`invalid inputs`);
     return;
   }
@@ -59,7 +59,7 @@ async function play(caller, amount, bet_number, is_over) {
   else is_over = 0;
 
   const { signer } = await web3FromSource(caller?.meta?.source);
-  let value = new BN(amount * 10 ** 6).mul(new BN(10 ** 6)).toString();
+  let value = new BN(amount * 10 ** 6).mul(new BN(10 ** 12)).toString();
 
   gasLimit = await getEstimatedGas(
     caller?.address,
@@ -161,7 +161,7 @@ async function getHoldAmountPlayers(caller) {
     );
     if (result.isOk) {
       const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 12;
+      return a / 10 ** 18;
     }
   } catch (e) {
     return null;
@@ -180,7 +180,7 @@ async function withdrawHoldAmount(caller, amount) {
 
   const { signer } = await web3FromSource(caller?.meta?.source);
   let value = 0;
-  amount = new BN(amount * 10 ** 6).mul(new BN(10 ** 6)).toString();
+  amount = new BN(amount * 10 ** 6).mul(new BN(10 ** 12)).toString();
 
   gasLimit = await getEstimatedGas(
     caller?.address,
