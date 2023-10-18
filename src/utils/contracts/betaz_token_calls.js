@@ -26,7 +26,7 @@ async function buy(caller, amount) {
     return null;
   }
 
-  if (parseInt(amount) <= 0) {
+  if (parseFloat(amount) <= 0) {
     toast.error(`invalid inputs`);
     return;
   }
@@ -84,8 +84,7 @@ async function getAmountTokenSold(caller) {
       gasLimit,
     });
     if (result.isOk) {
-      const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 12;
+      return formatQueryResultToNumber(output);
     }
   } catch (e) {
     return null;
@@ -110,8 +109,7 @@ async function getMaxBuyAmount(caller) {
       gasLimit,
     });
     if (result.isOk) {
-      const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 12;
+      return formatQueryResultToNumber(output);
     }
   } catch (e) {
     return null;

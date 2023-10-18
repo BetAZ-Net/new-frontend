@@ -88,7 +88,11 @@ const DepositModal = ({ visible, onClose }) => {
       await betaz_token.getTokenRatio(currentAccount?.address),
     ]);
     setMaxbuyAmount(
-      Math.floor(((amountMaxBuy - amountTokenSold) / tokenRatio) * 100) / 100
+      (
+        (parseFloat(amountMaxBuy?.replaceAll(",", "")) -
+          parseFloat(amountTokenSold)) /
+        tokenRatio
+      ).toFixed(4)
     );
   };
 
@@ -103,14 +107,15 @@ const DepositModal = ({ visible, onClose }) => {
         toast.error("Not enough Balance!");
         setAzeroAmount(maxbuyAmount);
       } else {
-        setAzeroAmount(tokenValue);
+        setAzeroAmount(value);
       }
     }
   });
 
   const buy = async () => {
     if (currentAccount?.address) {
-      const result = await betaz_token.buy(currentAccount, azeroAmount);
+      let buyAmount = parseFloat(azeroAmount);
+      const result = await betaz_token.buy(currentAccount, buyAmount);
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
@@ -129,7 +134,7 @@ const DepositModal = ({ visible, onClose }) => {
   /** Withdraw azero */
   const getHoldAmount = async () => {
     const holdAmount = await betaz_core.getHoldAmountPlayers(currentAccount);
-    if (holdAmount) setHoldAmount(Math.floor(holdAmount * 100) / 100);
+    if (holdAmount) setHoldAmount(holdAmount);
     else setHoldAmount(0);
   };
 
@@ -142,9 +147,10 @@ const DepositModal = ({ visible, onClose }) => {
         toast.error("Not enough balance!");
         return;
       } else {
+        let amount = parseFloat(holdAmountVal);
         const result = await betaz_core.withdrawHoldAmount(
           currentAccount,
-          holdAmountVal
+          amount
         );
         if (result) {
           toast.success(`Withdraw success`);
@@ -167,7 +173,7 @@ const DepositModal = ({ visible, onClose }) => {
         toast.error("Not enough Balance!");
         setHoldAmountVal(holdAmount);
       } else {
-        setHoldAmountVal(holdValue);
+        setHoldAmountVal(value);
       }
     }
   });
@@ -235,7 +241,7 @@ const DepositModal = ({ visible, onClose }) => {
                         <Text className="linear-text azero-amount">
                           {currentAccount?.balance?.azero}
                         </Text>
-                        <Text className="azero-unit">AZero</Text>
+                        <AppIcon size="14px" padding="3px" />
                       </Flex>
                     </Box>
                     <Box className="deposit-box-amount-box">
@@ -288,7 +294,7 @@ const DepositModal = ({ visible, onClose }) => {
                         <Text className="linear-text azero-amount">
                           {holdAmount}
                         </Text>
-                        <Text className="azero-unit">AZero</Text>
+                        <AppIcon size="14px" padding="3px" />
                       </Flex>
                     </Box>
                     <Box className="deposit-box-amount-box">
@@ -342,7 +348,7 @@ const DepositModal = ({ visible, onClose }) => {
                     Easy way for crypto Play
                   </Text>
                   <Text className="deposit-circle-amount linear-text-color-01">
-                    {maxbuyAmount ? formatTokenBalance(maxbuyAmount) : 0}
+                    {maxbuyAmount ? formatTokenBalance(maxbuyAmount, 4) : 0}
                   </Text>
                   <Box>
                     <Text className="deposit-circle-finish-title">

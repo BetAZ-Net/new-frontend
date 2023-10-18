@@ -31,7 +31,7 @@ import {
   fetchBalance,
   fetchRates,
 } from "store/slices/substrateSlice";
-import { delay } from "utils";
+import { delay, formatNumDynDecimal, formatQueryResultToNumber } from "utils";
 import { AppIcon } from "components/icons";
 
 const labelStyles = {
@@ -67,7 +67,7 @@ const Predict = () => {
   const [rollOver, setRollOver] = useState(true);
   const [maxBet, setMaxBet] = useState(10);
 
-  const [betValue, setBetValue] = useState(10);
+  const [betValue, setBetValue] = useState(1);
 
   const onChangePosition = (value) => {
     setPosition(value);
@@ -111,7 +111,7 @@ const Predict = () => {
         toast.error("Max Bet is " + maxBet + " AZERO");
         setBetValue(Number(maxBet));
       } else {
-        setBetValue(betValue);
+        setBetValue(value);
       }
     }
   });
@@ -122,6 +122,7 @@ const Predict = () => {
   };
 
   const onRoll = async () => {
+    let betAmount = parseFloat(betValue)
     if (currentAccount?.address === "") {
       toast.error("Please connect your wallet and select an account");
       return;
@@ -160,7 +161,7 @@ const Predict = () => {
       return;
     }
 
-    if (betValue >= Number(currentAccount?.balance.azero)) {
+    if (betAmount >= Number(currentAccount?.balance.azero)) {
       toast.error("You dont have enough balance to roll");
       return;
     }
@@ -168,10 +169,10 @@ const Predict = () => {
     setGameOn(true);
     setLuckyNumber(-1);
 
-    if (betValue <= maxBet) {
+    if (betAmount <= maxBet) {
       let played = await betaz_core.play(
         currentAccount,
-        betValue,
+        betAmount,
         position,
         rollOver
       );
@@ -215,7 +216,7 @@ const Predict = () => {
   const loadMaxBet = async () => {
     const max_Bet = await betaz_core.getMaxBet(currentAccount?.address);
     if (maxBet != max_Bet) {
-      setMaxBet(Math.floor(max_Bet * 100) / 100);
+      setMaxBet(max_Bet);
     }
   };
 
