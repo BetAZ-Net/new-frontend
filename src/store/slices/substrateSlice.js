@@ -182,7 +182,6 @@ export const fetchBalance = createAsyncThunk(
 
     const core = formatQueryResultToNumber(corePoolBalance);
     const staking = formatNumDynDecimal(stakingPoolBalance);
-    console.log({staking})
     const treasury = formatQueryResultToNumber(treasuryPoolBalance);
     const reward = formatQueryResultToNumber(rewardBalance);
 

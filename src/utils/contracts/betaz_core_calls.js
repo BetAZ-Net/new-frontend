@@ -4,6 +4,7 @@ import { Keyring } from "@polkadot/api";
 import { ContractPromise } from "@polkadot/api-contract";
 import { readOnlyGasLimit, getEstimatedGas, execContractTx } from "./index";
 import { web3FromSource } from "@polkadot/extension-dapp";
+import { formatQueryResultToNumber } from "utils";
 
 let contract;
 
@@ -33,8 +34,7 @@ async function getMaxBet(caller) {
       gasLimit,
     });
     if (result.isOk) {
-      const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 18;
+      return formatQueryResultToNumber(output);
     }
   } catch (e) {
     return null;
@@ -160,8 +160,7 @@ async function getHoldAmountPlayers(caller) {
       caller?.address
     );
     if (result.isOk) {
-      const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 18;
+      return formatQueryResultToNumber(output);
     }
   } catch (e) {
     return null;

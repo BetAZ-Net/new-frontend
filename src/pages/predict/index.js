@@ -216,7 +216,7 @@ const Predict = () => {
   const loadMaxBet = async () => {
     const max_Bet = await betaz_core.getMaxBet(currentAccount?.address);
     if (maxBet != max_Bet) {
-      setMaxBet(Math.floor(max_Bet * 100) / 100);
+      setMaxBet(max_Bet);
     }
   };
 

@@ -88,7 +88,11 @@ const DepositModal = ({ visible, onClose }) => {
       await betaz_token.getTokenRatio(currentAccount?.address),
     ]);
     setMaxbuyAmount(
-      Math.floor(((amountMaxBuy - amountTokenSold) / tokenRatio) * 100) / 100
+      (
+        (parseFloat(amountMaxBuy?.replaceAll(",", "")) -
+          parseFloat(amountTokenSold)) /
+        tokenRatio
+      ).toFixed(4)
     );
   };
 
@@ -130,7 +134,7 @@ const DepositModal = ({ visible, onClose }) => {
   /** Withdraw azero */
   const getHoldAmount = async () => {
     const holdAmount = await betaz_core.getHoldAmountPlayers(currentAccount);
-    if (holdAmount) setHoldAmount(Math.floor(holdAmount * 100) / 100);
+    if (holdAmount) setHoldAmount(holdAmount);
     else setHoldAmount(0);
   };
 
@@ -248,7 +252,7 @@ const DepositModal = ({ visible, onClose }) => {
                           sx={{ border: "0px" }}
                           value={azeroAmount}
                           onChange={onChangeToken}
-                          type="Number"
+                          type="number"
                         />
                         <Flex
                           cursor="pointer"
@@ -301,7 +305,7 @@ const DepositModal = ({ visible, onClose }) => {
                           sx={{ border: "0px" }}
                           onChange={onChangeholdAmount}
                           value={holdAmountVal}
-                          type="Number"
+                          type="number"
                         />
                       </Flex>
                     </Box>
@@ -344,7 +348,7 @@ const DepositModal = ({ visible, onClose }) => {
                     Easy way for crypto Play
                   </Text>
                   <Text className="deposit-circle-amount linear-text-color-01">
-                    {maxbuyAmount ? formatTokenBalance(maxbuyAmount) : 0}
+                    {maxbuyAmount ? formatTokenBalance(maxbuyAmount, 4) : 0}
                   </Text>
                   <Box>
                     <Text className="deposit-circle-finish-title">

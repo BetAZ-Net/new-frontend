@@ -123,7 +123,11 @@ const HomePage = () => {
       await betaz_token.getTokenRatio(currentAccount?.address),
     ]);
     setMaxbuyAmount(
-      Math.floor(((amountMaxBuy - amountTokenSold) / tokenRatio) * 100) / 100
+      (
+        (parseFloat(amountMaxBuy?.replaceAll(",", "")) -
+          parseFloat(amountTokenSold)) /
+        tokenRatio
+      ).toFixed(4)
     );
   };
 
@@ -385,7 +389,7 @@ const HomePage = () => {
                   Easy way for crypto Play
                 </Text>
                 <Text className="deposit-circle-amount linear-text-color-01">
-                  {maxbuyAmount ? formatTokenBalance(maxbuyAmount) : 0}
+                  {maxbuyAmount ? formatTokenBalance(maxbuyAmount, 4) : 0}
                 </Text>
                 <Box>
                   <Text className="deposit-circle-finish-title">

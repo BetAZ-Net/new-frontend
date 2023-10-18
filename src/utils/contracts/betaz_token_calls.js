@@ -84,8 +84,7 @@ async function getAmountTokenSold(caller) {
       gasLimit,
     });
     if (result.isOk) {
-      const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 18;
+      return formatQueryResultToNumber(output);
     }
   } catch (e) {
     return null;
@@ -110,8 +109,7 @@ async function getMaxBuyAmount(caller) {
       gasLimit,
     });
     if (result.isOk) {
-      const a = output.toHuman().Ok.replace(/\,/g, "");
-      return a / 10 ** 18;
+      return formatQueryResultToNumber(output);
     }
   } catch (e) {
     return null;
