@@ -3,8 +3,6 @@ import {
   Button,
   Flex,
   FormControl,
-  FormErrorMessage,
-  FormHelperText,
   Heading,
   Image,
   Input,
@@ -29,7 +27,6 @@ import "./styles.css";
 import betaz_token from "utils/contracts/betaz_token_calls";
 import { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import useInterval from "hooks/useInterval";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserBalance } from "store/slices/substrateSlice";
 import { formatTokenBalance } from "utils";
@@ -342,15 +339,16 @@ const HomePage = () => {
                       sx={{ border: "0px" }}
                       value={azeroAmount}
                       onChange={onChangeToken}
-                      type="Number"
+                      type="number"
                     />
                     <Flex
                       w="100px"
                       alignItems="center"
+                      gap={1}
                       pl="4px"
                       borderLeft="2px solid rgba(255, 255, 255, 0.4)"
                     >
-                      <AppIcon />
+                      <AppIcon size="18px"/>
                       BetAZ
                     </Flex>
                   </Flex>

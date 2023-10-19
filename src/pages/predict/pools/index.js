@@ -1,7 +1,7 @@
 import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import "./styles.css";
 import { AppIcon } from "components/icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Pools = () => {
   const { poolBalance } = useSelector((s) => s.substrate);

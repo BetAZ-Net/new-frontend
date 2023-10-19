@@ -147,11 +147,14 @@ export function readOnlyGasLimit(contract) {
 
 export async function execContractQuery(
   callerAddress, // -> currentAccount?.address
-  contract,
+  contractAbi,
+  contractAddress,
   value = 0,
   queryName,
   ...args
 ) {
+  const contract = new ContractPromise(wsApi, contractAbi, contractAddress);
+
   const gasLimit = readOnlyGasLimit(contract);
   try {
     const { result, output } = await contract.query[queryName](
@@ -225,7 +228,8 @@ export async function execContractQuerybyMetadataConvertResult(
 
 export async function execContractTx(
   caller, // -> currentAccount Object
-  contract,
+  contractAbi,
+  contractAddress,
   value = 0,
   queryName,
   ...args
@@ -242,6 +246,8 @@ export async function execContractTx(
     toast.error("You don’t have enough azero for transaction fee!");
     return;
   }
+
+  const contract = new ContractPromise(wsApi, contractAbi, contractAddress);
 
   let unsubscribe;
   const { signer } = await web3FromSource(caller?.meta?.source);
@@ -426,4 +432,3 @@ export const txResponseErrorHandler = async ({
     }
   }
 };
-

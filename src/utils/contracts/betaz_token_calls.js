@@ -5,8 +5,6 @@ import { ContractPromise } from "@polkadot/api-contract";
 import {
   readOnlyGasLimit,
   getEstimatedGas,
-  execContractTx,
-  execContractQuery,
 } from "./index";
 import { web3FromSource } from "@polkadot/extension-dapp";
 import { formatQueryResultToNumber } from "utils";

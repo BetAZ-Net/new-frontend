@@ -2,7 +2,7 @@ import BN from "bn.js";
 import toast from "react-hot-toast";
 import { Keyring } from "@polkadot/api";
 import { ContractPromise } from "@polkadot/api-contract";
-import { readOnlyGasLimit, getEstimatedGas, execContractTx } from "./index";
+import { readOnlyGasLimit, getEstimatedGas } from "./index";
 import { web3FromSource } from "@polkadot/extension-dapp";
 import { formatQueryResultToNumber } from "utils";
 
@@ -94,22 +94,6 @@ async function play(caller, amount, bet_number, is_over) {
     .catch((e) => console.log("e", e));
   return unsubscribe;
 }
-
-// async function play(caller, amount, bet_number, is_over) {
-//   if (!contract || !caller?.address) {
-//     return null;
-//   }
-
-//   if (parseInt(amount) <= 0) {
-//     toast.error(`invalid inputs`);
-//     return;
-//   }
-
-//   if (is_over) is_over = 1;
-//   else is_over = 0;
-
-//   await execContractTx(caller, contract, amount, "play", bet_number, is_over);
-// }
 
 async function getBet(caller) {
   if (!contract || !caller) {

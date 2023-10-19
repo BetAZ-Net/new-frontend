@@ -2,6 +2,17 @@ import numeral from "numeral";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { hexToU8a, formatBalance, isHex, BN, BN_ONE } from "@polkadot/util";
 
+export const convertToBalance = (value, decimal = 12) => {
+  let amount = parseFloat(value);
+  return new BN(amount).mul(new BN(10 ** decimal)).toString();
+};
+
+export const checkBalance = (currentAccount, value) => {
+  let a = parseFloat(currentAccount?.balance?.azero?.replaceAll(",", ""));
+  let b = parseFloat(value);
+  return a > b;
+};
+
 export const formatChainStringToNumber = (str) => {
   if (typeof str !== "string") return str;
 

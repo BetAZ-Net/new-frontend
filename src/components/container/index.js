@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react";
 
-export const SectionContainer = ({ title, right, children, ...rest }) => {
+export const SectionContainer = ({ title, right, children, sx, ...rest }) => {
   return (
-    <Box {...rest}>
+    <Box {...rest} sx={sx}>
       <Box maxWidth="1440px" mx="auto">
         <Box
           sx={{

@@ -31,7 +31,7 @@ import {
   fetchBalance,
   fetchRates,
 } from "store/slices/substrateSlice";
-import { delay, formatNumDynDecimal, formatQueryResultToNumber } from "utils";
+import { delay } from "utils";
 import { AppIcon } from "components/icons";
 
 const labelStyles = {
@@ -122,7 +122,7 @@ const Predict = () => {
   };
 
   const onRoll = async () => {
-    let betAmount = parseFloat(betValue)
+    let betAmount = parseFloat(betValue);
     if (currentAccount?.address === "") {
       toast.error("Please connect your wallet and select an account");
       return;

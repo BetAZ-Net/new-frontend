@@ -22,8 +22,6 @@ import betaz_token from "utils/contracts/betaz_token_calls";
 import betaz_core from "utils/contracts/betaz_core_calls";
 import { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import useInterval from "hooks/useInterval";
-import { useDebounce } from "hooks/useDebounce";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 import { formatTokenBalance } from "utils";
 import { convertTimeStampToNumber } from "utils";
