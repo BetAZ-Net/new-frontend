@@ -266,7 +266,7 @@ export async function execContractTx(
     return;
   }
 
-  const { value: gasLimit } = gasLimitResult;
+  const gasLimit = gasLimitResult?.value;
 
   const txNotSign = contract.tx[queryName]({ gasLimit, value }, ...args);
 

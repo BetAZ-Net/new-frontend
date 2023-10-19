@@ -1,4 +1,4 @@
-import { Box, Text, Input, Flex, Button } from "@chakra-ui/react";
+import { Box, Text, Input, Flex } from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import { SectionContainer } from "components/container";
@@ -8,12 +8,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { convertToBalance, checkBalance } from "utils";
 import { execContractTx, execContractQuery } from "utils/contracts";
 import betaz_core_contract from "utils/contracts/betaz_core";
+import { useWallet } from "contexts/useWallet";
+import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
+
+const adminRole = process.env.REACT_APP_ADMIN_ROLE;
 
 const UpdateCorePool = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { api } = useWallet();
   const { currentAccount } = useSelector((s) => s.substrate);
+  const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState(0);
-  const handleMint = async () => {
+  const handleUpdate = async () => {
     if (value === 0 || value === "") {
       toast.error("Invalid value!");
       return;
@@ -24,15 +30,17 @@ const UpdateCorePool = () => {
       return;
     }
 
-    let adminAddress = await execContractQuery(
+    let hasRole = await execContractQuery(
       currentAccount?.address,
       betaz_core_contract.CONTRACT_ABI,
       betaz_core_contract.CONTRACT_ADDRESS,
       0,
-      "betA0CoreTrait::getAdminAccount"
+      "accessControl::hasRole",
+      adminRole,
+      currentAccount?.address
     );
 
-    if (adminAddress?.toHuman().Ok !== currentAccount?.address) {
+    if (!hasRole?.toHuman().Ok) {
       toast.error("You not admin!");
       return;
     } else {
@@ -60,6 +68,11 @@ const UpdateCorePool = () => {
       }
     }
   });
+
+  useEffect(() => {
+    dispatch(fetchUserBalance({ currentAccount, api }));
+    dispatch(fetchBalance({ currentAccount, api }));
+  }, [setIsLoading]);
 
   return (
     <SectionContainer
@@ -93,7 +106,7 @@ const UpdateCorePool = () => {
         <CommonButton
           text="Update core pool"
           isLoading={isLoading}
-          onClick={() => handleMint()}
+          onClick={() => handleUpdate()}
         />
       </Flex>
     </SectionContainer>

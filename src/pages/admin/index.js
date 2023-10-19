@@ -5,6 +5,10 @@ import SubcribeEmailButton from "./SubcribeEmailButton";
 import SubcribeEmailModal from "./subcribeEmailModal";
 import MinToken from "./mintToken";
 import UpdateCorePool from "./updateCorePool";
+import UpdateRewardPool from "./updateRewardPool";
+import WithDrawCorePool from "./withDrawCorePool";
+import WithDrawStakingPool from "./withDrawStakingPool";
+import Locked from "./locked";
 
 const AdminPage = () => {
   const [subcribeEmailModalVisible, setBetSubcribeEmailModalVisible] =
@@ -14,6 +18,10 @@ const AdminPage = () => {
       <Box>
         <MinToken />
         <UpdateCorePool />
+        <UpdateRewardPool />
+        <WithDrawCorePool />
+        <WithDrawStakingPool />
+        <Locked />
         <SubcribeEmailModal
           isOpen={subcribeEmailModalVisible}
           onClose={() => setBetSubcribeEmailModalVisible(false)}

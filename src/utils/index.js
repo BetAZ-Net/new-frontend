@@ -7,8 +7,11 @@ export const convertToBalance = (value, decimal = 12) => {
   return new BN(amount).mul(new BN(10 ** decimal)).toString();
 };
 
-export const checkBalance = (currentAccount, value) => {
-  let a = parseFloat(currentAccount?.balance?.azero?.replaceAll(",", ""));
+export const checkBalance = (currentAccount, value, money = "azero") => {
+  let a;
+  if (money === "azero")
+    a = parseFloat(currentAccount?.balance?.azero?.replaceAll(",", ""));
+  else a = parseFloat(currentAccount?.balance?.betaz?.replaceAll(",", ""));
   let b = parseFloat(value);
   return a > b;
 };

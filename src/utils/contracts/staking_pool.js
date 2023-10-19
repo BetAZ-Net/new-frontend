@@ -1,8 +1,8 @@
 const staking_pool_contract = {
-  CONTRACT_ADDRESS: "5DzcmDcuPJ1qGekKB472QCdrmfJReCYwakPHhorMT25jvLUv",
+  CONTRACT_ADDRESS: "5CJPxve6nuJgpcExC1GHg45x2twgQsdwepG6rX2zCNEgdKx9",
   CONTRACT_ABI: {
     source: {
-      hash: "0x4872facdac54ec4e0c8f3af9c11880c3cf06b6cd05726fc7bbad4f4e4ba1b949",
+      hash: "0x64b0fda7d514b4ce413316ead9820eba2fe90db9e1dd208292c3dbbd64799f97",
       language: "ink! 4.3.0",
       compiler: "rustc 1.70.0-nightly",
       build_info: {
@@ -73,11 +73,11 @@ const staking_pool_contract = {
         },
         chainExtension: {
           displayName: ["ChainExtension"],
-          type: 35,
+          type: 36,
         },
         hash: {
           displayName: ["Hash"],
-          type: 28,
+          type: 29,
         },
         maxEventTopics: 4,
         timestamp: {
@@ -435,51 +435,28 @@ const staking_pool_contract = {
           selector: "0x9a8353a7",
         },
         {
-          args: [],
-          default: false,
-          docs: [" Function changes state"],
-          label: "StakingPoolTrait::change_state",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 10,
-          },
-          selector: "0x967d6443",
-        },
-        {
           args: [
             {
               label: "account",
               type: {
                 displayName: [
                   "stakingpooltrait_external",
-                  "GetRequestUnstakeTimeInput1",
+                  "GetStakedAccountsIndexByAccountInput1",
                 ],
                 type: 0,
-              },
-            },
-            {
-              label: "amount",
-              type: {
-                displayName: [
-                  "stakingpooltrait_external",
-                  "GetRequestUnstakeTimeInput2",
-                ],
-                type: 6,
               },
             },
           ],
           default: false,
           docs: [],
-          label: "StakingPoolTrait::get_request_unstake_time",
+          label: "StakingPoolTrait::get_staked_accounts_index_by_account",
           mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
             type: 19,
           },
-          selector: "0x855244fb",
+          selector: "0x7464d327",
         },
         {
           args: [
@@ -501,72 +478,9 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 20,
-          },
-          selector: "0x77b44ad5",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
-          label: "StakingPoolTrait::get_request_unstake_accounts_last_index",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 19,
-          },
-          selector: "0x568cb8ae",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
-          label: "StakingPoolTrait::get_is_locked",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
             type: 21,
           },
-          selector: "0x73337e40",
-        },
-        {
-          args: [
-            {
-              label: "betaz_token_address",
-              type: {
-                displayName: [
-                  "stakingpooltrait_external",
-                  "SetBetazTokenAddressInput1",
-                ],
-                type: 0,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "StakingPoolTrait::set_betaz_token_address",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 10,
-          },
-          selector: "0xe181b800",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
-          label: "StakingPoolTrait::get_total_staked",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 20,
-          },
-          selector: "0x5a8746ad",
+          selector: "0x77b44ad5",
         },
         {
           args: [
@@ -575,7 +489,7 @@ const staking_pool_contract = {
               type: {
                 displayName: [
                   "stakingpooltrait_external",
-                  "GetTotalPendingUnstakedByAccountInput1",
+                  "GetRequestUnstakeAccountsIndexByAccountInput1",
                 ],
                 type: 0,
               },
@@ -583,14 +497,41 @@ const staking_pool_contract = {
           ],
           default: false,
           docs: [],
-          label: "StakingPoolTrait::get_total_pending_unstaked_by_account",
+          label:
+            "StakingPoolTrait::get_request_unstake_accounts_index_by_account",
           mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
             type: 19,
           },
-          selector: "0x5eb55335",
+          selector: "0x31bf579a",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Get bet az token contract"],
+          label: "StakingPoolTrait::get_betaz_token_address",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 22,
+          },
+          selector: "0xa42e6b54",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "StakingPoolTrait::get_reward_started",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 23,
+          },
+          selector: "0x88b8fc3f",
         },
         {
           args: [
@@ -612,18 +553,18 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 22,
+            type: 24,
           },
           selector: "0x6b05ac17",
         },
         {
           args: [
             {
-              label: "start",
+              label: "is_locked",
               type: {
                 displayName: [
                   "stakingpooltrait_external",
-                  "UpdateStatusRewardDistributionInput1",
+                  "UpdateIsLockedInput1",
                 ],
                 type: 3,
               },
@@ -631,14 +572,40 @@ const staking_pool_contract = {
           ],
           default: false,
           docs: [],
-          label: "StakingPoolTrait::update_status_reward_distribution",
+          label: "StakingPoolTrait::update_is_locked",
           mutates: true,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
             type: 10,
           },
-          selector: "0xcf1d86fb",
+          selector: "0x519ef310",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" get balance contract"],
+          label: "StakingPoolTrait::balance_of",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 21,
+          },
+          selector: "0x310b9d61",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "StakingPoolTrait::get_is_locked",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 23,
+          },
+          selector: "0x73337e40",
         },
         {
           args: [
@@ -660,7 +627,7 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 22,
+            type: 24,
           },
           selector: "0x8ea42355",
         },
@@ -703,25 +670,41 @@ const staking_pool_contract = {
             {
               label: "account",
               type: {
-                displayName: [
-                  "stakingpooltrait_external",
-                  "GetRequestUnstakeAccountsIndexByAccountInput1",
-                ],
+                displayName: ["stakingpooltrait_external", "WithdrawFeeInput1"],
                 type: 0,
+              },
+            },
+            {
+              label: "value",
+              type: {
+                displayName: ["stakingpooltrait_external", "WithdrawFeeInput2"],
+                type: 6,
               },
             },
           ],
           default: false,
+          docs: [" Withdraw fee"],
+          label: "StakingPoolTrait::withdraw_fee",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 10,
+          },
+          selector: "0x57e5d307",
+        },
+        {
+          args: [],
+          default: false,
           docs: [],
-          label:
-            "StakingPoolTrait::get_request_unstake_accounts_index_by_account",
+          label: "StakingPoolTrait::get_request_unstake_accounts_last_index",
           mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 24,
+            type: 26,
           },
-          selector: "0x31bf579a",
+          selector: "0x568cb8ae",
         },
         {
           args: [
@@ -730,7 +713,7 @@ const staking_pool_contract = {
               type: {
                 displayName: [
                   "stakingpooltrait_external",
-                  "GetStakedAccountsIndexByAccountInput1",
+                  "GetTotalPendingUnstakedByAccountInput1",
                 ],
                 type: 0,
               },
@@ -738,36 +721,36 @@ const staking_pool_contract = {
           ],
           default: false,
           docs: [],
-          label: "StakingPoolTrait::get_staked_accounts_index_by_account",
+          label: "StakingPoolTrait::get_total_pending_unstaked_by_account",
           mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 24,
+            type: 26,
           },
-          selector: "0x7464d327",
+          selector: "0x5eb55335",
         },
         {
           args: [],
           default: false,
-          docs: [" get balance contract"],
-          label: "StakingPoolTrait::balance_of",
-          mutates: false,
+          docs: [" Function changes state"],
+          label: "StakingPoolTrait::change_state",
+          mutates: true,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 20,
+            type: 10,
           },
-          selector: "0x310b9d61",
+          selector: "0x967d6443",
         },
         {
           args: [
             {
-              label: "is_locked",
+              label: "start",
               type: {
                 displayName: [
                   "stakingpooltrait_external",
-                  "UpdateIsLockedInput1",
+                  "UpdateStatusRewardDistributionInput1",
                 ],
                 type: 3,
               },
@@ -775,14 +758,156 @@ const staking_pool_contract = {
           ],
           default: false,
           docs: [],
-          label: "StakingPoolTrait::update_is_locked",
+          label: "StakingPoolTrait::update_status_reward_distribution",
           mutates: true,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
             type: 10,
           },
-          selector: "0x519ef310",
+          selector: "0xcf1d86fb",
+        },
+        {
+          args: [
+            {
+              label: "betaz_token_address",
+              type: {
+                displayName: [
+                  "stakingpooltrait_external",
+                  "SetBetazTokenAddressInput1",
+                ],
+                type: 0,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "StakingPoolTrait::set_betaz_token_address",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 10,
+          },
+          selector: "0xe181b800",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "StakingPoolTrait::get_total_staked",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 21,
+          },
+          selector: "0x5a8746ad",
+        },
+        {
+          args: [
+            {
+              label: "limit_unstake_time",
+              type: {
+                displayName: [
+                  "stakingpooltrait_external",
+                  "SetLimitUnstakeTimeInput1",
+                ],
+                type: 7,
+              },
+            },
+          ],
+          default: false,
+          docs: [" Set bet az token contract"],
+          label: "StakingPoolTrait::set_limit_unstake_time",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 10,
+          },
+          selector: "0x1fa344e5",
+        },
+        {
+          args: [
+            {
+              label: "account",
+              type: {
+                displayName: [
+                  "stakingpooltrait_external",
+                  "GetRequestUnstakeTimeInput1",
+                ],
+                type: 0,
+              },
+            },
+            {
+              label: "amount",
+              type: {
+                displayName: [
+                  "stakingpooltrait_external",
+                  "GetRequestUnstakeTimeInput2",
+                ],
+                type: 6,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "StakingPoolTrait::get_request_unstake_time",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 26,
+          },
+          selector: "0x855244fb",
+        },
+        {
+          args: [
+            {
+              label: "account",
+              type: {
+                displayName: ["stakingpooltrait_external", "IsClaimedInput1"],
+                type: 0,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "StakingPoolTrait::is_claimed",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 23,
+          },
+          selector: "0x3680489f",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Get bet az token contract"],
+          label: "StakingPoolTrait::get_limit_unstake_time",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 26,
+          },
+          selector: "0x69579f16",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "StakingPoolTrait::get_staked_accounts_last_index",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 26,
+          },
+          selector: "0xa2979b02",
         },
         {
           args: [
@@ -814,80 +939,9 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 24,
-          },
-          selector: "0x3f807ae3",
-        },
-        {
-          args: [
-            {
-              label: "account",
-              type: {
-                displayName: ["stakingpooltrait_external", "IsClaimedInput1"],
-                type: 0,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "StakingPoolTrait::is_claimed",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 21,
-          },
-          selector: "0x3680489f",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
-          label: "StakingPoolTrait::get_reward_started",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 21,
-          },
-          selector: "0x88b8fc3f",
-        },
-        {
-          args: [
-            {
-              label: "limit_unstake_time",
-              type: {
-                displayName: [
-                  "stakingpooltrait_external",
-                  "SetLimitUnstakeTimeInput1",
-                ],
-                type: 7,
-              },
-            },
-          ],
-          default: false,
-          docs: [" Set bet az token contract"],
-          label: "StakingPoolTrait::set_limit_unstake_time",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 10,
-          },
-          selector: "0x1fa344e5",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
-          label: "StakingPoolTrait::get_staked_accounts_last_index",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
             type: 19,
           },
-          selector: "0xa2979b02",
+          selector: "0x3f807ae3",
         },
         {
           args: [],
@@ -898,30 +952,9 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 22,
+            type: 24,
           },
           selector: "0x4fa43c8c",
-        },
-        {
-          args: [
-            {
-              label: "new_owner",
-              type: {
-                displayName: ["ownable_external", "TransferOwnershipInput1"],
-                type: 23,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "Ownable::transfer_ownership",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 26,
-          },
-          selector: "0x11f43efd",
         },
         {
           args: [],
@@ -932,9 +965,30 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 26,
+            type: 27,
           },
           selector: "0x5e228753",
+        },
+        {
+          args: [
+            {
+              label: "new_owner",
+              type: {
+                displayName: ["ownable_external", "TransferOwnershipInput1"],
+                type: 25,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "Ownable::transfer_ownership",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 27,
+          },
+          selector: "0x11f43efd",
         },
         {
           args: [],
@@ -945,7 +999,7 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 21,
+            type: 23,
           },
           selector: "0xd123ce11",
         },
@@ -955,7 +1009,7 @@ const staking_pool_contract = {
               label: "new_code_hash",
               type: {
                 displayName: ["upgradeable_external", "SetCodeHashInput1"],
-                type: 28,
+                type: 29,
               },
             },
           ],
@@ -966,121 +1020,9 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 29,
+            type: 30,
           },
           selector: "0x1700ae80",
-        },
-        {
-          args: [
-            {
-              label: "role",
-              type: {
-                displayName: ["accesscontrol_external", "RevokeRoleInput1"],
-                type: 4,
-              },
-            },
-            {
-              label: "account",
-              type: {
-                displayName: ["accesscontrol_external", "RevokeRoleInput2"],
-                type: 23,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "AccessControl::revoke_role",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 32,
-          },
-          selector: "0x6e4f0991",
-        },
-        {
-          args: [
-            {
-              label: "role",
-              type: {
-                displayName: ["accesscontrol_external", "RenounceRoleInput1"],
-                type: 4,
-              },
-            },
-            {
-              label: "account",
-              type: {
-                displayName: ["accesscontrol_external", "RenounceRoleInput2"],
-                type: 23,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "AccessControl::renounce_role",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 32,
-          },
-          selector: "0xeaf1248a",
-        },
-        {
-          args: [
-            {
-              label: "role",
-              type: {
-                displayName: ["accesscontrol_external", "GrantRoleInput1"],
-                type: 4,
-              },
-            },
-            {
-              label: "account",
-              type: {
-                displayName: ["accesscontrol_external", "GrantRoleInput2"],
-                type: 23,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "AccessControl::grant_role",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 32,
-          },
-          selector: "0x4ac062fd",
-        },
-        {
-          args: [
-            {
-              label: "role",
-              type: {
-                displayName: ["accesscontrol_external", "HasRoleInput1"],
-                type: 4,
-              },
-            },
-            {
-              label: "address",
-              type: {
-                displayName: ["accesscontrol_external", "HasRoleInput2"],
-                type: 23,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "AccessControl::has_role",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 21,
-          },
-          selector: "0xc1d9ac18",
         },
         {
           args: [
@@ -1099,9 +1041,145 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 34,
+            type: 33,
           },
           selector: "0x83da3bb2",
+        },
+        {
+          args: [
+            {
+              label: "role",
+              type: {
+                displayName: ["accesscontrol_external", "GrantRoleInput1"],
+                type: 4,
+              },
+            },
+            {
+              label: "account",
+              type: {
+                displayName: ["accesscontrol_external", "GrantRoleInput2"],
+                type: 25,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "AccessControl::grant_role",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 34,
+          },
+          selector: "0x4ac062fd",
+        },
+        {
+          args: [
+            {
+              label: "role",
+              type: {
+                displayName: ["accesscontrol_external", "RenounceRoleInput1"],
+                type: 4,
+              },
+            },
+            {
+              label: "account",
+              type: {
+                displayName: ["accesscontrol_external", "RenounceRoleInput2"],
+                type: 25,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "AccessControl::renounce_role",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 34,
+          },
+          selector: "0xeaf1248a",
+        },
+        {
+          args: [
+            {
+              label: "role",
+              type: {
+                displayName: ["accesscontrol_external", "HasRoleInput1"],
+                type: 4,
+              },
+            },
+            {
+              label: "address",
+              type: {
+                displayName: ["accesscontrol_external", "HasRoleInput2"],
+                type: 25,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "AccessControl::has_role",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 23,
+          },
+          selector: "0xc1d9ac18",
+        },
+        {
+          args: [
+            {
+              label: "role",
+              type: {
+                displayName: ["accesscontrol_external", "RevokeRoleInput1"],
+                type: 4,
+              },
+            },
+            {
+              label: "account",
+              type: {
+                displayName: ["accesscontrol_external", "RevokeRoleInput2"],
+                type: 25,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "AccessControl::revoke_role",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 34,
+          },
+          selector: "0x6e4f0991",
+        },
+        {
+          args: [
+            {
+              label: "role",
+              type: {
+                displayName: [
+                  "accesscontrolenumerable_external",
+                  "GetRoleMemberCountInput1",
+                ],
+                type: 4,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "AccessControlEnumerable::get_role_member_count",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 33,
+          },
+          selector: "0xf1b1a9d7",
         },
         {
           args: [
@@ -1133,33 +1211,9 @@ const staking_pool_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 22,
+            type: 24,
           },
           selector: "0x163469e0",
-        },
-        {
-          args: [
-            {
-              label: "role",
-              type: {
-                displayName: [
-                  "accesscontrolenumerable_external",
-                  "GetRoleMemberCountInput1",
-                ],
-                type: 4,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "AccessControlEnumerable::get_role_member_count",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 34,
-          },
-          selector: "0xf1b1a9d7",
         },
       ],
     },
@@ -1902,13 +1956,21 @@ const staking_pool_contract = {
                   name: "InvalidInputRatio",
                 },
                 {
+                  index: 34,
+                  name: "NotTimeBuyToken",
+                },
+                {
+                  index: 35,
+                  name: "CannotBuyAtThisTime",
+                },
+                {
                   fields: [
                     {
                       type: 14,
                       typeName: "OwnableError",
                     },
                   ],
-                  index: 34,
+                  index: 36,
                   name: "OwnableError",
                 },
                 {
@@ -1918,7 +1980,7 @@ const staking_pool_contract = {
                       typeName: "AccessControlError",
                     },
                   ],
-                  index: 35,
+                  index: 37,
                   name: "AccessControlError",
                 },
                 {
@@ -1928,7 +1990,7 @@ const staking_pool_contract = {
                       typeName: "PSP22Error",
                     },
                   ],
-                  index: 36,
+                  index: 38,
                   name: "PSP22Error",
                 },
                 {
@@ -1938,11 +2000,11 @@ const staking_pool_contract = {
                       typeName: "PausableError",
                     },
                   ],
-                  index: 37,
+                  index: 39,
                   name: "PausableError",
                 },
                 {
-                  index: 38,
+                  index: 40,
                   name: "CheckedOperations",
                 },
               ],
@@ -2158,7 +2220,7 @@ const staking_pool_contract = {
                 {
                   fields: [
                     {
-                      type: 7,
+                      type: 20,
                     },
                   ],
                   index: 0,
@@ -2179,7 +2241,7 @@ const staking_pool_contract = {
           params: [
             {
               name: "T",
-              type: 7,
+              type: 20,
             },
             {
               name: "E",
@@ -2191,6 +2253,37 @@ const staking_pool_contract = {
       },
       {
         id: 20,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  index: 0,
+                  name: "None",
+                },
+                {
+                  fields: [
+                    {
+                      type: 6,
+                    },
+                  ],
+                  index: 1,
+                  name: "Some",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 6,
+            },
+          ],
+          path: ["Option"],
+        },
+      },
+      {
+        id: 21,
         type: {
           def: {
             variant: {
@@ -2230,7 +2323,47 @@ const staking_pool_contract = {
         },
       },
       {
-        id: 21,
+        id: 22,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 0,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 9,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 0,
+            },
+            {
+              name: "E",
+              type: 9,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 23,
         type: {
           def: {
             variant: {
@@ -2267,77 +2400,6 @@ const staking_pool_contract = {
             },
           ],
           path: ["Result"],
-        },
-      },
-      {
-        id: 22,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 23,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 9,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 23,
-            },
-            {
-              name: "E",
-              type: 9,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
-        id: 23,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  index: 0,
-                  name: "None",
-                },
-                {
-                  fields: [
-                    {
-                      type: 0,
-                    },
-                  ],
-                  index: 1,
-                  name: "Some",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 0,
-            },
-          ],
-          path: ["Option"],
         },
       },
       {
@@ -2393,7 +2455,7 @@ const staking_pool_contract = {
                 {
                   fields: [
                     {
-                      type: 6,
+                      type: 0,
                     },
                   ],
                   index: 1,
@@ -2405,7 +2467,7 @@ const staking_pool_contract = {
           params: [
             {
               name: "T",
-              type: 6,
+              type: 0,
             },
           ],
           path: ["Option"],
@@ -2420,7 +2482,7 @@ const staking_pool_contract = {
                 {
                   fields: [
                     {
-                      type: 27,
+                      type: 7,
                     },
                   ],
                   index: 0,
@@ -2441,7 +2503,7 @@ const staking_pool_contract = {
           params: [
             {
               name: "T",
-              type: 27,
+              type: 7,
             },
             {
               name: "E",
@@ -2453,6 +2515,46 @@ const staking_pool_contract = {
       },
       {
         id: 27,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 28,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 9,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 28,
+            },
+            {
+              name: "E",
+              type: 9,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 28,
         type: {
           def: {
             variant: {
@@ -2492,7 +2594,7 @@ const staking_pool_contract = {
         },
       },
       {
-        id: 28,
+        id: 29,
         type: {
           def: {
             composite: {
@@ -2508,7 +2610,7 @@ const staking_pool_contract = {
         },
       },
       {
-        id: 29,
+        id: 30,
         type: {
           def: {
             variant: {
@@ -2516,7 +2618,7 @@ const staking_pool_contract = {
                 {
                   fields: [
                     {
-                      type: 30,
+                      type: 31,
                     },
                   ],
                   index: 0,
@@ -2537,7 +2639,7 @@ const staking_pool_contract = {
           params: [
             {
               name: "T",
-              type: 30,
+              type: 31,
             },
             {
               name: "E",
@@ -2548,7 +2650,7 @@ const staking_pool_contract = {
         },
       },
       {
-        id: 30,
+        id: 31,
         type: {
           def: {
             variant: {
@@ -2565,7 +2667,7 @@ const staking_pool_contract = {
                 {
                   fields: [
                     {
-                      type: 31,
+                      type: 32,
                     },
                   ],
                   index: 1,
@@ -2581,14 +2683,14 @@ const staking_pool_contract = {
             },
             {
               name: "E",
-              type: 31,
+              type: 32,
             },
           ],
           path: ["Result"],
         },
       },
       {
-        id: 31,
+        id: 32,
         type: {
           def: {
             variant: {
@@ -2640,87 +2742,7 @@ const staking_pool_contract = {
         },
       },
       {
-        id: 32,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 33,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 9,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 33,
-            },
-            {
-              name: "E",
-              type: 9,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
         id: 33,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 5,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 15,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 5,
-            },
-            {
-              name: "E",
-              type: 15,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
-        id: 34,
         type: {
           def: {
             variant: {
@@ -2760,7 +2782,87 @@ const staking_pool_contract = {
         },
       },
       {
+        id: 34,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 35,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 9,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 35,
+            },
+            {
+              name: "E",
+              type: 9,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
         id: 35,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 5,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 15,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 5,
+            },
+            {
+              name: "E",
+              type: 15,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 36,
         type: {
           def: {
             variant: {},

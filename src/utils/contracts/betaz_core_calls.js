@@ -4,7 +4,11 @@ import { Keyring } from "@polkadot/api";
 import { ContractPromise } from "@polkadot/api-contract";
 import { readOnlyGasLimit, getEstimatedGas } from "./index";
 import { web3FromSource } from "@polkadot/extension-dapp";
-import { formatQueryResultToNumber } from "utils";
+import {
+  formatQueryResultToNumber,
+  convertToBalance,
+  checkBalance,
+} from "utils";
 
 let contract;
 
@@ -58,8 +62,13 @@ async function play(caller, amount, bet_number, is_over) {
   if (is_over) is_over = 1;
   else is_over = 0;
 
+  if (!checkBalance(caller, 0.005)) {
+    toast.error("You don’t have enough azero for transaction fee!");
+    return;
+  }
+
   const { signer } = await web3FromSource(caller?.meta?.source);
-  let value = new BN(amount * 10 ** 6).mul(new BN(10 ** 6)).toString();
+  let value = convertToBalance(amount);
 
   gasLimit = await getEstimatedGas(
     caller?.address,

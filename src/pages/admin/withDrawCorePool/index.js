@@ -7,21 +7,21 @@ import CommonButton from "components/button/commonButton";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToBalance, isValidAddressPolkadotAddress } from "utils";
 import { execContractTx, execContractQuery } from "utils/contracts";
-import betaz_token_contract from "utils/contracts/betaz_token";
+import betaz_core_contract from "utils/contracts/betaz_core";
 import { useWallet } from "contexts/useWallet";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 
 const adminRole = process.env.REACT_APP_ADMIN_ROLE;
 
-const MinToken = () => {
+const WithDrawCorePool = () => {
   const dispatch = useDispatch();
   const { api } = useWallet();
-  const { currentAccount } = useSelector((s) => s.substrate);
+  const { currentAccount, poolBalance } = useSelector((s) => s.substrate);
 
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState(0);
   const [address, setAddress] = useState("");
-  const handleMint = async () => {
+  const handleWithdraw = async () => {
     if (!isValidAddressPolkadotAddress(address)) {
       toast.error("Invalid address");
       return;
@@ -30,10 +30,19 @@ const MinToken = () => {
       toast.error("Invalid value");
       return;
     }
+
+    if (
+      parseFloat(value) >
+      parseFloat(poolBalance?.core?.replaceAll(",", ""))
+    ) {
+      toast.error("Not enough balance!");
+      return;
+    }
+
     let hasRole = await execContractQuery(
       currentAccount?.address,
-      betaz_token_contract.CONTRACT_ABI,
-      betaz_token_contract.CONTRACT_ADDRESS,
+      betaz_core_contract.CONTRACT_ABI,
+      betaz_core_contract.CONTRACT_ADDRESS,
       0,
       "accessControl::hasRole",
       adminRole,
@@ -47,10 +56,10 @@ const MinToken = () => {
       setIsLoading(true);
       await execContractTx(
         currentAccount,
-        betaz_token_contract.CONTRACT_ABI,
-        betaz_token_contract.CONTRACT_ADDRESS,
+        betaz_core_contract.CONTRACT_ABI,
+        betaz_core_contract.CONTRACT_ADDRESS,
         0,
-        "betAZTrait::mint",
+        "betA0CoreTrait::withdrawFee",
         address,
         convertToBalance(value)
       );
@@ -78,11 +87,15 @@ const MinToken = () => {
 
   useEffect(() => {
     dispatch(fetchUserBalance({ currentAccount, api }));
+    dispatch(fetchBalance({ currentAccount, api }));
   }, [setIsLoading]);
 
   return (
-    <SectionContainer className="deposit-box-container">
-      <Text className="deposit-box-title">Mint token</Text>
+    <SectionContainer
+      className="deposit-box-container"
+      sx={{ marginTop: "100px" }}
+    >
+      <Text className="deposit-box-title">Withdraw fee Core pool</Text>
       <Box className="deposit-box-amount-box" mt="24px">
         <Text>Address</Text>
         <Flex className="deposit-box-amount-input">
@@ -119,13 +132,13 @@ const MinToken = () => {
       </Box>
       <Flex direction="column" alignItems="center" mt="24px">
         <CommonButton
-          text="Mint"
+          text="Withdraw"
           isLoading={isLoading}
-          onClick={() => handleMint()}
+          onClick={() => handleWithdraw()}
         />
       </Flex>
     </SectionContainer>
   );
 };
 
-export default MinToken;
+export default WithDrawCorePool;

@@ -1,39 +1,40 @@
-import { Box, Text, Input, Flex, Button } from "@chakra-ui/react";
+import { Box, Text, Input, Flex } from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import { SectionContainer } from "components/container";
 import { AppIcon } from "components/icons";
 import CommonButton from "components/button/commonButton";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToBalance, isValidAddressPolkadotAddress } from "utils";
+import { convertToBalance, checkBalance } from "utils";
 import { execContractTx, execContractQuery } from "utils/contracts";
+import betaz_core_contract from "utils/contracts/betaz_core";
 import betaz_token_contract from "utils/contracts/betaz_token";
 import { useWallet } from "contexts/useWallet";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 
 const adminRole = process.env.REACT_APP_ADMIN_ROLE;
 
-const MinToken = () => {
+const UpdateRewardPool = () => {
   const dispatch = useDispatch();
   const { api } = useWallet();
   const { currentAccount } = useSelector((s) => s.substrate);
-
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState(0);
-  const [address, setAddress] = useState("");
-  const handleMint = async () => {
-    if (!isValidAddressPolkadotAddress(address)) {
-      toast.error("Invalid address");
-      return;
-    }
+  const handleUpdate = async () => {
     if (value === 0 || value === "") {
-      toast.error("Invalid value");
+      toast.error("Invalid value!");
       return;
     }
+
+    if (!checkBalance(currentAccount, value, "betaz")) {
+      toast.error("Not enough balance!");
+      return;
+    }
+
     let hasRole = await execContractQuery(
       currentAccount?.address,
-      betaz_token_contract.CONTRACT_ABI,
-      betaz_token_contract.CONTRACT_ADDRESS,
+      betaz_core_contract.CONTRACT_ABI,
+      betaz_core_contract.CONTRACT_ADDRESS,
       0,
       "accessControl::hasRole",
       adminRole,
@@ -45,15 +46,29 @@ const MinToken = () => {
       return;
     } else {
       setIsLoading(true);
-      await execContractTx(
+
+      toast.success("increase Allowance...");
+      let allowance = await execContractTx(
         currentAccount,
         betaz_token_contract.CONTRACT_ABI,
         betaz_token_contract.CONTRACT_ADDRESS,
         0,
-        "betAZTrait::mint",
-        address,
+        "psp22::increaseAllowance",
+        betaz_core_contract.CONTRACT_ADDRESS,
         convertToBalance(value)
       );
+
+      if (allowance) {
+        toast.success("update Reward Pool...");
+        await execContractTx(
+          currentAccount,
+          betaz_core_contract.CONTRACT_ABI,
+          betaz_core_contract.CONTRACT_ADDRESS,
+          0,
+          "betA0CoreTrait::updateRewardPool",
+          convertToBalance(value)
+        );
+      }
       setIsLoading(false);
     }
   };
@@ -71,30 +86,17 @@ const MinToken = () => {
     }
   });
 
-  const onChangeAddress = useCallback((e) => {
-    const { value } = e.target;
-    setAddress(value);
-  });
-
   useEffect(() => {
     dispatch(fetchUserBalance({ currentAccount, api }));
+    dispatch(fetchBalance({ currentAccount, api }));
   }, [setIsLoading]);
 
   return (
-    <SectionContainer className="deposit-box-container">
-      <Text className="deposit-box-title">Mint token</Text>
-      <Box className="deposit-box-amount-box" mt="24px">
-        <Text>Address</Text>
-        <Flex className="deposit-box-amount-input">
-          <Input
-            focusBorderColor="transparent"
-            sx={{ border: "0px" }}
-            value={address}
-            onChange={onChangeAddress}
-            type="text"
-          />
-        </Flex>
-      </Box>
+    <SectionContainer
+      className="deposit-box-container"
+      sx={{ marginTop: "100px" }}
+    >
+      <Text className="deposit-box-title">Update Reward Pool</Text>
       <Box className="deposit-box-amount-box" mt="24px">
         <Text>Amount</Text>
         <Flex className="deposit-box-amount-input">
@@ -119,13 +121,13 @@ const MinToken = () => {
       </Box>
       <Flex direction="column" alignItems="center" mt="24px">
         <CommonButton
-          text="Mint"
+          text="Update Reward Pool"
           isLoading={isLoading}
-          onClick={() => handleMint()}
+          onClick={() => handleUpdate()}
         />
       </Flex>
     </SectionContainer>
   );
 };
 
-export default MinToken;
+export default UpdateRewardPool;
