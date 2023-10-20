@@ -41,8 +41,6 @@ const AdminPage = () => {
     useState(false);
 
   const [currentTab, setCurrentTab] = useState(0);
-
-  console.log({ currentTab });
   return (
     <SectionContainer>
       <Box minH="100vh" mt="48px">
