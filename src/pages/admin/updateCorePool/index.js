@@ -77,7 +77,7 @@ const UpdateCorePool = () => {
   return (
     <SectionContainer
       className="deposit-box-container"
-      sx={{ marginTop: "100px" }}
+      sx={{ marginTop: "50px" }}
     >
       <Text className="deposit-box-title">Update Core Pool</Text>
       <Box className="deposit-box-amount-box" mt="24px">

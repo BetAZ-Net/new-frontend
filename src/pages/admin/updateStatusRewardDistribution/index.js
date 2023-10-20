@@ -101,7 +101,7 @@ const UpdateStatusRewardDistribution = () => {
   return (
     <SectionContainer
       className="deposit-box-container"
-      sx={{ marginTop: "100px" }}
+      sx={{ marginTop: "50px" }}
     >
       <Text className="deposit-box-title">
         Update status reward distribution

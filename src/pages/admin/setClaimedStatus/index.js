@@ -18,7 +18,7 @@ const SetClaimedStatus = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState(false);
-  const [isStart, setIsStart] = useState(false);
+  const [isClaimed, setIsClaimed] = useState(false);
   const [address, setAddress] = useState("");
 
   const handleSwitch = async () => {
@@ -27,7 +27,7 @@ const SetClaimedStatus = () => {
       return;
     }
     
-    if (value === isStart) {
+    if (value === isClaimed) {
       toast.error("Invalid status!");
       return;
     }
@@ -108,7 +108,7 @@ const SetClaimedStatus = () => {
       await delay(3000);
       toast.dismiss(toasthandle);
       setIsLoading(false);
-      setIsStart(value);
+      setIsClaimed(value);
     }
   };
 
@@ -125,10 +125,10 @@ const SetClaimedStatus = () => {
   return (
     <SectionContainer
       className="deposit-box-container"
-      sx={{ marginTop: "100px" }}
+      sx={{ marginTop: "50px" }}
     >
       <Text className="deposit-box-title">
-        Update status reward distribution
+        Set claimed status
       </Text>
       <Box className="deposit-box-amount-box" mt="24px">
         <Text>Address</Text>
@@ -145,7 +145,7 @@ const SetClaimedStatus = () => {
       <Box className="deposit-box-amount-box" mt="24px">
         <SimpleGrid columns={2}>
           <Text textAlign="center">
-            Status: <b>{isStart ? "Claimed" : "Can Claim"}</b>
+            Status: <b>{isClaimed ? "Claimed" : "Can Claim"}</b>
           </Text>
           <Flex justifyContent="center" alignItems="center">
             <Switch

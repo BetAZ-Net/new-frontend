@@ -81,7 +81,10 @@ const MinToken = () => {
   }, [setIsLoading]);
 
   return (
-    <SectionContainer className="deposit-box-container">
+    <SectionContainer
+      className="deposit-box-container"
+      sx={{ marginTop: "50px" }}
+    >
       <Text className="deposit-box-title">Mint token</Text>
       <Box className="deposit-box-amount-box" mt="24px">
         <Text>Address</Text>
