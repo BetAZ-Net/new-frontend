@@ -35,7 +35,7 @@ const WithdrawTreasuryPool = () => {
     }
 
     if (
-      parseFloat(value) > parseFloat(poolBalance?.staking?.replaceAll(",", ""))
+      parseFloat(value) > parseFloat(poolBalance?.treasury?.replaceAll(",", ""))
     ) {
       toast.error("Not enough balance!");
       return;

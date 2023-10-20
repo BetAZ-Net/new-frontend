@@ -8,6 +8,7 @@ import {
   SliderTrack,
   Text,
   Input,
+  Modal,
 } from "@chakra-ui/react";
 import { SectionContainer } from "components/container";
 import { useState, useEffect, useCallback } from "react";
