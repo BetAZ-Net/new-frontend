@@ -9,6 +9,9 @@ import UpdateRewardPool from "./updateRewardPool";
 import WithDrawCorePool from "./withDrawCorePool";
 import WithDrawStakingPool from "./withDrawStakingPool";
 import Locked from "./locked";
+import UpdateStatusRewardDistribution from "./updateStatusRewardDistribution";
+import SetClaimedStatus from "./setClaimedStatus";
+import WithdrawTreasuryPool from "./withdrawTreasuryPool";
 
 const AdminPage = () => {
   const [subcribeEmailModalVisible, setBetSubcribeEmailModalVisible] =
@@ -21,7 +24,10 @@ const AdminPage = () => {
         <UpdateRewardPool />
         <WithDrawCorePool />
         <WithDrawStakingPool />
+        <WithdrawTreasuryPool />
         <Locked />
+        <UpdateStatusRewardDistribution />
+        <SetClaimedStatus />
         <SubcribeEmailModal
           isOpen={subcribeEmailModalVisible}
           onClose={() => setBetSubcribeEmailModalVisible(false)}

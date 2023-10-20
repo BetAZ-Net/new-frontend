@@ -1,40 +1,50 @@
-import { Box, Text, Input, Flex } from "@chakra-ui/react";
+import { Box, Text, Input, Flex, Button } from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import { SectionContainer } from "components/container";
 import { AppIcon } from "components/icons";
 import CommonButton from "components/button/commonButton";
 import { useDispatch, useSelector } from "react-redux";
-import { convertToBalance, checkBalance, delay } from "utils";
+import { convertToBalance, isValidAddressPolkadotAddress } from "utils";
 import { execContractTx, execContractQuery } from "utils/contracts";
-import betaz_core_contract from "utils/contracts/betaz_core";
-import betaz_token_contract from "utils/contracts/betaz_token";
+import staking_pool_contract from "utils/contracts/staking_pool";
 import { useWallet } from "contexts/useWallet";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
+import { ApiPromise } from "@polkadot/api";
+import { Keyring } from "@polkadot/keyring";
 
 const adminRole = process.env.REACT_APP_ADMIN_ROLE;
+const treasuryPoolPhase = process.env.REACT_APP_TREASURY_POOL_PHASE;
 
-const UpdateRewardPool = () => {
+const WithdrawTreasuryPool = () => {
   const dispatch = useDispatch();
   const { api } = useWallet();
-  const { currentAccount } = useSelector((s) => s.substrate);
+  const { currentAccount, poolBalance } = useSelector((s) => s.substrate);
+
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState(0);
-  const handleUpdate = async () => {
+  const [address, setAddress] = useState("");
+  const handleWithdraw = async () => {
+    if (!isValidAddressPolkadotAddress(address)) {
+      toast.error("Invalid address");
+      return;
+    }
     if (value === 0 || value === "") {
-      toast.error("Invalid value!");
+      toast.error("Invalid value");
       return;
     }
 
-    if (!checkBalance(currentAccount, value, "betaz")) {
+    if (
+      parseFloat(value) > parseFloat(poolBalance?.staking?.replaceAll(",", ""))
+    ) {
       toast.error("Not enough balance!");
       return;
     }
 
     let hasRole = await execContractQuery(
       currentAccount?.address,
-      betaz_core_contract.CONTRACT_ABI,
-      betaz_core_contract.CONTRACT_ADDRESS,
+      staking_pool_contract.CONTRACT_ABI,
+      staking_pool_contract.CONTRACT_ADDRESS,
       0,
       "accessControl::hasRole",
       adminRole,
@@ -46,30 +56,17 @@ const UpdateRewardPool = () => {
       return;
     } else {
       setIsLoading(true);
-      const toastApprove = toast.loading("Approved ...");
-      let allowance = await execContractTx(
-        currentAccount,
-        betaz_token_contract.CONTRACT_ABI,
-        betaz_token_contract.CONTRACT_ADDRESS,
-        0,
-        "psp22::increaseAllowance",
-        betaz_core_contract.CONTRACT_ADDRESS,
-        convertToBalance(value)
-      );
-      toast.dismiss(toastApprove);
+      const toastTransfer = toast.loading("Transfer ....");
+      const keyring = new Keyring({ type: "sr25519" });
 
-      if (allowance) {
-        await delay(3000);
-        const toastHandle = toast.loading("Execute update reward pool ...");
-        await execContractTx(
-          currentAccount,
-          betaz_core_contract.CONTRACT_ABI,
-          betaz_core_contract.CONTRACT_ADDRESS,
-          0,
-          "betA0CoreTrait::updateRewardPool",
-          convertToBalance(value)
-        );
-        toast.dismiss(toastHandle);
+      const alice = keyring.createFromUri(treasuryPoolPhase);
+
+      const transfer = api.tx.balances.transfer(address, convertToBalance(value));
+
+      const result = await transfer.signAndSend(alice);
+      toast.dismiss(toastTransfer);
+      if (result) {
+        toast.success("Successfully");
       }
       setIsLoading(false);
     }
@@ -88,6 +85,11 @@ const UpdateRewardPool = () => {
     }
   });
 
+  const onChangeAddress = useCallback((e) => {
+    const { value } = e.target;
+    setAddress(value);
+  });
+
   useEffect(() => {
     dispatch(fetchUserBalance({ currentAccount, api }));
     dispatch(fetchBalance({ currentAccount, api }));
@@ -98,7 +100,19 @@ const UpdateRewardPool = () => {
       className="deposit-box-container"
       sx={{ marginTop: "100px" }}
     >
-      <Text className="deposit-box-title">Update Reward Pool</Text>
+      <Text className="deposit-box-title">Withdraw feetreasury pool</Text>
+      <Box className="deposit-box-amount-box" mt="24px">
+        <Text>Address</Text>
+        <Flex className="deposit-box-amount-input">
+          <Input
+            focusBorderColor="transparent"
+            sx={{ border: "0px" }}
+            value={address}
+            onChange={onChangeAddress}
+            type="text"
+          />
+        </Flex>
+      </Box>
       <Box className="deposit-box-amount-box" mt="24px">
         <Text>Amount</Text>
         <Flex className="deposit-box-amount-input">
@@ -123,13 +137,13 @@ const UpdateRewardPool = () => {
       </Box>
       <Flex direction="column" alignItems="center" mt="24px">
         <CommonButton
-          text="Update Reward Pool"
+          text="Withdraw"
           isLoading={isLoading}
-          onClick={() => handleUpdate()}
+          onClick={() => handleWithdraw()}
         />
       </Flex>
     </SectionContainer>
   );
 };
 
-export default UpdateRewardPool;
+export default WithdrawTreasuryPool;

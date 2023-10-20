@@ -95,7 +95,7 @@ async function play(caller, amount, bet_number, is_over) {
 
         if (status) {
           const statusText = Object.keys(status.toHuman())[0];
-          if (statusText === "0") toast.success(`Placing Bet ...`);
+          if (statusText === "0") toast.success(`Playing Bet ...`);
         }
       }
     )
@@ -165,6 +165,11 @@ async function getHoldAmountPlayers(caller) {
 async function withdrawHoldAmount(caller, amount) {
   if (!contract || !caller?.address) {
     return null;
+  }
+
+  if (parseFloat(amount) <= 0) {
+    toast.error(`invalid inputs`);
+    return;
   }
 
   let unsubscribe;

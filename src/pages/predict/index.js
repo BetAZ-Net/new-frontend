@@ -53,7 +53,7 @@ const betAmountList = [
 
 const Predict = () => {
   const dispatch = useDispatch();
-  const { luckyNumber, setLuckyNumber, gameOn, setGameOn } = useGame();
+  const { setLuckyNumber, gameOn, setGameOn } = useGame();
   const { api } = useWallet();
 
   const [sliderValue, setSliderValue] = useState(50);
@@ -66,8 +66,8 @@ const Predict = () => {
   const [position, setPosition] = useState(50);
   const [rollOver, setRollOver] = useState(true);
   const [maxBet, setMaxBet] = useState(10);
-
   const [betValue, setBetValue] = useState(1);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const onChangePosition = (value) => {
     setPosition(value);
@@ -128,16 +128,16 @@ const Predict = () => {
       return;
     }
 
+    setIsDisabled(true);
     const bet = await betaz_core.getBet(currentAccount?.address);
-
     if (bet) {
       setGameOn(true);
       setLuckyNumber(-1);
+      const toastHandle = toast.loading("Execute finalize ...");
       let finalized = await clientAPI("post", "/finalize", {
         player: currentAccount?.address,
       });
-
-      console.log("finalized", finalized);
+      toast.dismiss(toastHandle);
 
       if (!finalized) {
         toast.error("Something wrong with your roll");
@@ -148,6 +148,7 @@ const Predict = () => {
       }
 
       // finalize
+      setIsDisabled(false);
       setGameOn(false);
       setLuckyNumber(parseInt(finalized.random_number));
       if (finalized.is_win) toast("You won " + finalized.win_amount + " AZERO");
@@ -180,6 +181,7 @@ const Predict = () => {
       if (!played) {
         toast.error("Something wrong with your roll");
         setLuckyNumber(-1);
+        setIsDisabled(false);
         setGameOn(false);
         loadBalance();
         return;
@@ -191,11 +193,11 @@ const Predict = () => {
 
     loadBalance();
     await delay(2000);
+    const toastHandle = toast.loading("Execute finalize ...");
     let finalized = await clientAPI("post", "/finalize", {
       player: currentAccount?.address,
     });
-
-    console.log("finalized", finalized);
+    toast.dismiss(toastHandle);
 
     if (!finalized) {
       toast.error("Something wrong with your roll");
@@ -206,6 +208,7 @@ const Predict = () => {
     }
 
     // finalize
+    setIsDisabled(false);
     setGameOn(false);
     setLuckyNumber(parseInt(finalized.random_number));
     if (finalized.is_win) toast("You won " + finalized.win_amount + " AZERO");
@@ -449,7 +452,12 @@ const Predict = () => {
                 >
                   Deposit
                 </Button>
-                <Button minW="50%" py="10px" onClick={() => onRoll()}>
+                <Button
+                  minW="50%"
+                  py="10px"
+                  isDisabled={isDisabled}
+                  onClick={() => onRoll()}
+                >
                   ROLL {rollOver ? "OVER" : "UNDER"} {position}
                 </Button>
               </SimpleGrid>

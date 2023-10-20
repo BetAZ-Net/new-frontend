@@ -1,10 +1,4 @@
-import {
-  Box,
-  Text,
-  Flex,
-  Switch,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, Text, Flex, Switch, SimpleGrid } from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import { SectionContainer } from "components/container";
@@ -17,34 +11,50 @@ import { useWallet } from "contexts/useWallet";
 
 const adminRole = process.env.REACT_APP_ADMIN_ROLE;
 
-const Locked = () => {
+const UpdateStatusRewardDistribution = () => {
   const { currentAccount } = useSelector((s) => s.substrate);
   const { api } = useWallet();
 
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState(false);
-  const [isLocked, setIsLocked] = useState(false);
+  const [isStart, setIsStart] = useState(false);
 
-  const getIslocked = async () => {
+  const getIsStartReward = async () => {
     const result = await execContractQuery(
+      currentAccount?.address,
+      staking_pool_contract.CONTRACT_ABI,
+      staking_pool_contract.CONTRACT_ADDRESS,
+      0,
+      "stakingPoolTrait::getRewardStarted"
+    );
+
+    const lock = result?.toHuman().Ok;
+    setIsStart(lock);
+    setValue(lock);
+  };
+
+  const handleSwitch = async () => {
+    if (value === isStart) {
+      toast.error("Invalid status!");
+      return;
+    }
+
+    const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
+    const checkLock = await execContractQuery(
       currentAccount?.address,
       staking_pool_contract.CONTRACT_ABI,
       staking_pool_contract.CONTRACT_ADDRESS,
       0,
       "stakingPoolTrait::getIsLocked"
     );
+    toast.dismiss(toastCheckLock);
 
-    const lock = result?.toHuman().Ok;
-    setIsLocked(lock);
-    setValue(lock);
-  };
-
-  const handleSwitch = async () => {
-    if (value === isLocked) {
-      toast.error("Invalid status!");
+    if (!checkLock?.toHuman().Ok) {
+      toast.error("Reward is locked!");
       return;
     }
-
+    
+    const toastCheckRole = toast.loading("Step 2: Check Role Admin ...");
     let hasRole = await execContractQuery(
       currentAccount?.address,
       staking_pool_contract.CONTRACT_ABI,
@@ -54,23 +64,26 @@ const Locked = () => {
       adminRole,
       currentAccount?.address
     );
+    toast.dismiss(toastCheckRole);
 
     if (!hasRole?.toHuman().Ok) {
       toast.error("You not admin!");
       return;
     } else {
       setIsLoading(true);
+      const toasthandle = toast.loading("Step 3: Updating ...");
       await execContractTx(
         currentAccount,
         staking_pool_contract.CONTRACT_ABI,
         staking_pool_contract.CONTRACT_ADDRESS,
         0,
-        "stakingPoolTrait::updateIsLocked",
+        "stakingPoolTrait::updateStatusRewardDistribution",
         value
       );
       await delay(3000);
+      toast.dismiss(toasthandle);
       setIsLoading(false);
-      setIsLocked(value);
+      setIsStart(value);
     }
   };
 
@@ -80,7 +93,9 @@ const Locked = () => {
   });
 
   useEffect(() => {
-    if (api && currentAccount?.address) getIslocked();
+    if (api && currentAccount?.address) {
+      getIsStartReward();
+    }
   }, [currentAccount, api]);
 
   return (
@@ -88,11 +103,13 @@ const Locked = () => {
       className="deposit-box-container"
       sx={{ marginTop: "100px" }}
     >
-      <Text className="deposit-box-title">Update is locked</Text>
+      <Text className="deposit-box-title">
+        Update status reward distribution
+      </Text>
       <Box className="deposit-box-amount-box" mt="24px">
         <SimpleGrid columns={2}>
           <Text textAlign="center">
-            Status: <b>{isLocked ? "Locked" : "Not lock"}</b>
+            Status: <b>{isStart ? "Start reward" : "End reward"}</b>
           </Text>
           <Flex justifyContent="center" alignItems="center">
             <Switch
@@ -117,4 +134,4 @@ const Locked = () => {
   );
 };
 
-export default Locked;
+export default UpdateStatusRewardDistribution;
