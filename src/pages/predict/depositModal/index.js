@@ -38,6 +38,8 @@ const DepositModal = ({ visible, onClose }) => {
   const [azeroAmount, setAzeroAmount] = useState(0);
   const [holdAmount, setHoldAmount] = useState(0);
   const [holdAmountVal, setHoldAmountVal] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [tokenRatio, setTokenRatio] = useState(0);
 
   /** Count down time */
   let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
@@ -90,10 +92,11 @@ const DepositModal = ({ visible, onClose }) => {
     setMaxbuyAmount(
       (
         (parseFloat(amountMaxBuy?.replaceAll(",", "")) -
-          parseFloat(amountTokenSold)) /
+          parseFloat(amountTokenSold?.replaceAll(",", ""))) /
         tokenRatio
       ).toFixed(4)
     );
+    setTokenRatio(tokenRatio);
   };
 
   const onChangeToken = useCallback((e) => {
@@ -113,6 +116,16 @@ const DepositModal = ({ visible, onClose }) => {
   });
 
   const buy = async () => {
+    const difference = endTimeNumber - +new Date();
+    if (difference <= 0) {
+      toast.error("End time buy!");
+      return;
+    }
+    if (!buyStatus?.status) {
+      toast.error("Can not buy!");
+      return;
+    }
+    setIsLoading(true);
     if (currentAccount?.address) {
       let buyAmount = parseFloat(azeroAmount);
       const result = await betaz_token.buy(currentAccount, buyAmount);
@@ -122,6 +135,7 @@ const DepositModal = ({ visible, onClose }) => {
         dispatch(fetchBalance({ currentAccount }));
         getMaxbuy();
       } else toast.error(`Buy failure`);
+      setIsLoading(false);
     }
   };
 
@@ -147,6 +161,7 @@ const DepositModal = ({ visible, onClose }) => {
         toast.error("Not enough balance!");
         return;
       } else {
+        setIsLoading(true);
         let amount = parseFloat(holdAmountVal);
         const result = await betaz_core.withdrawHoldAmount(
           currentAccount,
@@ -158,6 +173,7 @@ const DepositModal = ({ visible, onClose }) => {
           dispatch(fetchBalance({ currentAccount }));
           getHoldAmount();
         } else toast.error(`Withdraw failure`);
+        setIsLoading(false);
       }
     }
   };
@@ -267,7 +283,9 @@ const DepositModal = ({ visible, onClose }) => {
                         </Flex>
                       </Flex>
                     </Box>
-                    <Button onClick={() => buy()}>Deposit</Button>
+                    <Button isDisabled={isLoading} onClick={() => buy()}>
+                      Deposit
+                    </Button>
                     <Box>
                       <Text textAlign="center">
                         By Clicking your agree with our
@@ -309,7 +327,9 @@ const DepositModal = ({ visible, onClose }) => {
                         />
                       </Flex>
                     </Box>
-                    <Button onClick={withdraw}>Withdraw hold amount</Button>
+                    <Button isDisabled={isLoading} onClick={withdraw}>
+                      Withdraw hold amount
+                    </Button>
                     <Box>
                       <Text textAlign="center">
                         By Clicking your agree with our
@@ -348,7 +368,9 @@ const DepositModal = ({ visible, onClose }) => {
                     Easy way for crypto Play
                   </Text>
                   <Text className="deposit-circle-amount linear-text-color-01">
-                    {maxbuyAmount ? formatTokenBalance(maxbuyAmount, 4) : 0}
+                    {!isNaN(maxbuyAmount)
+                      ? formatTokenBalance(maxbuyAmount * tokenRatio, 4)
+                      : 0}
                   </Text>
                   <Box>
                     <Text className="deposit-circle-finish-title">

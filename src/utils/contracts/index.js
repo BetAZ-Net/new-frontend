@@ -147,11 +147,14 @@ export function readOnlyGasLimit(contract) {
 
 export async function execContractQuery(
   callerAddress, // -> currentAccount?.address
-  contract,
+  contractAbi,
+  contractAddress,
   value = 0,
   queryName,
   ...args
 ) {
+  const contract = new ContractPromise(wsApi, contractAbi, contractAddress);
+
   const gasLimit = readOnlyGasLimit(contract);
   try {
     const { result, output } = await contract.query[queryName](
@@ -225,7 +228,8 @@ export async function execContractQuerybyMetadataConvertResult(
 
 export async function execContractTx(
   caller, // -> currentAccount Object
-  contract,
+  contractAbi,
+  contractAddress,
   value = 0,
   queryName,
   ...args
@@ -242,6 +246,8 @@ export async function execContractTx(
     toast.error("You don’t have enough azero for transaction fee!");
     return;
   }
+
+  const contract = new ContractPromise(wsApi, contractAbi, contractAddress);
 
   let unsubscribe;
   const { signer } = await web3FromSource(caller?.meta?.source);
@@ -260,7 +266,7 @@ export async function execContractTx(
     return;
   }
 
-  const { value: gasLimit } = gasLimitResult;
+  const gasLimit = gasLimitResult?.value;
 
   const txNotSign = contract.tx[queryName]({ gasLimit, value }, ...args);
 
@@ -362,15 +368,15 @@ export const txResponseErrorHandler = async ({
 
         allEventsRecords.forEach(({ event }, index) => {
           if (api.events.transactionPayment?.TransactionFeePaid.is(event)) {
-            data.FeePaid = -event.data[1]?.toString() / 10 ** 12;
+            data.FeePaid = -event.data[1]?.toString() / 10 ** 18;
           }
 
           if (api.events.balances?.Reserved.is(event)) {
-            data.Reserved = -event.data[1]?.toString() / 10 ** 12;
+            data.Reserved = -event.data[1]?.toString() / 10 ** 18;
           }
 
           if (api.events.balances?.ReserveRepatriated.is(event)) {
-            data.ReserveRepatriated = event.data[2]?.toString() / 10 ** 12;
+            data.ReserveRepatriated = event.data[2]?.toString() / 10 ** 18;
           }
         });
 
@@ -404,15 +410,15 @@ export const txResponseErrorHandler = async ({
 
       allEventsRecords.forEach(({ event }, index) => {
         if (api.events.transactionPayment?.TransactionFeePaid.is(event)) {
-          data.FeePaid = -event.data[1]?.toString() / 10 ** 12;
+          data.FeePaid = -event.data[1]?.toString() / 10 ** 18;
         }
 
         if (api.events.balances?.Reserved.is(event)) {
-          data.Reserved = -event.data[1]?.toString() / 10 ** 12;
+          data.Reserved = -event.data[1]?.toString() / 10 ** 18;
         }
 
         if (api.events.balances?.ReserveRepatriated.is(event)) {
-          data.ReserveRepatriated = event.data[2]?.toString() / 10 ** 12;
+          data.ReserveRepatriated = event.data[2]?.toString() / 10 ** 18;
         }
       });
 
@@ -426,4 +432,3 @@ export const txResponseErrorHandler = async ({
     }
   }
 };
-

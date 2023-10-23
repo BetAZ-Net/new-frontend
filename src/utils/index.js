@@ -2,6 +2,20 @@ import numeral from "numeral";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { hexToU8a, formatBalance, isHex, BN, BN_ONE } from "@polkadot/util";
 
+export const convertToBalance = (value, decimal = 18) => {
+  let amount = parseFloat(value);
+  return formatNumToBN(amount, decimal);
+};
+
+export const checkBalance = (currentAccount, value, money = "azero") => {
+  let a;
+  if (money === "azero")
+    a = parseFloat(currentAccount?.balance?.azero?.replaceAll(",", ""));
+  else a = parseFloat(currentAccount?.balance?.betaz?.replaceAll(",", ""));
+  let b = parseFloat(value);
+  return a > b;
+};
+
 export const formatChainStringToNumber = (str) => {
   if (typeof str !== "string") return str;
 
@@ -41,14 +55,13 @@ export const formatQueryResultToNumber = (result, chainDecimals = 18) => {
 };
 
 export const formatTokenBalance = (result, number = 2) => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: number
-  })
-  return formatter.format(result).replace(/^\$/, '');
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: number,
+  });
+  return formatter.format(result).replace(/^\$/, "");
 };
-
 
 export function isAddressValid(address) {
   try {

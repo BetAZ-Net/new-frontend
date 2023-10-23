@@ -26,11 +26,11 @@ export const formatTableValue = (value, key) => {
 
     case "type":
       return value ? (
-        <Text textAlign="center" color="#1A74E4">
+        <Text textAlign="center" color="#FFA000">
           OVER
         </Text>
       ) : (
-        <Text textAlign="center" color="#FFA000">
+        <Text textAlign="center"  color="#1A74E4">
           UNDER
         </Text>
       );

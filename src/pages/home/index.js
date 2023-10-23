@@ -72,6 +72,8 @@ const HomePage = () => {
   const { currentAccount, buyStatus } = useSelector((s) => s.substrate);
   const [maxbuyAmount, setMaxbuyAmount] = useState(10);
   const [azeroAmount, setAzeroAmount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [tokenRatio, setTokenRatio] = useState(0);
 
   /*************** Count down time ********************/
   let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
@@ -125,10 +127,11 @@ const HomePage = () => {
     setMaxbuyAmount(
       (
         (parseFloat(amountMaxBuy?.replaceAll(",", "")) -
-          parseFloat(amountTokenSold)) /
+          parseFloat(amountTokenSold?.replaceAll(",", ""))) /
         tokenRatio
       ).toFixed(4)
     );
+    setTokenRatio(tokenRatio);
   };
 
   const onChangeToken = (e) => {
@@ -148,6 +151,16 @@ const HomePage = () => {
   };
 
   const buy = async () => {
+    const difference = endTimeNumber - +new Date();
+    if (difference <= 0) {
+      toast.error("End time buy!");
+      return;
+    }
+    if (!buyStatus?.status) {
+      toast.error("Can not buy!");
+      return;
+    }
+    setIsLoading(true);
     if (currentAccount?.address) {
       let buyAmount = parseFloat(azeroAmount);
       const result = await betaz_token.buy(currentAccount, buyAmount);
@@ -155,6 +168,7 @@ const HomePage = () => {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
       } else toast.error(`Buy failure`);
+      setIsLoading(false);
     }
   };
 
@@ -197,6 +211,7 @@ const HomePage = () => {
   };
   /*************** End Send mail ******************************/
 
+  console.log({ maxbuyAmount });
   return (
     <Box>
       <Box className="landing-page-banner-container" bgImage={HomeBannerBG}>
@@ -356,7 +371,9 @@ const HomePage = () => {
                   </Flex>
                 </Box>
                 <Flex direction="column" alignItems="center" mt="24px">
-                  <Button onClick={() => buy()}>BUY NOW</Button>
+                  <Button isDisabled={isLoading} onClick={() => buy()}>
+                    BUY NOW
+                  </Button>
                   <Text mt="24px">By Clicking your agree with our</Text>
                   <Text className="linear-text-color-01 term-aggreement-text">
                     Terms and Conditions, Privacy Policy
@@ -389,7 +406,7 @@ const HomePage = () => {
                   Easy way for crypto Play
                 </Text>
                 <Text className="deposit-circle-amount linear-text-color-01">
-                  {maxbuyAmount ? formatTokenBalance(maxbuyAmount, 4) : 0}
+                  {!isNaN(maxbuyAmount) ? formatTokenBalance(maxbuyAmount * tokenRatio, 4) : 0}
                 </Text>
                 <Box>
                   <Text className="deposit-circle-finish-title">
