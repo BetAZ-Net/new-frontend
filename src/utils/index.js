@@ -4,7 +4,7 @@ import { hexToU8a, formatBalance, isHex, BN, BN_ONE } from "@polkadot/util";
 
 export const convertToBalance = (value, decimal = 12) => {
   let amount = parseFloat(value);
-  return new BN(amount).mul(new BN(10 ** decimal)).toString();
+  return formatNumToBN(amount, decimal);
 };
 
 export const checkBalance = (currentAccount, value, money = "azero") => {

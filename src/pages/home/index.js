@@ -70,6 +70,7 @@ const HomePage = () => {
   const [maxbuyAmount, setMaxbuyAmount] = useState(10);
   const [azeroAmount, setAzeroAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [tokenRatio, setTokenRatio] = useState(0);
 
   /*************** Count down time ********************/
   let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
@@ -127,6 +128,7 @@ const HomePage = () => {
         tokenRatio
       ).toFixed(4)
     );
+    setTokenRatio(tokenRatio);
   };
 
   const onChangeToken = useCallback((e) => {
@@ -401,7 +403,9 @@ const HomePage = () => {
                   Easy way for crypto Play
                 </Text>
                 <Text className="deposit-circle-amount linear-text-color-01">
-                  {maxbuyAmount ? formatTokenBalance(maxbuyAmount, 4) : 0}
+                  {!isNaN(maxbuyAmount)
+                    ? formatTokenBalance(maxbuyAmount * tokenRatio, 4)
+                    : 0}
                 </Text>
                 <Box>
                   <Text className="deposit-circle-finish-title">

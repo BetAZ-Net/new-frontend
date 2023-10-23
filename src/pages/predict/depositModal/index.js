@@ -37,6 +37,7 @@ const DepositModal = ({ visible, onClose }) => {
   const [holdAmount, setHoldAmount] = useState(0);
   const [holdAmountVal, setHoldAmountVal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [tokenRatio, setTokenRatio] = useState(0);
 
   /** Count down time */
   let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
@@ -93,6 +94,7 @@ const DepositModal = ({ visible, onClose }) => {
         tokenRatio
       ).toFixed(4)
     );
+    setTokenRatio(tokenRatio);
   };
 
   const onChangeToken = useCallback((e) => {
@@ -117,7 +119,7 @@ const DepositModal = ({ visible, onClose }) => {
       toast.error("End time buy!");
       return;
     }
-    if(!buyStatus?.status) {
+    if (!buyStatus?.status) {
       toast.error("Can not buy!");
       return;
     }
@@ -364,7 +366,9 @@ const DepositModal = ({ visible, onClose }) => {
                     Easy way for crypto Play
                   </Text>
                   <Text className="deposit-circle-amount linear-text-color-01">
-                    {maxbuyAmount ? formatTokenBalance(maxbuyAmount, 4) : 0}
+                    {!isNaN(maxbuyAmount)
+                      ? formatTokenBalance(maxbuyAmount * tokenRatio, 4)
+                      : 0}
                   </Text>
                   <Box>
                     <Text className="deposit-circle-finish-title">
