@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// const baseURL = "http://backend.betaz.io/";
+// const baseURL = "https://backend.betaz.io/";
 const baseURL = "http://localhost:3000/";
 
 export const clientAPI = async (method, url, options) => {
