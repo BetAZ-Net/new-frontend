@@ -22,7 +22,7 @@ import {
   fetchRollNumbers,
   fetchBalance,
   fetchRates,
-  fetchBuyStatus
+  fetchBuyStatus,
 } from "store/slices/substrateSlice";
 import { web3Enable } from "@polkadot/extension-dapp";
 import AdminPage from "pages/admin";
@@ -100,6 +100,7 @@ const App = () => {
   return (
     <DefaultLayout>
       <Routes>
+        <Route path="*" element={<Predict />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/app" element={<Predict />} />
         <Route path="/admin" element={<AdminPage />} />
