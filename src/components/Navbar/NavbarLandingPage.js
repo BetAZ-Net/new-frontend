@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import AppLogo from "assets/img/app-logo-text.png";
 import NetWorkButton from "components/Network/NetworkButton";
 import WalletButton from "components/wallet/WalletButton";

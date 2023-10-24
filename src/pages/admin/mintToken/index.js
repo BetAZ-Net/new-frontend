@@ -1,4 +1,4 @@
-import { Box, Text, Input, Flex, Button } from "@chakra-ui/react";
+import { Box, Text, Input, Flex } from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import { SectionContainer } from "components/container";
@@ -9,7 +9,7 @@ import { convertToBalance, isValidAddressPolkadotAddress } from "utils";
 import { execContractTx, execContractQuery } from "utils/contracts";
 import betaz_token_contract from "utils/contracts/betaz_token";
 import { useWallet } from "contexts/useWallet";
-import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
+import { fetchUserBalance } from "store/slices/substrateSlice";
 
 const adminRole = process.env.REACT_APP_ADMIN_ROLE;
 
@@ -60,9 +60,9 @@ const MinToken = () => {
 
   const onChangeValue = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let val = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "" ) {
       val = parseFloat(value);
       if (val < 0) val = 1;
       else {
@@ -106,7 +106,7 @@ const MinToken = () => {
             sx={{ border: "0px" }}
             value={value}
             onChange={onChangeValue}
-            type="number"
+            // type="number"
           />
           <Flex
             w="100px"

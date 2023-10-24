@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Flex,
   Image,
   Input,
@@ -25,6 +24,9 @@ import toast from "react-hot-toast";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 import { formatTokenBalance } from "utils";
 import { convertTimeStampToNumber } from "utils";
+import CommonButton from "components/button/commonButton";
+
+const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
 const DepositModal = ({ visible, onClose }) => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -83,9 +85,9 @@ const DepositModal = ({ visible, onClose }) => {
   /** Buy token */
   const getMaxbuy = async () => {
     const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
-      await betaz_token.getAmountTokenSold(currentAccount?.address),
-      await betaz_token.getMaxBuyAmount(currentAccount?.address),
-      await betaz_token.getTokenRatio(currentAccount?.address),
+      await betaz_token.getAmountTokenSold(defaultCaller),
+      await betaz_token.getMaxBuyAmount(defaultCaller),
+      await betaz_token.getTokenRatio(defaultCaller),
     ]);
     setMaxbuyAmount(
       (
@@ -99,9 +101,9 @@ const DepositModal = ({ visible, onClose }) => {
 
   const onChangeToken = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let tokenValue = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       tokenValue = parseFloat(value);
       if (tokenValue < 0) tokenValue = 1;
       if (tokenValue > maxbuyAmount) {
@@ -115,6 +117,10 @@ const DepositModal = ({ visible, onClose }) => {
 
   const buy = async () => {
     const difference = endTimeNumber - +new Date();
+    if (azeroAmount === "") {
+      toast.error("invalid inputs!");
+      return;
+    }
     if (difference <= 0) {
       toast.error("End time buy!");
       return;
@@ -130,17 +136,15 @@ const DepositModal = ({ visible, onClose }) => {
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
-        dispatch(fetchBalance({ currentAccount }));
+        dispatch(fetchBalance());
         getMaxbuy();
-      } else toast.error(`Buy failure`);
+      }
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (currentAccount?.address) {
-      getMaxbuy();
-    }
+    getMaxbuy();
   }, [onChangeToken]);
 
   /** Withdraw azero */
@@ -153,6 +157,10 @@ const DepositModal = ({ visible, onClose }) => {
   const withdraw = async () => {
     setIsLoading(true);
     if (currentAccount?.address) {
+      if (holdAmountVal === "") {
+        toast.error("invalid inputs!");
+        return;
+      }
       if (!holdAmount) {
         toast.error("You not hold amount!");
         return;
@@ -170,7 +178,7 @@ const DepositModal = ({ visible, onClose }) => {
           dispatch(fetchUserBalance({ currentAccount }));
           dispatch(fetchBalance({ currentAccount }));
           getHoldAmount();
-        } else toast.error(`Withdraw failure`);
+        }
         setIsLoading(false);
       }
     }
@@ -178,9 +186,9 @@ const DepositModal = ({ visible, onClose }) => {
 
   const onChangeholdAmount = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let holdValue = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       holdValue = parseFloat(value);
       if (holdValue < 0) holdValue = 1;
       if (holdValue > holdAmount) {
@@ -266,7 +274,7 @@ const DepositModal = ({ visible, onClose }) => {
                           sx={{ border: "0px" }}
                           value={azeroAmount}
                           onChange={onChangeToken}
-                          type="Number"
+                          // type="Number"
                         />
                         <Flex
                           cursor="pointer"
@@ -281,9 +289,11 @@ const DepositModal = ({ visible, onClose }) => {
                         </Flex>
                       </Flex>
                     </Box>
-                    <Button onClick={() => buy()} isDisabled={isLoading}>
-                      Deposit
-                    </Button>
+                    <CommonButton
+                      onClick={() => buy()}
+                      text="Deposit"
+                      isLoading={isLoading}
+                    />
                     <Box>
                       <Text textAlign="center">
                         By Clicking your agree with our
@@ -321,13 +331,15 @@ const DepositModal = ({ visible, onClose }) => {
                           sx={{ border: "0px" }}
                           onChange={onChangeholdAmount}
                           value={holdAmountVal}
-                          type="Number"
+                          // type="Number"
                         />
                       </Flex>
                     </Box>
-                    <Button onClick={withdraw} isDisabled={isLoading}>
-                      Withdraw hold amount
-                    </Button>
+                    <CommonButton
+                        onClick={() => withdraw()}
+                        text="Withdraw hold amount"
+                        isLoading={isLoading}
+                      />
                     <Box>
                       <Text textAlign="center">
                         By Clicking your agree with our

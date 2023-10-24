@@ -8,10 +8,9 @@ import {
   SliderTrack,
   Text,
   Input,
-  Modal,
 } from "@chakra-ui/react";
 import { SectionContainer } from "components/container";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import HistoryButton from "./historyButton";
 import LuckyNumberBox from "./luckyNumber";
 import Pools from "./pools";
@@ -34,6 +33,7 @@ import {
 } from "store/slices/substrateSlice";
 import { delay } from "utils";
 import { AppIcon } from "components/icons";
+import CommonButton from "components/button/commonButton";
 
 const labelStyles = {
   fontSize: "20px",
@@ -51,6 +51,8 @@ const betAmountList = [
     label: "Max",
   },
 ];
+
+const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
 const Predict = () => {
   const dispatch = useDispatch();
@@ -103,9 +105,9 @@ const Predict = () => {
 
   const onChangeBet = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let betValue = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       betValue = parseFloat(value);
       if (betValue < 0) betValue = 1;
       if (betValue > maxBet) {
@@ -118,14 +120,19 @@ const Predict = () => {
   });
 
   const loadBalance = async () => {
-    dispatch(fetchUserBalance({ currentAccount, api }));
-    dispatch(fetchBalance({ currentAccount, api }));
+    dispatch(fetchUserBalance({ currentAccount}));
+    dispatch(fetchBalance());
   };
 
   const onRoll = async () => {
     let betAmount = parseFloat(betValue);
-    if (currentAccount?.address === "") {
+    if (!currentAccount?.address) {
       toast.error("Please connect your wallet and select an account");
+      return;
+    }
+
+    if (betValue === "") {
+      toast.error("invalid bet amount!");
       return;
     }
 
@@ -218,14 +225,14 @@ const Predict = () => {
   };
 
   const loadMaxBet = async () => {
-    const max_Bet = await betaz_core.getMaxBet(currentAccount?.address);
+    const max_Bet = await betaz_core.getMaxBet(defaultCaller);
     if (maxBet != max_Bet) {
       setMaxBet(max_Bet);
     }
   };
 
   useInterval(() => {
-    if (currentAccount?.address) {
+    if (api) {
       loadMaxBet();
     }
   }, 1000);
@@ -405,7 +412,7 @@ const Predict = () => {
                           textAlign: "center",
                         }}
                         value={betValue}
-                        type="Number"
+                        // type="Number"
                         onChange={onChangeBet}
                       />
                     </Box>
@@ -442,17 +449,22 @@ const Predict = () => {
                 </Box>
               </SimpleGrid>
               <SimpleGrid columns={2} spacing="24px" mt="24px">
-                <Button
-                  minW="50%"
-                  py="10px"
-                  bg="#122126"
-                  color="#F7F7F8"
-                  boxShadow="4px 4px 6px 0px rgba(255, 255, 255, 0.20) inset"
-                  _hover={{ color: "#000", bg: "#E2E8F0" }}
-                  onClick={() => setDepositModalVisible(true)}
-                >
-                  Deposit
-                </Button>
+                {currentAccount?.address ? (
+                  <Button
+                    minW="50%"
+                    py="10px"
+                    bg="#122126"
+                    color="#F7F7F8"
+                    boxShadow="4px 4px 6px 0px rgba(255, 255, 255, 0.20) inset"
+                    _hover={{ color: "#000", bg: "#E2E8F0" }}
+                    onClick={() => setDepositModalVisible(true)}
+                  >
+                    Deposit
+                  </Button>
+                ) : (
+                  <CommonButton />
+                )}
+
                 <Button
                   minW="50%"
                   py="10px"

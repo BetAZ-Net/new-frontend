@@ -7,7 +7,6 @@ import {
   Modal,
   ModalCloseButton,
   ModalContent,
-  ModalOverlay,
   useDisclosure,
   ModalBody,
 } from "@chakra-ui/react";
@@ -191,7 +190,7 @@ const WalletButton = () => {
   // const [isOpen, SetIsOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box>
+    <Box id="connect-box">
       <WalletConnectModal
         connectModalVisible={connectModalVisible}
         onClose={() => setConnectModalVisible(false)}

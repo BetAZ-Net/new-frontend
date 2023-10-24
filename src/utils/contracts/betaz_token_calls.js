@@ -1,13 +1,8 @@
-import BN from "bn.js";
 import toast from "react-hot-toast";
-import { Keyring } from "@polkadot/api";
 import { ContractPromise } from "@polkadot/api-contract";
-import {
-  readOnlyGasLimit,
-  getEstimatedGas,
-} from "./index";
+import { readOnlyGasLimit, getEstimatedGas } from "./index";
 import { web3FromSource } from "@polkadot/extension-dapp";
-import { formatQueryResultToNumber } from "utils";
+import { formatQueryResultToNumber, convertToBalance } from "utils";
 
 let contract;
 
@@ -32,7 +27,7 @@ async function buy(caller, amount) {
   let gasLimit;
 
   const { signer } = await web3FromSource(caller?.meta?.source);
-  let value = new BN(amount * 10 ** 6).mul(new BN(10 ** 6)).toString();
+  let value = convertToBalance(amount);
 
   gasLimit = await getEstimatedGas(
     caller?.address,

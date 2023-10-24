@@ -1,4 +1,4 @@
-import { Route, Routes, redirect } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import DefaultLayout from "./layouts";
 import HomePage from "./pages/home";
 import Predict from "./pages/predict";
@@ -24,7 +24,6 @@ import {
   fetchRates,
   fetchBuyStatus,
 } from "store/slices/substrateSlice";
-import { web3Enable } from "@polkadot/extension-dapp";
 import AdminPage from "pages/admin";
 
 const providerUrl = process.env.REACT_APP_PROVIDER_URL;
@@ -72,7 +71,7 @@ const App = () => {
       // setLastBlockParent(lastHeader.parentHash.toRawType);
     });
 
-    await web3Enable(process.env.REACT_APP_NAME);
+    // await web3Enable(process.env.REACT_APP_NAME);
   };
 
   useEffect(() => {
@@ -90,10 +89,10 @@ const App = () => {
 
     if (api) {
       // dispatch(fetchUserBalance({ currentAccount, api }));
-      dispatch(fetchBalance({ currentAccount }));
-      dispatch(fetchRollNumbers({ currentAccount }));
-      dispatch(fetchRates({ currentAccount }));
-      dispatch(fetchBuyStatus({ currentAccount }));
+      dispatch(fetchBalance());
+      dispatch(fetchRollNumbers());
+      dispatch(fetchRates());
+      dispatch(fetchBuyStatus());
     }
   }, [api, currentAccount?.address]);
 

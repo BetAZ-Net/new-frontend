@@ -1,6 +1,6 @@
 import numeral from "numeral";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
-import { hexToU8a, formatBalance, isHex, BN, BN_ONE } from "@polkadot/util";
+import { hexToU8a, formatBalance, isHex, BN } from "@polkadot/util";
 
 export const convertToBalance = (value, decimal = 12) => {
   let amount = parseFloat(value);

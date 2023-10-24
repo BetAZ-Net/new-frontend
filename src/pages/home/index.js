@@ -28,10 +28,12 @@ import betaz_token from "utils/contracts/betaz_token_calls";
 import { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUserBalance } from "store/slices/substrateSlice";
+import { fetchUserBalance, fetchBuyStatus } from "store/slices/substrateSlice";
 import { formatTokenBalance } from "utils";
 import { clientAPI } from "api/client";
 import { convertTimeStampToNumber } from "utils";
+import CommonButton from "components/button/commonButton";
+import useInterval from "hooks/useInterval";
 
 const teamList = [
   {
@@ -63,6 +65,8 @@ const teamList = [
     avatar: AvatarImage,
   },
 ];
+
+const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -111,15 +115,19 @@ const HomePage = () => {
     };
   });
 
+  useInterval(() => {
+    dispatch(fetchBuyStatus());
+  }, 10000);
+
   const { days, hours, minutes, seconds } = timeLeft;
   /*************** End Count down time ********************/
 
   /*************** Buy token ******************************/
   const getMaxbuy = async () => {
     const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
-      await betaz_token.getAmountTokenSold(currentAccount?.address),
-      await betaz_token.getMaxBuyAmount(currentAccount?.address),
-      await betaz_token.getTokenRatio(currentAccount?.address),
+      await betaz_token.getAmountTokenSold(defaultCaller),
+      await betaz_token.getMaxBuyAmount(defaultCaller),
+      await betaz_token.getTokenRatio(defaultCaller),
     ]);
     setMaxbuyAmount(
       (
@@ -133,9 +141,9 @@ const HomePage = () => {
 
   const onChangeToken = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let tokenValue = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       tokenValue = parseFloat(value);
       if (tokenValue < 0) tokenValue = 1;
       if (tokenValue > maxbuyAmount) {
@@ -149,6 +157,10 @@ const HomePage = () => {
 
   const buy = async () => {
     const difference = endTimeNumber - +new Date();
+    if (azeroAmount === "") {
+      toast.error("invalid inputs!");
+      return;
+    }
     if (difference <= 0) {
       toast.error("End time buy!");
       return;
@@ -164,22 +176,15 @@ const HomePage = () => {
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
-      } else toast.error(`Buy failure`);
+      }
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (currentAccount?.address) {
-      getMaxbuy();
-    }
+    getMaxbuy();
   }, [onChangeToken]);
 
-  // useInterval(() => {
-  //   if (currentAccount?.address) {
-  //     getMaxbuy();
-  //   }
-  // }, 1000);
   /*************** End Buy token ******************************/
 
   /*************** Send mail **********************************/
@@ -201,9 +206,20 @@ const HomePage = () => {
     else if (!match) {
       toast.error("Email is invalid!");
     } else {
-      const subscribe = await clientAPI("post", "/sendEmail", options);
-      console.log({ subscribe });
-      if (subscribe) toast.success("subcribe success");
+      setIsLoading(true);
+      const toastSendEmail = toast.loading("Sending email...");
+      const emailExist = await clientAPI("post", "/getEmailExist", {
+        email: email,
+      });
+
+      if (emailExist === email) {
+        toast.error("Email already exists!");
+      } else {
+        const subscribe = await clientAPI("post", "/sendEmail", options);
+        if (subscribe) toast.success("subcribe success");
+      }
+      setIsLoading(false);
+      toast.dismiss(toastSendEmail);
     }
   };
   /*************** End Send mail ******************************/
@@ -339,6 +355,7 @@ const HomePage = () => {
           bgSize="cover"
           pt="48px"
           id="section-deposit"
+          pb="84px"
         >
           <Heading className="heading">Deposit and Play</Heading>
           <SimpleGrid columns={2} spacing="100px">
@@ -353,7 +370,7 @@ const HomePage = () => {
                       sx={{ border: "0px" }}
                       value={azeroAmount}
                       onChange={onChangeToken}
-                      type="number"
+                      // type="number"
                     />
                     <Flex
                       w="100px"
@@ -368,9 +385,11 @@ const HomePage = () => {
                   </Flex>
                 </Box>
                 <Flex direction="column" alignItems="center" mt="24px">
-                  <Button onClick={() => buy()} isDisabled={isLoading}>
-                    BUY NOW
-                  </Button>
+                  <CommonButton
+                    onClick={() => buy()}
+                    text="BUY NOW"
+                    isLoading={isLoading}
+                  />
                   <Text mt="24px">By Clicking your agree with our</Text>
                   <Text className="linear-text-color-01 term-aggreement-text">
                     Terms and Conditions, Privacy Policy
@@ -378,6 +397,7 @@ const HomePage = () => {
                 </Flex>
               </Box>
             </Flex>
+
             <Flex
               maxW="600px"
               aspectRatio={1}
@@ -627,6 +647,7 @@ const HomePage = () => {
           bgRepeat="no-repeat"
           bgSize="cover"
           pt="48px"
+          pb="84px"
           id="section-team-member"
         >
           <Heading className="heading" textAlign="center">
@@ -667,7 +688,7 @@ const HomePage = () => {
               </Text>
               <Box>
                 <Text className="contact-description">
-                  Ink Whale lets you earn fixed interest and other rewards
+                  BETAZ lets you earn fixed interest and other rewards
                 </Text>
                 <Flex className="contact-email-container">
                   <Flex className="contact-email-icon">
@@ -687,6 +708,7 @@ const HomePage = () => {
                 px="24px"
                 minW="300px"
                 height="44px"
+                isDisabled={isLoading}
                 onClick={() => handleSendEmail(input)}
               >
                 Subscribe

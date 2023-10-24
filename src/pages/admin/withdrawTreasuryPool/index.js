@@ -1,4 +1,4 @@
-import { Box, Text, Input, Flex, Button } from "@chakra-ui/react";
+import { Box, Text, Input, Flex } from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import { SectionContainer } from "components/container";
@@ -6,11 +6,10 @@ import { AppIcon } from "components/icons";
 import CommonButton from "components/button/commonButton";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToBalance, isValidAddressPolkadotAddress } from "utils";
-import { execContractTx, execContractQuery } from "utils/contracts";
+import { execContractQuery } from "utils/contracts";
 import staking_pool_contract from "utils/contracts/staking_pool";
 import { useWallet } from "contexts/useWallet";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
-import { ApiPromise } from "@polkadot/api";
 import { Keyring } from "@polkadot/keyring";
 
 const adminRole = process.env.REACT_APP_ADMIN_ROLE;
@@ -74,9 +73,9 @@ const WithdrawTreasuryPool = () => {
 
   const onChangeValue = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let val = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       val = parseFloat(value);
       if (val < 0) val = 1;
       else {
@@ -91,8 +90,8 @@ const WithdrawTreasuryPool = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchUserBalance({ currentAccount, api }));
-    dispatch(fetchBalance({ currentAccount, api }));
+    dispatch(fetchUserBalance({ currentAccount}));
+    dispatch(fetchBalance());
   }, [setIsLoading]);
 
   return (
@@ -121,7 +120,7 @@ const WithdrawTreasuryPool = () => {
             sx={{ border: "0px" }}
             value={value}
             onChange={onChangeValue}
-            type="number"
+            // type="number"
           />
           <Flex
             w="100px"

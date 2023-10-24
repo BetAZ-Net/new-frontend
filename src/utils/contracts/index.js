@@ -1,5 +1,4 @@
-import { decodeAddress, encodeAddress } from "@polkadot/keyring";
-import { hexToU8a, isHex, BN, BN_ONE, formatBalance } from "@polkadot/util";
+import { BN, BN_ONE, formatBalance } from "@polkadot/util";
 import toast from "react-hot-toast";
 import { ContractPromise } from "@polkadot/api-contract";
 import { web3FromSource } from "@polkadot/extension-dapp";

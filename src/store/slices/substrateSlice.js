@@ -14,6 +14,8 @@ const localCurrentAccount = window?.localStorage?.getItem(
   "localCurrentAccount"
 );
 
+const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
+
 const initialState = {
   api: null,
   allAccounts: [],
@@ -145,7 +147,7 @@ export const fetchUserBalance = createAsyncThunk(
 
 export const fetchBalance = createAsyncThunk(
   "substrate/fetchBalance",
-  async ({ currentAccount }) => {
+  async () => {
     // TODO: check can fix warning about storing api on redux?
 
     const [
@@ -155,7 +157,7 @@ export const fetchBalance = createAsyncThunk(
       rewardBalance,
     ] = await Promise.all([
       execContractQuerybyMetadata(
-        currentAccount?.address,
+        defaultCaller,
         betaz_core_contract.CONTRACT_ABI,
         betaz_core_contract.CONTRACT_ADDRESS,
         0,
@@ -165,14 +167,14 @@ export const fetchBalance = createAsyncThunk(
         address: staking_pool_contract?.CONTRACT_ADDRESS,
       }),
       execContractQuerybyMetadata(
-        currentAccount?.address,
+        defaultCaller,
         betaz_core_contract.CONTRACT_ABI,
         betaz_core_contract.CONTRACT_ADDRESS,
         0,
         "betA0CoreTrait::getTreasuryPoolAmount"
       ),
       execContractQuerybyMetadata(
-        currentAccount?.address,
+        defaultCaller,
         betaz_core_contract.CONTRACT_ABI,
         betaz_core_contract.CONTRACT_ADDRESS,
         0,
@@ -191,17 +193,17 @@ export const fetchBalance = createAsyncThunk(
 
 export const fetchRates = createAsyncThunk(
   "substrate/fetchRates",
-  async ({ currentAccount }) => {
+  async () => {
     const [over, under] = await Promise.all([
       execContractQuerybyMetadataConvertResult(
-        currentAccount?.address,
+        defaultCaller,
         betaz_core_contract.CONTRACT_ABI,
         betaz_core_contract.CONTRACT_ADDRESS,
         0,
         "betA0CoreTrait::getOverRates"
       ),
       execContractQuerybyMetadataConvertResult(
-        currentAccount?.address,
+        defaultCaller,
         betaz_core_contract.CONTRACT_ABI,
         betaz_core_contract.CONTRACT_ADDRESS,
         0,
@@ -221,7 +223,7 @@ export const fetchRates = createAsyncThunk(
 
 export const fetchRollNumbers = createAsyncThunk(
   "substrate/fetchRollNumbers",
-  async ({ currentAccount }) => {
+  async () => {
     let [
       numberOverRollMin,
       numberOverRollMax,
@@ -229,28 +231,28 @@ export const fetchRollNumbers = createAsyncThunk(
       numberUnerRollMax,
     ] = await Promise.all([
       execContractQuerybyMetadataConvertResult(
-        currentAccount?.address,
+        defaultCaller,
         betaz_core_contract.CONTRACT_ABI,
         betaz_core_contract.CONTRACT_ADDRESS,
         0,
         "betA0CoreTrait::getMinNumberOverRoll"
       ),
       execContractQuerybyMetadataConvertResult(
-        currentAccount?.address,
+        defaultCaller,
         betaz_core_contract.CONTRACT_ABI,
         betaz_core_contract.CONTRACT_ADDRESS,
         0,
         "betA0CoreTrait::getMaxNumberOverRoll"
       ),
       execContractQuerybyMetadataConvertResult(
-        currentAccount?.address,
+        defaultCaller,
         betaz_core_contract.CONTRACT_ABI,
         betaz_core_contract.CONTRACT_ADDRESS,
         0,
         "betA0CoreTrait::getMinNumberUnderRoll"
       ),
       execContractQuerybyMetadataConvertResult(
-        currentAccount?.address,
+        defaultCaller,
         betaz_core_contract.CONTRACT_ABI,
         betaz_core_contract.CONTRACT_ADDRESS,
         0,
@@ -273,21 +275,21 @@ export const fetchRollNumbers = createAsyncThunk(
 
 export const fetchBuyStatus = createAsyncThunk(
   "substrate/fetchBuyStatus",
-  async ({ currentAccount }) => {
+  async () => {
     // TODO: check can fix warning about storing api on redux?
     const [
       endTimeBuy,
       buyStatus,
     ] = await Promise.all([
       execContractQuerybyMetadata(
-        currentAccount?.address,
+        defaultCaller,
         betaz_token_contract.CONTRACT_ABI,
         betaz_token_contract.CONTRACT_ADDRESS,
         0,
         "betAZTrait::getEndTimeBuy"
       ),
       execContractQuerybyMetadata(
-        currentAccount?.address,
+        defaultCaller,
         betaz_token_contract.CONTRACT_ABI,
         betaz_token_contract.CONTRACT_ADDRESS,
         0,

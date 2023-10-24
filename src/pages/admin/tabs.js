@@ -1,7 +1,3 @@
-import { Box, Text } from "@chakra-ui/react";
-import { AddressCopier } from "components/addressCopier";
-import { AppIcon } from "components/icons";
-import { formatNumDynDecimal } from "utils";
 import MinToken from "./mintToken";
 import UpdateCorePool from "./updateCorePool";
 import UpdateRewardPool from "./updateRewardPool";

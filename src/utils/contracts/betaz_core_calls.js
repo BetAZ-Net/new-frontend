@@ -1,6 +1,5 @@
 import BN from "bn.js";
 import toast from "react-hot-toast";
-import { Keyring } from "@polkadot/api";
 import { ContractPromise } from "@polkadot/api-contract";
 import { readOnlyGasLimit, getEstimatedGas } from "./index";
 import { web3FromSource } from "@polkadot/extension-dapp";

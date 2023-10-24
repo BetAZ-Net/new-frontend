@@ -17,7 +17,7 @@ import { supportedChain } from "./data";
 import { useWallet } from "contexts/useWallet";
 import { addressShortener } from "utils";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCurrentAccount } from "store/slices/substrateSlice";
 
 const WalletItem = ({ data }) => {

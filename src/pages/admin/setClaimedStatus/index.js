@@ -1,9 +1,9 @@
 import { Box, Text, Flex, Switch, SimpleGrid, Input } from "@chakra-ui/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import { SectionContainer } from "components/container";
 import CommonButton from "components/button/commonButton";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { delay } from "utils";
 import { execContractTx, execContractQuery } from "utils/contracts";
 import staking_pool_contract from "utils/contracts/staking_pool";
@@ -14,7 +14,6 @@ const adminRole = process.env.REACT_APP_ADMIN_ROLE;
 
 const SetClaimedStatus = () => {
   const { currentAccount } = useSelector((s) => s.substrate);
-  const { api } = useWallet();
 
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState(false);

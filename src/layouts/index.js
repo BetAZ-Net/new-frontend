@@ -2,7 +2,6 @@ import { Box } from "@chakra-ui/react";
 import Navbar from "components/Navbar";
 import BackgroundImage from "assets/img/background.png";
 import { useLocation } from "react-router-dom";
-import { NavbarLandingPage } from "components/Navbar/NavbarLandingPage";
 import BETAZFooter from "components/Footer";
 
 const AppLayout = ({ children }) => {

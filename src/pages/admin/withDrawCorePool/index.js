@@ -1,4 +1,4 @@
-import { Box, Text, Input, Flex, Button } from "@chakra-ui/react";
+import { Box, Text, Input, Flex } from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import { SectionContainer } from "components/container";
@@ -32,8 +32,7 @@ const WithDrawCorePool = () => {
     }
 
     if (
-      parseFloat(value) >
-      parseFloat(poolBalance?.core?.replaceAll(",", ""))
+      parseFloat(value) > parseFloat(poolBalance?.core?.replaceAll(",", ""))
     ) {
       toast.error("Not enough balance!");
       return;
@@ -69,9 +68,9 @@ const WithDrawCorePool = () => {
 
   const onChangeValue = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let val = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       val = parseFloat(value);
       if (val < 0) val = 1;
       else {
@@ -86,8 +85,8 @@ const WithDrawCorePool = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchUserBalance({ currentAccount, api }));
-    dispatch(fetchBalance({ currentAccount, api }));
+    dispatch(fetchUserBalance({ currentAccount }));
+    dispatch(fetchBalance());
   }, [setIsLoading]);
 
   return (
@@ -116,7 +115,7 @@ const WithDrawCorePool = () => {
             sx={{ border: "0px" }}
             value={value}
             onChange={onChangeValue}
-            type="number"
+            // type="number"
           />
           <Flex
             w="100px"
