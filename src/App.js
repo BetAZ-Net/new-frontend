@@ -25,6 +25,7 @@ import {
   fetchBuyStatus,
 } from "store/slices/substrateSlice";
 import AdminPage from "pages/admin";
+import { web3Enable } from "@polkadot/extension-dapp";
 
 const providerUrl = process.env.REACT_APP_PROVIDER_URL;
 
@@ -71,7 +72,7 @@ const App = () => {
       // setLastBlockParent(lastHeader.parentHash.toRawType);
     });
 
-    // await web3Enable(process.env.REACT_APP_NAME);
+    await web3Enable(process.env.REACT_APP_NAME);
   };
 
   useEffect(() => {
