@@ -25,6 +25,8 @@ import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 import { formatTokenBalance } from "utils";
 import { convertTimeStampToNumber } from "utils";
 import CommonButton from "components/button/commonButton";
+import useInterval from "hooks/useInterval";
+import { fetchBuyStatus } from "store/slices/substrateSlice";
 
 const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
@@ -146,6 +148,10 @@ const DepositModal = ({ visible, onClose }) => {
   useEffect(() => {
     getMaxbuy();
   }, [onChangeToken]);
+
+  useInterval(() => {
+    dispatch(fetchBuyStatus());
+  }, 10000);
 
   /** Withdraw azero */
   const getHoldAmount = async () => {
