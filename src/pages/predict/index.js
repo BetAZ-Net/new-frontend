@@ -141,27 +141,26 @@ const Predict = () => {
     if (bet) {
       setGameOn(true);
       setLuckyNumber(-1);
-      let finalized = await clientAPI("post", "/finalize", {
-        player: currentAccount?.address,
-      });
+      try {
+        let finalized = await clientAPI("post", "/finalize", {
+          player: currentAccount?.address,
+        });
 
-      console.log("finalized", finalized);
-
-      if (!finalized) {
-        toast.error("Something wrong with your roll");
+        // finalize
+        setGameOn(false);
+        setLuckyNumber(parseInt(finalized.random_number));
+        if (finalized.is_win)
+          toast("You won " + finalized.win_amount + " AZERO");
+        else toast("Try again next time");
+        loadBalance();
+      } catch (error) {
+        console.log({ error });
+        toast.error(`${error.response.data.error}`);
         setLuckyNumber(-1);
         setGameOn(false);
         loadBalance();
         return;
       }
-
-      // finalize
-      setGameOn(false);
-      setLuckyNumber(parseInt(finalized.random_number));
-      if (finalized.is_win) toast("You won " + finalized.win_amount + " AZERO");
-      else toast("Try again next time");
-      loadBalance();
-      return;
     }
 
     if (gameOn) {
@@ -199,26 +198,25 @@ const Predict = () => {
 
     loadBalance();
     await delay(2000);
-    let finalized = await clientAPI("post", "/finalize", {
-      player: currentAccount?.address,
-    });
+    try {
+      let finalized = await clientAPI("post", "/finalize", {
+        player: currentAccount?.address,
+      });
 
-    console.log("finalized", finalized);
-
-    if (!finalized) {
-      toast.error("Something wrong with your roll");
+      // finalize
+      setGameOn(false);
+      setLuckyNumber(parseInt(finalized.random_number));
+      if (finalized.is_win) toast("You won " + finalized.win_amount + " AZERO");
+      else toast("Try again next time");
+      loadBalance();
+    } catch (error) {
+      console.log({ error });
+      toast.error(`${error.response.data.error}`);
       setLuckyNumber(-1);
       setGameOn(false);
       loadBalance();
       return;
     }
-
-    // finalize
-    setGameOn(false);
-    setLuckyNumber(parseInt(finalized.random_number));
-    if (finalized.is_win) toast("You won " + finalized.win_amount + " AZERO");
-    else toast("Try again next time");
-    loadBalance();
   };
 
   const loadMaxBet = async () => {
