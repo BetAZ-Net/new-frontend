@@ -90,10 +90,10 @@ const App = () => {
 
     if (api) {
       // dispatch(fetchUserBalance({ currentAccount, api }));
-      dispatch(fetchBalance({ currentAccount }));
-      dispatch(fetchRollNumbers({ currentAccount }));
-      dispatch(fetchRates({ currentAccount }));
-      dispatch(fetchBuyStatus({ currentAccount }));
+      dispatch(fetchBalance());
+      dispatch(fetchRollNumbers());
+      dispatch(fetchRates());
+      dispatch(fetchBuyStatus());
     }
   }, [api, currentAccount?.address]);
 

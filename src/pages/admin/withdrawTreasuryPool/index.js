@@ -74,9 +74,9 @@ const WithdrawTreasuryPool = () => {
 
   const onChangeValue = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let val = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       val = parseFloat(value);
       if (val < 0) val = 1;
       else {
@@ -91,8 +91,8 @@ const WithdrawTreasuryPool = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchUserBalance({ currentAccount, api }));
-    dispatch(fetchBalance({ currentAccount, api }));
+    dispatch(fetchUserBalance({ currentAccount}));
+    dispatch(fetchBalance());
   }, [setIsLoading]);
 
   return (
@@ -121,7 +121,7 @@ const WithdrawTreasuryPool = () => {
             sx={{ border: "0px" }}
             value={value}
             onChange={onChangeValue}
-            type="number"
+            // type="number"
           />
           <Flex
             w="100px"

@@ -8,6 +8,7 @@ import {
   fetchUserBalance,
   fetchRollNumbers,
   fetchRates,
+  setCurrentAccount,
 } from "store/slices/substrateSlice";
 import { useDispatch, useSelector } from "react-redux";
 // import toast from "react-hot-toast";
@@ -19,14 +20,14 @@ const WalletContext = createContext();
 export const WalletProvider = ({ children }) => {
   const dispatch = useDispatch();
   
-  const [currentAccount, setCurrentAccount] = useState(null);
+  const [currentAccount, setCurrentAccountWallet] = useState(null);
   // const [currentExtensions, setCurrentExtensions] = useState([]);
   const [walletAccounts, setWalletAccounts] = useState(null);
   const [api, setApi] = useState(null);
 
   const updateWalletAccount = async (account) => {
     try {
-      setCurrentAccount(account);
+      setCurrentAccountWallet(account);
       localStorage.setItem("localCurrentAccount", JSON.stringify(account));
     } catch (error) {
       // toast.error(error?.response?.data?.message);
@@ -34,8 +35,9 @@ export const WalletProvider = ({ children }) => {
     }
   };
   const logoutAccountHandler = () => {
-    setCurrentAccount(null);
+    setCurrentAccountWallet(null);
     setWalletAccounts(null);
+    dispatch(setCurrentAccount(null));
     localStorage.setItem("localCurrentAccount", null);
   };
 
@@ -58,7 +60,7 @@ export const WalletProvider = ({ children }) => {
     const accountData = localStorage.getItem("localCurrentAccount");
     if (accountData) {
       // toast.success("Account connected");
-      setCurrentAccount(JSON.parse(accountData));
+      setCurrentAccountWallet(JSON.parse(accountData));
     }
   };
 
@@ -69,9 +71,9 @@ export const WalletProvider = ({ children }) => {
   useEffect(() => {
     if (!currentAccount?.balance && api && currentAccount) {
       dispatch(fetchUserBalance({ currentAccount }));
-      dispatch(fetchBalance({ currentAccount }));
-      dispatch(fetchRollNumbers({ currentAccount }));
-      dispatch(fetchRates({ currentAccount }));
+      dispatch(fetchBalance());
+      dispatch(fetchRollNumbers());
+      dispatch(fetchRates());
     }
 
     // if (api && currentAccount) {

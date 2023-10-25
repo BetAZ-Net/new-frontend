@@ -31,10 +31,12 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import useInterval from "hooks/useInterval";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUserBalance } from "store/slices/substrateSlice";
+import { fetchUserBalance, fetchBuyStatus } from "store/slices/substrateSlice";
 import { formatTokenBalance } from "utils";
 import { clientAPI } from "api/client";
 import { convertTimeStampToNumber } from "utils";
+import CommonButton from "components/button/commonButton";
+import BETAZCountDown from "components/countdown/CountDown";
 
 const teamList = [
   {
@@ -67,6 +69,8 @@ const teamList = [
   },
 ];
 
+const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
+
 const HomePage = () => {
   const dispatch = useDispatch();
   const { currentAccount, buyStatus } = useSelector((s) => s.substrate);
@@ -77,52 +81,17 @@ const HomePage = () => {
 
   /*************** Count down time ********************/
   let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const timeoutRef = useRef(null);
-  function calculateTimeLeft() {
-    const difference = endTimeNumber - +new Date();
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    } else {
-      timeLeft = {
-        days: "00",
-        hours: "00",
-        minutes: "00",
-        seconds: "00",
-      };
-    }
-
-    return timeLeft;
-  }
-
-  useEffect(() => {
-    timeoutRef.current = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  });
-
-  const { days, hours, minutes, seconds } = timeLeft;
+  useInterval(() => {
+    dispatch(fetchBuyStatus());
+  }, 7000);
   /*************** End Count down time ********************/
 
   /*************** Buy token ******************************/
   const getMaxbuy = async () => {
     const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
-      await betaz_token.getAmountTokenSold(currentAccount?.address),
-      await betaz_token.getMaxBuyAmount(currentAccount?.address),
-      await betaz_token.getTokenRatio(currentAccount?.address),
+      await betaz_token.getAmountTokenSold(defaultCaller),
+      await betaz_token.getMaxBuyAmount(defaultCaller),
+      await betaz_token.getTokenRatio(defaultCaller),
     ]);
     setMaxbuyAmount(
       (
@@ -136,9 +105,9 @@ const HomePage = () => {
 
   const onChangeToken = (e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let tokenValue = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       tokenValue = parseFloat(value);
       if (tokenValue < 0) tokenValue = 1;
       if (tokenValue > maxbuyAmount) {
@@ -152,6 +121,10 @@ const HomePage = () => {
 
   const buy = async () => {
     const difference = endTimeNumber - +new Date();
+    if (azeroAmount === "") {
+      toast.error("invalid inputs!");
+      return;
+    }
     if (difference <= 0) {
       toast.error("End time buy!");
       return;
@@ -167,7 +140,7 @@ const HomePage = () => {
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
-      } else toast.error(`Buy failure`);
+      }
       setIsLoading(false);
     }
   };
@@ -204,14 +177,24 @@ const HomePage = () => {
     else if (!match) {
       toast.error("Email is invalid!");
     } else {
-      const subscribe = await clientAPI("post", "/sendEmail", options);
-      console.log({ subscribe });
-      if (subscribe) toast.success("subcribe success");
+      setIsLoading(true);
+      const toastSendEmail = toast.loading("Sending email...");
+      const emailExist = await clientAPI("post", "/getEmailExist", {
+        email: email,
+      });
+
+      if (emailExist === email) {
+        toast.error("Email already exists!");
+      } else {
+        const subscribe = await clientAPI("post", "/sendEmail", options);
+        if (subscribe) toast.success("subcribe success");
+      }
+      setIsLoading(false);
+      toast.dismiss(toastSendEmail);
     }
   };
   /*************** End Send mail ******************************/
 
-  console.log({ maxbuyAmount });
   return (
     <Box>
       <Box className="landing-page-banner-container" bgImage={HomeBannerBG}>
@@ -357,7 +340,7 @@ const HomePage = () => {
                       sx={{ border: "0px" }}
                       value={azeroAmount}
                       onChange={onChangeToken}
-                      type="number"
+                      // type="number"
                     />
                     <Flex
                       w="100px"
@@ -371,9 +354,11 @@ const HomePage = () => {
                   </Flex>
                 </Box>
                 <Flex direction="column" alignItems="center" mt="24px">
-                  <Button isDisabled={isLoading} onClick={() => buy()}>
-                    BUY NOW
-                  </Button>
+                  <CommonButton
+                    onClick={() => buy()}
+                    text="BUY NOW"
+                    isLoading={isLoading}
+                  />
                   <Text mt="24px">By Clicking your agree with our</Text>
                   <Text className="linear-text-color-01 term-aggreement-text">
                     Terms and Conditions, Privacy Policy
@@ -406,46 +391,15 @@ const HomePage = () => {
                   Easy way for crypto Play
                 </Text>
                 <Text className="deposit-circle-amount linear-text-color-01">
-                  {!isNaN(maxbuyAmount) ? formatTokenBalance(maxbuyAmount * tokenRatio, 4) : 0}
+                  {!isNaN(maxbuyAmount)
+                    ? formatTokenBalance(maxbuyAmount * tokenRatio, 4)
+                    : 0}
                 </Text>
                 <Box>
                   <Text className="deposit-circle-finish-title">
                     Finishes in:
                   </Text>
-                  <SimpleGrid columns={4} spacing="10px">
-                    <Flex alignItems="flex-end">
-                      <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                        {days || "00"}
-                      </Text>
-                      <Text className="deposit-circle-finish-countdown-unit">
-                        d
-                      </Text>
-                    </Flex>
-                    <Flex alignItems="flex-end">
-                      <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                        {hours || "00"}
-                      </Text>
-                      <Text className="deposit-circle-finish-countdown-unit">
-                        h
-                      </Text>
-                    </Flex>
-                    <Flex alignItems="flex-end">
-                      <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                        {minutes || "00"}
-                      </Text>
-                      <Text className="deposit-circle-finish-countdown-unit">
-                        m
-                      </Text>
-                    </Flex>
-                    <Flex alignItems="flex-end">
-                      <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                        {seconds || "00"}
-                      </Text>
-                      <Text className="deposit-circle-finish-countdown-unit">
-                        s
-                      </Text>
-                    </Flex>
-                  </SimpleGrid>
+                  <BETAZCountDown date={endTimeNumber} />
                 </Box>
               </SimpleGrid>
             </Flex>
@@ -688,6 +642,7 @@ const HomePage = () => {
                 px="24px"
                 minW="300px"
                 height="44px"
+                isDisabled={isLoading}
                 onClick={() => handleSendEmail(input)}
               >
                 Subscribe

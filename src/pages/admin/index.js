@@ -26,13 +26,13 @@ const tabData = [
     label: "Withdraw Treasury Pool",
   },
   {
-    label: "Lock reward",
+    label: "Lock reward Staking Pool",
   },
   {
-    label: "Start reward",
+    label: "Start reward Staking Pool",
   },
   {
-    label: "Clamied Status",
+    label: "Set Clamied Status Address",
   },
 ];
 

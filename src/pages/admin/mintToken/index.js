@@ -60,9 +60,9 @@ const MinToken = () => {
 
   const onChangeValue = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let val = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       val = parseFloat(value);
       if (val < 0) val = 1;
       else {
@@ -106,7 +106,7 @@ const MinToken = () => {
             sx={{ border: "0px" }}
             value={value}
             onChange={onChangeValue}
-            type="number"
+            // type="number"
           />
           <Flex
             w="100px"

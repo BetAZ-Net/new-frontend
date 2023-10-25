@@ -23,10 +23,16 @@ import betaz_core from "utils/contracts/betaz_core_calls";
 import { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import useInterval from "hooks/useInterval";
-import { useDebounce } from "hooks/useDebounce";
-import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
-import { formatTokenBalance } from "utils";
-import { convertTimeStampToNumber } from "utils";
+import {
+  fetchUserBalance,
+  fetchBalance,
+  fetchBuyStatus,
+} from "store/slices/substrateSlice";
+import { formatTokenBalance, convertTimeStampToNumber } from "utils";
+import CommonButton from "components/button/commonButton";
+import BETAZCountDown from "components/countdown/CountDown";
+
+const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
 const DepositModal = ({ visible, onClose }) => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -43,51 +49,16 @@ const DepositModal = ({ visible, onClose }) => {
 
   /** Count down time */
   let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const timeoutRef = useRef(null);
-  function calculateTimeLeft() {
-    const difference = endTimeNumber - +new Date();
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    } else {
-      timeLeft = {
-        days: "00",
-        hours: "00",
-        minutes: "00",
-        seconds: "00",
-      };
-    }
-
-    return timeLeft;
-  }
-
-  useEffect(() => {
-    timeoutRef.current = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  });
-
-  const { days, hours, minutes, seconds } = timeLeft;
+  useInterval(() => {
+    dispatch(fetchBuyStatus());
+  }, 7000);
 
   /** Buy token */
   const getMaxbuy = async () => {
     const [amountTokenSold, amountMaxBuy, tokenRatio] = await Promise.all([
-      await betaz_token.getAmountTokenSold(currentAccount?.address),
-      await betaz_token.getMaxBuyAmount(currentAccount?.address),
-      await betaz_token.getTokenRatio(currentAccount?.address),
+      await betaz_token.getAmountTokenSold(defaultCaller),
+      await betaz_token.getMaxBuyAmount(defaultCaller),
+      await betaz_token.getTokenRatio(defaultCaller),
     ]);
     setMaxbuyAmount(
       (
@@ -101,9 +72,9 @@ const DepositModal = ({ visible, onClose }) => {
 
   const onChangeToken = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let tokenValue = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       tokenValue = parseFloat(value);
       if (tokenValue < 0) tokenValue = 1;
       if (tokenValue > maxbuyAmount) {
@@ -117,6 +88,10 @@ const DepositModal = ({ visible, onClose }) => {
 
   const buy = async () => {
     const difference = endTimeNumber - +new Date();
+    if (azeroAmount === "") {
+      toast.error("invalid inputs!");
+      return;
+    }
     if (difference <= 0) {
       toast.error("End time buy!");
       return;
@@ -132,7 +107,7 @@ const DepositModal = ({ visible, onClose }) => {
       if (result) {
         toast.success(`Buy BetAZ success`);
         dispatch(fetchUserBalance({ currentAccount }));
-        dispatch(fetchBalance({ currentAccount }));
+        dispatch(fetchBalance());
         getMaxbuy();
       } else toast.error(`Buy failure`);
       setIsLoading(false);
@@ -154,6 +129,10 @@ const DepositModal = ({ visible, onClose }) => {
 
   const withdraw = async () => {
     if (currentAccount?.address) {
+      if (holdAmountVal === "") {
+        toast.error("invalid inputs!");
+        return;
+      }
       if (!holdAmount) {
         toast.error("You not hold amount!");
         return;
@@ -170,7 +149,7 @@ const DepositModal = ({ visible, onClose }) => {
         if (result) {
           toast.success(`Withdraw success`);
           dispatch(fetchUserBalance({ currentAccount }));
-          dispatch(fetchBalance({ currentAccount }));
+          dispatch(fetchBalance());
           getHoldAmount();
         } else toast.error(`Withdraw failure`);
         setIsLoading(false);
@@ -180,9 +159,9 @@ const DepositModal = ({ visible, onClose }) => {
 
   const onChangeholdAmount = useCallback((e) => {
     const { value } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^\d*\.?\d*$/;
     let holdValue = 0;
-    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+    if ((!isNaN(value) && reg.test(value)) || value === "") {
       holdValue = parseFloat(value);
       if (holdValue < 0) holdValue = 1;
       if (holdValue > holdAmount) {
@@ -268,7 +247,7 @@ const DepositModal = ({ visible, onClose }) => {
                           sx={{ border: "0px" }}
                           value={azeroAmount}
                           onChange={onChangeToken}
-                          type="number"
+                          // type="number"
                         />
                         <Flex
                           cursor="pointer"
@@ -283,9 +262,11 @@ const DepositModal = ({ visible, onClose }) => {
                         </Flex>
                       </Flex>
                     </Box>
-                    <Button isDisabled={isLoading} onClick={() => buy()}>
-                      Deposit
-                    </Button>
+                    <CommonButton
+                      onClick={() => buy()}
+                      text="Deposit"
+                      isLoading={isLoading}
+                    />
                     <Box>
                       <Text textAlign="center">
                         By Clicking your agree with our
@@ -323,13 +304,15 @@ const DepositModal = ({ visible, onClose }) => {
                           sx={{ border: "0px" }}
                           onChange={onChangeholdAmount}
                           value={holdAmountVal}
-                          type="number"
+                          // type="number"
                         />
                       </Flex>
                     </Box>
-                    <Button isDisabled={isLoading} onClick={withdraw}>
-                      Withdraw hold amount
-                    </Button>
+                    <CommonButton
+                      onClick={() => withdraw()}
+                      text="Withdraw hold amount"
+                      isLoading={isLoading}
+                    />
                     <Box>
                       <Text textAlign="center">
                         By Clicking your agree with our
@@ -376,40 +359,7 @@ const DepositModal = ({ visible, onClose }) => {
                     <Text className="deposit-circle-finish-title">
                       Finishes in:
                     </Text>
-                    <SimpleGrid columns={4} spacing="10px">
-                      <Flex alignItems="flex-end">
-                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          {days || "00"}
-                        </Text>
-                        <Text className="deposit-circle-finish-countdown-unit">
-                          d
-                        </Text>
-                      </Flex>
-                      <Flex alignItems="flex-end">
-                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          {hours || "00"}
-                        </Text>
-                        <Text className="deposit-circle-finish-countdown-unit">
-                          h
-                        </Text>
-                      </Flex>
-                      <Flex alignItems="flex-end">
-                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          {minutes || "00"}
-                        </Text>
-                        <Text className="deposit-circle-finish-countdown-unit">
-                          m
-                        </Text>
-                      </Flex>
-                      <Flex alignItems="flex-end">
-                        <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                          {seconds || "00"}
-                        </Text>
-                        <Text className="deposit-circle-finish-countdown-unit">
-                          s
-                        </Text>
-                      </Flex>
-                    </SimpleGrid>
+                    <BETAZCountDown date={endTimeNumber} />
                   </Box>
                 </SimpleGrid>
               </Flex>
