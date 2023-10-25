@@ -91,7 +91,7 @@ const UpdateRewardPool = () => {
   useEffect(() => {
     dispatch(fetchUserBalance({ currentAccount }));
     dispatch(fetchBalance());
-  }, [setIsLoading]);
+  }, [handleUpdate]);
 
   return (
     <SectionContainer

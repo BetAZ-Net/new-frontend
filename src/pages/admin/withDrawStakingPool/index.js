@@ -87,7 +87,7 @@ const WithDrawStakingPool = () => {
   useEffect(() => {
     dispatch(fetchUserBalance({ currentAccount}));
     dispatch(fetchBalance());
-  }, [setIsLoading]);
+  }, [handleWithdraw]);
 
   return (
     <SectionContainer

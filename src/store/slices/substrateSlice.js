@@ -124,7 +124,7 @@ export default substrateSlice.reducer;
 export const fetchUserBalance = createAsyncThunk(
   "substrate/fetchUserBalance",
   async ({ currentAccount }) => {
-    const [tokenBalance, azeroBalance] = await Promise.all([
+    const [tokenBalance, azeroBalance, stakeAmount] = await Promise.all([
       execContractQuerybyMetadata(
         currentAccount?.address,
         betaz_token_contract.CONTRACT_ABI,
@@ -136,12 +136,21 @@ export const fetchUserBalance = createAsyncThunk(
       getAzeroBalanceOfAddress({
         address: currentAccount?.address,
       }),
+      execContractQuerybyMetadata(
+        currentAccount?.address,
+        staking_pool_contract.CONTRACT_ABI,
+        staking_pool_contract.CONTRACT_ADDRESS,
+        0,
+        "stakingPoolTrait::getStakeAmountByAccount",
+        currentAccount?.address
+      ),
     ]);
 
     const betaz = formatQueryResultToNumber(tokenBalance);
     const azero = formatNumDynDecimal(azeroBalance);
+    const stake = formatQueryResultToNumber(stakeAmount);
 
-    return { betaz, azero };
+    return { betaz, azero, stake };
   }
 );
 

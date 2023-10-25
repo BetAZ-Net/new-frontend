@@ -77,8 +77,8 @@ const MinToken = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchUserBalance({ currentAccount, api }));
-  }, [setIsLoading]);
+    dispatch(fetchUserBalance({ currentAccount}));
+  }, [handleMint]);
 
   return (
     <SectionContainer

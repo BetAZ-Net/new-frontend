@@ -87,7 +87,7 @@ const WithDrawCorePool = () => {
   useEffect(() => {
     dispatch(fetchUserBalance({ currentAccount }));
     dispatch(fetchBalance());
-  }, [setIsLoading]);
+  }, [handleWithdraw]);
 
   return (
     <SectionContainer
