@@ -34,6 +34,7 @@ import { clientAPI } from "api/client";
 import { convertTimeStampToNumber } from "utils";
 import CommonButton from "components/button/commonButton";
 import useInterval from "hooks/useInterval";
+import BETAZCountDown from "components/countdown/CountDown";
 
 const teamList = [
   {
@@ -78,48 +79,10 @@ const HomePage = () => {
 
   /*************** Count down time ********************/
   let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const timeoutRef = useRef(null);
-  function calculateTimeLeft() {
-    const difference = endTimeNumber - +new Date();
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    } else {
-      timeLeft = {
-        days: "00",
-        hours: "00",
-        minutes: "00",
-        seconds: "00",
-      };
-    }
-
-    return timeLeft;
-  }
-
-  useEffect(() => {
-    timeoutRef.current = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  });
-
   useInterval(() => {
     dispatch(fetchBuyStatus());
-  }, 10000);
+  }, 7000);
 
-  const { days, hours, minutes, seconds } = timeLeft;
   /*************** End Count down time ********************/
 
   /*************** Buy token ******************************/
@@ -431,40 +394,7 @@ const HomePage = () => {
                   <Text className="deposit-circle-finish-title">
                     Finishes in:
                   </Text>
-                  <SimpleGrid columns={4} spacing="10px">
-                    <Flex alignItems="flex-end">
-                      <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                        {days || "00"}
-                      </Text>
-                      <Text className="deposit-circle-finish-countdown-unit">
-                        d
-                      </Text>
-                    </Flex>
-                    <Flex alignItems="flex-end">
-                      <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                        {hours || "00"}
-                      </Text>
-                      <Text className="deposit-circle-finish-countdown-unit">
-                        h
-                      </Text>
-                    </Flex>
-                    <Flex alignItems="flex-end">
-                      <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                        {minutes || "00"}
-                      </Text>
-                      <Text className="deposit-circle-finish-countdown-unit">
-                        m
-                      </Text>
-                    </Flex>
-                    <Flex alignItems="flex-end">
-                      <Text className="deposit-circle-finish-countdown linear-text-color-01">
-                        {seconds || "00"}
-                      </Text>
-                      <Text className="deposit-circle-finish-countdown-unit">
-                        s
-                      </Text>
-                    </Flex>
-                  </SimpleGrid>
+                  <BETAZCountDown date={endTimeNumber} />
                 </Box>
               </SimpleGrid>
             </Flex>
