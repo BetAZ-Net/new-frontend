@@ -13,7 +13,7 @@ export const checkBalance = (currentAccount, value, money = "azero") => {
     a = parseFloat(currentAccount?.balance?.azero?.replaceAll(",", ""));
   else a = parseFloat(currentAccount?.balance?.betaz?.replaceAll(",", ""));
   let b = parseFloat(value);
-  return a > b;
+  return a >= b;
 };
 
 export const formatChainStringToNumber = (str) => {
