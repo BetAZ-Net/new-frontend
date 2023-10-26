@@ -147,6 +147,7 @@ const Predict = () => {
       try {
         let finalized = await clientAPI("post", "/finalize", {
           player: currentAccount?.address,
+          bet_number: position,
         });
 
         if (finalized) {
@@ -165,6 +166,7 @@ const Predict = () => {
         setIsDisabled(false);
         setGameOn(false);
         loadBalance();
+        toast.dismiss(toastHandle);
         return;
       }
       toast.dismiss(toastHandle);
@@ -205,13 +207,14 @@ const Predict = () => {
     }
 
     loadBalance();
-    await delay(2000);
+    await delay(5000);
 
     // finalize
     const toastHandle = toast.loading("Execute finalize ...");
     try {
       let finalized = await clientAPI("post", "/finalize", {
         player: currentAccount?.address,
+        bet_number: position,
       });
 
       if (finalized) {
@@ -230,6 +233,7 @@ const Predict = () => {
       setIsDisabled(false);
       setGameOn(false);
       loadBalance();
+      toast.dismiss(toastHandle);
       return;
     }
     toast.dismiss(toastHandle);
