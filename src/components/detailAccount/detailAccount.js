@@ -10,10 +10,10 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { AddressCopier } from "components/addressCopier";
-import StakingPool from "components/stakingPool/StakingPool";
 import { useWallet } from "contexts/useWallet";
-import { useState } from "react";
+import { useModal } from "contexts/useModal";
 import { useSelector } from "react-redux";
+import { memo } from "react";
 
 const DetailAccountBox = ({
   onClickSwitch,
@@ -21,8 +21,8 @@ const DetailAccountBox = ({
   onCloseModalDetailAccount,
 }) => {
   const { logoutAccountHandler } = useWallet();
+  const { setStakingPoolModalVisible } = useModal();
   const { currentAccount } = useSelector((s) => s.substrate);
-  const [stakingPoolModalVisible, setStakingPoolModalVisible] = useState(false);
 
   return (
     <>
@@ -129,12 +129,8 @@ const DetailAccountBox = ({
           </ModalBody>
         </ModalContent>
       </Modal>
-      <StakingPool
-        visible={stakingPoolModalVisible}
-        onCloseStakingPoolModal={() => setStakingPoolModalVisible(false)}
-      />
     </>
   );
 };
 
-export default DetailAccountBox;
+export default memo(DetailAccountBox);

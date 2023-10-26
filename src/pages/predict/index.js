@@ -34,6 +34,7 @@ import {
 import { delay } from "utils";
 import { AppIcon } from "components/icons";
 import CommonButton from "components/button/commonButton";
+import StakingPool from "components/stakingPool/StakingPool";
 
 const labelStyles = {
   fontSize: "20px",
@@ -120,7 +121,7 @@ const Predict = () => {
   });
 
   const loadBalance = async () => {
-    dispatch(fetchUserBalance({ currentAccount}));
+    dispatch(fetchUserBalance({ currentAccount }));
     dispatch(fetchBalance());
   };
 
@@ -253,6 +254,7 @@ const Predict = () => {
         visible={depositModalVisible}
         onClose={() => setDepositModalVisible(false)}
       />
+      <StakingPool />
       <Box>
         <Box
           bgSize="contain"

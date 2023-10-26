@@ -14,7 +14,7 @@ import { AppIcon } from "components/icons";
 import { useDispatch, useSelector } from "react-redux";
 import betaz_token from "utils/contracts/betaz_token_calls";
 import betaz_core from "utils/contracts/betaz_core_calls";
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, memo } from "react";
 import toast from "react-hot-toast";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 import {
@@ -28,16 +28,19 @@ import useInterval from "hooks/useInterval";
 import { execContractQuery, execContractTx } from "utils/contracts";
 import staking_pool_contract from "utils/contracts/staking_pool";
 import betaz_token_contract from "utils/contracts/betaz_token";
+import { useModal } from "contexts/useModal";
 
 const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
-const StakingPool = ({ visible, onCloseStakingPoolModal }) => {
+const StakingPool = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const dispatch = useDispatch();
   const { currentAccount } = useSelector((s) => s.substrate);
   const [stakeValue, setStakeValue] = useState(0);
   const [unstakeValue, setUnstakeValue] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const { stakingPoolModalVisible, setStakingPoolModalVisible } = useModal();
+  const onCloseStakingPoolModal = () => setStakingPoolModalVisible(false);
 
   /** Stake token */
   const onChangeStakeValue = useCallback((e) => {
@@ -126,10 +129,11 @@ const StakingPool = ({ visible, onCloseStakingPoolModal }) => {
     const reg = /^\d*\.?\d*$/;
     let rqunstakeValue = 0;
     if ((!isNaN(value) && reg.test(value)) || value === "") {
-        rqunstakeValue = parseFloat(value);
+      rqunstakeValue = parseFloat(value);
       if (rqunstakeValue < 0) rqunstakeValue = 1;
       if (
-        rqunstakeValue > formatChainStringToNumber(currentAccount?.balance?.stake)
+        rqunstakeValue >
+        formatChainStringToNumber(currentAccount?.balance?.stake)
       ) {
         toast.error("Not enough Balance!");
         setUnstakeValue(
@@ -146,7 +150,7 @@ const StakingPool = ({ visible, onCloseStakingPoolModal }) => {
       <Modal
         size="full"
         isCentered
-        isOpen={visible}
+        isOpen={stakingPoolModalVisible}
         onClose={onCloseStakingPoolModal}
       >
         <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
@@ -274,16 +278,16 @@ const StakingPool = ({ visible, onCloseStakingPoolModal }) => {
                         <Input
                           focusBorderColor="transparent"
                           sx={{ border: "0px" }}
-                            onChange={onChangeRequestunstakeValue}
-                            value={unstakeValue}
+                          onChange={onChangeRequestunstakeValue}
+                          value={unstakeValue}
                           // type="Number"
                         />
                       </Flex>
                     </Box>
                     <CommonButton
-                        onClick={() => {
-                            toast.success("Comming soon...")
-                        }}
+                      onClick={() => {
+                        toast.success("Comming soon...");
+                      }}
                       text="Request unstake"
                       isLoading={isLoading}
                     />
@@ -309,4 +313,4 @@ const StakingPool = ({ visible, onCloseStakingPoolModal }) => {
   );
 };
 
-export default StakingPool;
+export default memo(StakingPool);

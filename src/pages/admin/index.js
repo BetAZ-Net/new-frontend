@@ -5,6 +5,7 @@ import SubcribeEmailButton from "./SubcribeEmailButton";
 import SubcribeEmailModal from "./subcribeEmailModal";
 import { tabItems } from "./tabs";
 import "./styles.css";
+import StakingPool from "components/stakingPool/StakingPool";
 
 const tabData = [
   {
@@ -76,6 +77,7 @@ const AdminPage = () => {
       <SubcribeEmailButton
         onClick={() => setBetSubcribeEmailModalVisible(true)}
       />
+      <StakingPool />
     </SectionContainer>
   );
 };
