@@ -26,6 +26,7 @@ import {
 } from "store/slices/substrateSlice";
 import AdminPage from "pages/admin";
 import { web3Enable } from "@polkadot/extension-dapp";
+import PrivateRouter from "components/PrivateRoute/PrivateRoute";
 
 const providerUrl = process.env.REACT_APP_PROVIDER_URL;
 
@@ -103,7 +104,10 @@ const App = () => {
         <Route path="*" element={<Predict />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/app" element={<Predict />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route
+          path="/admin"
+          element={<PrivateRouter />}
+        />
       </Routes>
     </DefaultLayout>
   );
