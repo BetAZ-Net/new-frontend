@@ -147,7 +147,6 @@ const Predict = () => {
       try {
         let finalized = await clientAPI("post", "/finalize", {
           player: currentAccount?.address,
-          bet_number: position,
         });
 
         if (finalized) {
@@ -214,7 +213,6 @@ const Predict = () => {
     try {
       let finalized = await clientAPI("post", "/finalize", {
         player: currentAccount?.address,
-        bet_number: position,
       });
 
       if (finalized) {
