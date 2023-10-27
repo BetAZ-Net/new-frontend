@@ -170,13 +170,8 @@ const DepositModal = ({ visible, onClose }) => {
 
   useEffect(() => {
     getHoldAmount();
-  }, [currentAccount]);
+  }, [currentAccount?.address]);
 
-  // useInterval(() => {
-  //   if (currentAccount?.address) {
-  //     getMaxbuy();
-  //   }
-  // }, 1000);
   return (
     <>
       <Modal size="full" isCentered isOpen={visible} onClose={onClose}>

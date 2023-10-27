@@ -10,6 +10,7 @@ import { execContractTx, execContractQuery } from "utils/contracts";
 import betaz_token_contract from "utils/contracts/betaz_token";
 import { useWallet } from "contexts/useWallet";
 import { fetchUserBalance } from "store/slices/substrateSlice";
+import { delay } from "utils";
 
 const adminRole = process.env.REACT_APP_ADMIN_ROLE;
 
@@ -56,6 +57,8 @@ const MinToken = () => {
       );
       setIsLoading(false);
     }
+    await delay(2000);
+    dispatch(fetchUserBalance({ currentAccount }));
   };
 
   const onChangeValue = useCallback((e) => {
@@ -75,10 +78,6 @@ const MinToken = () => {
     const { value } = e.target;
     setAddress(value);
   });
-
-  useEffect(() => {
-    dispatch(fetchUserBalance({ currentAccount}));
-  }, [handleMint]);
 
   return (
     <SectionContainer

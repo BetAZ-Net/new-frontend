@@ -73,6 +73,9 @@ const UpdateRewardPool = () => {
       }
       setIsLoading(false);
     }
+    await delay(2000);
+    dispatch(fetchUserBalance({ currentAccount }));
+    dispatch(fetchBalance());
   };
 
   const onChangeValue = useCallback((e) => {
@@ -87,11 +90,6 @@ const UpdateRewardPool = () => {
       }
     }
   });
-
-  useEffect(() => {
-    dispatch(fetchUserBalance({ currentAccount }));
-    dispatch(fetchBalance());
-  }, [handleUpdate]);
 
   return (
     <SectionContainer

@@ -10,6 +10,7 @@ import { execContractTx, execContractQuery } from "utils/contracts";
 import staking_pool_contract from "utils/contracts/staking_pool";
 import { useWallet } from "contexts/useWallet";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
+import { delay } from "utils";
 
 const adminRole = process.env.REACT_APP_ADMIN_ROLE;
 
@@ -64,6 +65,9 @@ const WithDrawStakingPool = () => {
       );
       setIsLoading(false);
     }
+    await delay(2000);
+    dispatch(fetchUserBalance({ currentAccount }));
+    dispatch(fetchBalance());
   };
 
   const onChangeValue = useCallback((e) => {
@@ -83,11 +87,6 @@ const WithDrawStakingPool = () => {
     const { value } = e.target;
     setAddress(value);
   });
-
-  useEffect(() => {
-    dispatch(fetchUserBalance({ currentAccount}));
-    dispatch(fetchBalance());
-  }, [handleWithdraw]);
 
   return (
     <SectionContainer

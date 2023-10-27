@@ -10,6 +10,7 @@ import { execContractTx, execContractQuery } from "utils/contracts";
 import betaz_core_contract from "utils/contracts/betaz_core";
 import { useWallet } from "contexts/useWallet";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
+import { delay } from "utils";
 
 const adminRole = process.env.REACT_APP_ADMIN_ROLE;
 
@@ -54,6 +55,9 @@ const UpdateCorePool = () => {
       );
       setIsLoading(false);
     }
+    await delay(2000);
+    dispatch(fetchUserBalance({ currentAccount }));
+    dispatch(fetchBalance());
   };
 
   const onChangeValue = useCallback((e) => {
@@ -68,11 +72,6 @@ const UpdateCorePool = () => {
       }
     }
   });
-
-  useEffect(() => {
-    dispatch(fetchUserBalance({ currentAccount }));
-    dispatch(fetchBalance());
-  }, [handleUpdate]);
 
   return (
     <SectionContainer

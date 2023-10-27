@@ -207,7 +207,7 @@ const Predict = () => {
     }
 
     loadBalance();
-    await delay(5000);
+    await delay(2000);
 
     // finalize
     const toastHandle = toast.loading("Execute finalize ...");

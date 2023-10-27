@@ -29,6 +29,7 @@ import { execContractQuery, execContractTx } from "utils/contracts";
 import staking_pool_contract from "utils/contracts/staking_pool";
 import betaz_token_contract from "utils/contracts/betaz_token";
 import { useModal } from "contexts/useModal";
+import { delay } from "utils";
 
 const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
@@ -116,12 +117,10 @@ const StakingPool = () => {
       }
       setIsLoading(false);
     }
-  };
-
-  useEffect(() => {
+    await delay(2000);
     dispatch(fetchUserBalance({ currentAccount }));
     dispatch(fetchBalance());
-  }, [stake]);
+  };
 
   /** Request Unstake */
   const onChangeRequestunstakeValue = useCallback((e) => {
