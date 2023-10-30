@@ -30,6 +30,7 @@ import staking_pool_contract from "utils/contracts/staking_pool";
 import betaz_token_contract from "utils/contracts/betaz_token";
 import { useModal } from "contexts/useModal";
 import { delay } from "utils";
+import UnstakeModal from "./unstakeModal/UnstakeModal";
 
 const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
@@ -40,8 +41,15 @@ const StakingPool = () => {
   const [stakeValue, setStakeValue] = useState(0);
   const [unstakeValue, setUnstakeValue] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const { stakingPoolModalVisible, setStakingPoolModalVisible } = useModal();
+  const {
+    stakingPoolModalVisible,
+    setStakingPoolModalVisible,
+    setUnstakeModalVisible,
+    unstakeModalVisible
+  } = useModal();
   const onCloseStakingPoolModal = () => setStakingPoolModalVisible(false);
+  const onOpenUnstakeModal = () => setUnstakeModalVisible(true);
+  const onCloseUnstakeModal = () => setUnstakeModalVisible(false);
 
   /** Stake token */
   const onChangeStakeValue = useCallback((e) => {
@@ -283,13 +291,16 @@ const StakingPool = () => {
                         />
                       </Flex>
                     </Box>
-                    <CommonButton
-                      onClick={() => {
-                        toast.success("Comming soon...");
-                      }}
-                      text="Request unstake"
-                      isLoading={isLoading}
-                    />
+                    <SimpleGrid gap="12px" columns={2}>
+                      <CommonButton
+                        onClick={() => {
+                          toast.success("Comming soon...");
+                        }}
+                        text="Request unstake"
+                        isLoading={isLoading}
+                      />
+                      <CommonButton onClick={onOpenUnstakeModal} text="Unstake" />
+                    </SimpleGrid>
                     <Box>
                       <Text textAlign="center">
                         By Clicking your agree with our
@@ -308,6 +319,7 @@ const StakingPool = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
+      <UnstakeModal isOpen={unstakeModalVisible} onClose={onCloseUnstakeModal} />
     </>
   );
 };

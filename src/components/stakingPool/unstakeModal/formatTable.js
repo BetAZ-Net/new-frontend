@@ -3,9 +3,9 @@ import { AddressCopier } from "components/addressCopier";
 
 export const formatTableValue = (value, key) => {
   switch (key) {
-    case "player":
+    case "email":
       return <AddressCopier address={value} />;
-    case "timer":
+    case "subcribeAt":
       const date = new Date(value);
 
       // console.log({date, value})
