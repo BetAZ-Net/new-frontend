@@ -62,7 +62,7 @@ const initialState = {
   buyStatus: {
     endTime: 0,
     status: true,
-  }
+  },
 };
 
 export const substrateSlice = createSlice({
@@ -159,76 +159,61 @@ export const fetchBalance = createAsyncThunk(
   async () => {
     // TODO: check can fix warning about storing api on redux?
 
-    const [
-      corePoolBalance,
-      stakingPoolBalance,
-      treasuryPoolBalance,
-      rewardBalance,
-    ] = await Promise.all([
-      execContractQuerybyMetadata(
-        defaultCaller,
-        betaz_core_contract.CONTRACT_ABI,
-        betaz_core_contract.CONTRACT_ADDRESS,
-        0,
-        "betA0CoreTrait::getCorePoolAmout"
-      ),
-      getAzeroBalanceOfAddress({
-        address: staking_pool_contract?.CONTRACT_ADDRESS,
-      }),
-      execContractQuerybyMetadata(
-        defaultCaller,
-        betaz_core_contract.CONTRACT_ABI,
-        betaz_core_contract.CONTRACT_ADDRESS,
-        0,
-        "betA0CoreTrait::getTreasuryPoolAmount"
-      ),
-      execContractQuerybyMetadata(
-        defaultCaller,
-        betaz_core_contract.CONTRACT_ABI,
-        betaz_core_contract.CONTRACT_ADDRESS,
-        0,
-        "betA0CoreTrait::getRewardPoolAmount"
-      ),
-    ]);
+    const [corePoolBalance, stakingPoolBalance, treasuryPoolBalance] =
+      await Promise.all([
+        execContractQuerybyMetadata(
+          defaultCaller,
+          betaz_core_contract.CONTRACT_ABI,
+          betaz_core_contract.CONTRACT_ADDRESS,
+          0,
+          "betA0CoreTrait::getCorePoolAmout"
+        ),
+        getAzeroBalanceOfAddress({
+          address: staking_pool_contract?.CONTRACT_ADDRESS,
+        }),
+        execContractQuerybyMetadata(
+          defaultCaller,
+          betaz_core_contract.CONTRACT_ABI,
+          betaz_core_contract.CONTRACT_ADDRESS,
+          0,
+          "betA0CoreTrait::getTreasuryPoolAmount"
+        ),
+      ]);
 
     const core = formatQueryResultToNumber(corePoolBalance);
     const staking = formatNumDynDecimal(stakingPoolBalance);
     const treasury = formatQueryResultToNumber(treasuryPoolBalance);
-    const reward = formatQueryResultToNumber(rewardBalance);
 
-    return { reward, core, staking, treasury };
+    return { core, staking, treasury };
   }
 );
 
-export const fetchRates = createAsyncThunk(
-  "substrate/fetchRates",
-  async () => {
-    const [over, under] = await Promise.all([
-      execContractQuerybyMetadataConvertResult(
-        defaultCaller,
-        betaz_core_contract.CONTRACT_ABI,
-        betaz_core_contract.CONTRACT_ADDRESS,
-        0,
-        "betA0CoreTrait::getOverRates"
-      ),
-      execContractQuerybyMetadataConvertResult(
-        defaultCaller,
-        betaz_core_contract.CONTRACT_ABI,
-        betaz_core_contract.CONTRACT_ADDRESS,
-        0,
-        "betA0CoreTrait::getUnderRates"
-      ),
-    ]);
+export const fetchRates = createAsyncThunk("substrate/fetchRates", async () => {
+  const [over, under] = await Promise.all([
+    execContractQuerybyMetadataConvertResult(
+      defaultCaller,
+      betaz_core_contract.CONTRACT_ABI,
+      betaz_core_contract.CONTRACT_ADDRESS,
+      0,
+      "betA0CoreTrait::getOverRates"
+    ),
+    execContractQuerybyMetadataConvertResult(
+      defaultCaller,
+      betaz_core_contract.CONTRACT_ABI,
+      betaz_core_contract.CONTRACT_ADDRESS,
+      0,
+      "betA0CoreTrait::getUnderRates"
+    ),
+  ]);
 
-    let overRates = over.map((element) => element.toNumber());
-    let underRates = under.map((element) => element.toNumber());
-    console.log(overRates);
-    return {
-      overRates,
-      underRates,
-    };
-  }
-);
+  let overRates = over.map((element) => element.toNumber());
+  let underRates = under.map((element) => element.toNumber());
+  console.log(overRates);
+  return {
+    overRates,
+    underRates,
+  };
+});
 
 export const fetchRollNumbers = createAsyncThunk(
   "substrate/fetchRollNumbers",
@@ -286,10 +271,7 @@ export const fetchBuyStatus = createAsyncThunk(
   "substrate/fetchBuyStatus",
   async () => {
     // TODO: check can fix warning about storing api on redux?
-    const [
-      endTimeBuy,
-      buyStatus,
-    ] = await Promise.all([
+    const [endTimeBuy, buyStatus] = await Promise.all([
       execContractQuerybyMetadata(
         defaultCaller,
         betaz_token_contract.CONTRACT_ABI,

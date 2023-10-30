@@ -7,11 +7,11 @@ const Pools = () => {
   const { poolBalance } = useSelector((s) => s.substrate);
 
   return (
-    <SimpleGrid columns={{sm: 1, md: 2, lg: 3}} spacing="24px">
+    <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="24px">
       <Box className="pool-container">
-        <Text className="pool-title">Reward Pool</Text>
+        <Text className="pool-title">Core Pool</Text>
         <Box className="pool-amount-container">
-          <Text className="pool-amount">{poolBalance?.reward}</Text>
+          <Text className="pool-amount">{poolBalance?.core}</Text>
           <AppIcon size="18px" padding="8px" />
         </Box>
       </Box>

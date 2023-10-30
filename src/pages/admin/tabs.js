@@ -1,6 +1,5 @@
 import MinToken from "./mintToken";
 import UpdateCorePool from "./updateCorePool";
-import UpdateRewardPool from "./updateRewardPool";
 import WithDrawCorePool from "./withDrawCorePool";
 import WithDrawStakingPool from "./withDrawStakingPool";
 import Locked from "./locked";
@@ -15,18 +14,16 @@ export const tabItems = (key) => {
     case 1:
       return <UpdateCorePool />;
     case 2:
-      return <UpdateRewardPool />;
-    case 3:
       return <WithDrawCorePool />;
-    case 4:
+    case 3:
       return <WithDrawStakingPool />;
-    case 5:
+    case 4:
       return <WithdrawTreasuryPool />;
-    case 6:
+    case 5:
       return <Locked />;
-    case 7:
+    case 6:
       return <UpdateStatusRewardDistribution />;
-    case 8:
+    case 7:
       return <SetClaimedStatus />;
     default:
       return <MinToken />;
