@@ -15,9 +15,6 @@ const tabData = [
     label: "Update Core Pool",
   },
   {
-    label: "Update Reward Pool",
-  },
-  {
     label: "Withdraw Core Pool",
   },
   {
