@@ -39,7 +39,6 @@ const SubcribeEmailModal = ({ isOpen, onClose }) => {
     });
     setdata(data);
   };
-  useInterval(() => getData(), 3000);
 
   useEffect(() => {
     getData();

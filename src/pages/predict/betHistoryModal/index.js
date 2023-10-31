@@ -81,7 +81,7 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
       setdata(data);
     }
   };
-  useInterval(() => getData(), 3000);
+  useInterval(() => getData(), 5000);
 
   useEffect(() => {
     getData();

@@ -147,6 +147,7 @@ const Predict = () => {
       try {
         let finalized = await clientAPI("post", "/finalize", {
           player: currentAccount?.address,
+          oracleRound: bet?.oracleRound,
         });
 
         if (finalized) {
@@ -207,12 +208,14 @@ const Predict = () => {
 
     loadBalance();
     await delay(2000);
+    const newBet = await betaz_core.getBet(currentAccount?.address);
 
     // finalize
     const toastHandle = toast.loading("Execute finalize ...");
     try {
       let finalized = await clientAPI("post", "/finalize", {
         player: currentAccount?.address,
+        oracleRound: newBet?.oracleRound,
       });
 
       if (finalized) {
@@ -248,7 +251,7 @@ const Predict = () => {
     if (api) {
       loadMaxBet();
     }
-  }, 1000);
+  }, 5000);
 
   return (
     <SectionContainer>
