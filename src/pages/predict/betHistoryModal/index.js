@@ -22,7 +22,7 @@ import { BiLayer } from "react-icons/bi";
 import { GiTwoCoins } from "react-icons/gi";
 import { TbMoodSmileFilled } from "react-icons/tb";
 import { MdSwapVerticalCircle } from "react-icons/md";
-import { RiCopperDiamondFill, RiVipDiamondFill } from "react-icons/ri";
+import { RiCopperDiamondFill, RiVipDiamondFill, RiArrowTurnBackFill } from "react-icons/ri";
 import "./styles.css";
 import { AiFillStar } from "react-icons/ai";
 import { formatTableValue } from "./formatTable";
@@ -140,6 +140,11 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
         label: "Won Amount",
         key: "won-amount",
         icon: <RiVipDiamondFill size="24px" style={{ marginRight: "8px" }} />,
+      },
+      {
+        label: "Oracle round",
+        key: "round",
+        icon: <RiArrowTurnBackFill size="24px" style={{ marginRight: "8px" }} />,
       },
     ],
     data: data,

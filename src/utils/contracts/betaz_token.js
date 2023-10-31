@@ -1,13 +1,13 @@
 const betaz_token_contract = {
-  CONTRACT_ADDRESS: "5DLz62hTTrctbe6GJkxYNQyfEhPCWE78bL575ztL9qq3BZHR",
+  CONTRACT_ADDRESS: "5EuyaShXD14AhZvLV3yS899WwUGjAUsLbqq8dmdgtauFr5Fc",
   CONTRACT_ABI: {
     source: {
-      hash: "0xb8f658a8a14f723ff8d7611c1f5e6087e8d0150df2a0bc560498ed1258c10aad",
+      hash: "0x5aa8ae6d33954176723246669eeeedf7a3063629b6a2ca2244964ac404536a01",
       language: "ink! 4.3.0",
-      compiler: "rustc 1.70.0-nightly",
+      compiler: "rustc 1.75.0-nightly",
       build_info: {
         build_mode: "Debug",
-        cargo_contract_version: "2.1.0",
+        cargo_contract_version: "3.2.0",
         rust_toolchain: "nightly-x86_64-unknown-linux-gnu",
         wasm_opt_settings: {
           keep_debug_symbols: false,
@@ -122,6 +122,120 @@ const betaz_token_contract = {
         {
           args: [
             {
+              label: "player",
+              type: {
+                displayName: ["AccountId"],
+                type: 1,
+              },
+            },
+            {
+              label: "amount",
+              type: {
+                displayName: ["Balance"],
+                type: 0,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "reward_token",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 12,
+          },
+          selector: "0x0b067d01",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Get max buy amount"],
+          label: "BetAZTrait::get_max_buy_amount",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 20,
+          },
+          selector: "0xc39a0447",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "BetAZTrait::change_state",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 12,
+          },
+          selector: "0x3bb03682",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Buy token function"],
+          label: "BetAZTrait::buy_token",
+          mutates: true,
+          payable: true,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 12,
+          },
+          selector: "0x5b5e91fc",
+        },
+        {
+          args: [
+            {
+              label: "address",
+              type: {
+                displayName: ["betaztrait_external", "IsAdminAddressInput1"],
+                type: 1,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "BetAZTrait::is_admin_address",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 21,
+          },
+          selector: "0x2e57538f",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Get amount token sold"],
+          label: "BetAZTrait::get_amount_token_sold",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 20,
+          },
+          selector: "0x1922ed1c",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "BetAZTrait::get_end_time_buy",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 22,
+          },
+          selector: "0x9169a5fe",
+        },
+        {
+          args: [
+            {
               label: "value",
               type: {
                 displayName: ["betaztrait_external", "WithdrawInput1"],
@@ -141,25 +255,43 @@ const betaz_token_contract = {
           selector: "0x008cfce2",
         },
         {
-          args: [
-            {
-              label: "buy_token_status",
-              type: {
-                displayName: ["betaztrait_external", "SetBuyTokenStatusInput1"],
-                type: 4,
-              },
-            },
-          ],
+          args: [],
           default: false,
-          docs: [" Set buy token status"],
-          label: "BetAZTrait::set_buy_token_status",
-          mutates: true,
+          docs: [" Get buy token status"],
+          label: "BetAZTrait::get_buy_token_status",
+          mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 12,
+            type: 21,
           },
-          selector: "0x999e57af",
+          selector: "0xc1ae2921",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Get limit time buy"],
+          label: "BetAZTrait::get_limit_time_buy",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 22,
+          },
+          selector: "0x7ff5f380",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [" Get token ratio"],
+          label: "BetAZTrait::get_token_ratio",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 23,
+          },
+          selector: "0x17c2dbc6",
         },
         {
           args: [
@@ -183,136 +315,25 @@ const betaz_token_contract = {
           selector: "0x8f4b3c70",
         },
         {
-          args: [],
-          default: false,
-          docs: [" Get token ratio"],
-          label: "BetAZTrait::get_token_ratio",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 20,
-          },
-          selector: "0x17c2dbc6",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
-          label: "BetAZTrait::get_end_time_buy",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 21,
-          },
-          selector: "0x9169a5fe",
-        },
-        {
           args: [
             {
-              label: "account",
+              label: "address",
               type: {
-                displayName: ["betaztrait_external", "MintInput1"],
+                displayName: ["betaztrait_external", "SetAdminAddressInput1"],
                 type: 1,
-              },
-            },
-            {
-              label: "amount",
-              type: {
-                displayName: ["betaztrait_external", "MintInput2"],
-                type: 0,
               },
             },
           ],
           default: false,
-          docs: [" Only minter can mint"],
-          label: "BetAZTrait::mint",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 12,
-          },
-          selector: "0xec556c02",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [" Buy token function"],
-          label: "BetAZTrait::buy_token",
-          mutates: true,
-          payable: true,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 12,
-          },
-          selector: "0x5b5e91fc",
-        },
-        {
-          args: [],
-          default: false,
           docs: [],
-          label: "BetAZTrait::change_state",
+          label: "BetAZTrait::set_admin_address",
           mutates: true,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
             type: 12,
           },
-          selector: "0x3bb03682",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [" Get max buy amount"],
-          label: "BetAZTrait::get_max_buy_amount",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 22,
-          },
-          selector: "0xc39a0447",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [" Get limit time buy"],
-          label: "BetAZTrait::get_limit_time_buy",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 21,
-          },
-          selector: "0x7ff5f380",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [" Get buy token status"],
-          label: "BetAZTrait::get_buy_token_status",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 23,
-          },
-          selector: "0xc1ae2921",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [" Get amount token sold"],
-          label: "BetAZTrait::get_amount_token_sold",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 22,
-          },
-          selector: "0x1922ed1c",
+          selector: "0x639c8f06",
         },
         {
           args: [
@@ -359,6 +380,118 @@ const betaz_token_contract = {
         {
           args: [
             {
+              label: "account",
+              type: {
+                displayName: ["betaztrait_external", "MintInput1"],
+                type: 1,
+              },
+            },
+            {
+              label: "amount",
+              type: {
+                displayName: ["betaztrait_external", "MintInput2"],
+                type: 0,
+              },
+            },
+          ],
+          default: false,
+          docs: [" Only minter can mint"],
+          label: "BetAZTrait::mint",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 12,
+          },
+          selector: "0xec556c02",
+        },
+        {
+          args: [
+            {
+              label: "buy_token_status",
+              type: {
+                displayName: ["betaztrait_external", "SetBuyTokenStatusInput1"],
+                type: 4,
+              },
+            },
+          ],
+          default: false,
+          docs: [" Set buy token status"],
+          label: "BetAZTrait::set_buy_token_status",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 12,
+          },
+          selector: "0x999e57af",
+        },
+        {
+          args: [
+            {
+              label: "spender",
+              type: {
+                displayName: ["psp22_external", "DecreaseAllowanceInput1"],
+                type: 1,
+              },
+            },
+            {
+              label: "delta_value",
+              type: {
+                displayName: ["psp22_external", "DecreaseAllowanceInput2"],
+                type: 0,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "PSP22::decrease_allowance",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 24,
+          },
+          selector: "0xfecb57d5",
+        },
+        {
+          args: [
+            {
+              label: "to",
+              type: {
+                displayName: ["psp22_external", "TransferInput1"],
+                type: 1,
+              },
+            },
+            {
+              label: "value",
+              type: {
+                displayName: ["psp22_external", "TransferInput2"],
+                type: 0,
+              },
+            },
+            {
+              label: "data",
+              type: {
+                displayName: ["psp22_external", "TransferInput3"],
+                type: 26,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "PSP22::transfer",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 24,
+          },
+          selector: "0xdb20f9f5",
+        },
+        {
+          args: [
+            {
               label: "owner",
               type: {
                 displayName: ["psp22_external", "AllowanceInput1"],
@@ -380,30 +513,9 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 22,
+            type: 20,
           },
           selector: "0x4d47d921",
-        },
-        {
-          args: [
-            {
-              label: "owner",
-              type: {
-                displayName: ["psp22_external", "BalanceOfInput1"],
-                type: 1,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "PSP22::balance_of",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 22,
-          },
-          selector: "0x6568382f",
         },
         {
           args: [
@@ -432,7 +544,7 @@ const betaz_token_contract = {
               label: "data",
               type: {
                 displayName: ["psp22_external", "TransferFromInput4"],
-                type: 24,
+                type: 26,
               },
             },
           ],
@@ -443,44 +555,43 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 25,
+            type: 24,
           },
           selector: "0x54b3c76e",
         },
         {
+          args: [],
+          default: false,
+          docs: [],
+          label: "PSP22::total_supply",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 20,
+          },
+          selector: "0x162df8c2",
+        },
+        {
           args: [
             {
-              label: "to",
+              label: "owner",
               type: {
-                displayName: ["psp22_external", "TransferInput1"],
+                displayName: ["psp22_external", "BalanceOfInput1"],
                 type: 1,
-              },
-            },
-            {
-              label: "value",
-              type: {
-                displayName: ["psp22_external", "TransferInput2"],
-                type: 0,
-              },
-            },
-            {
-              label: "data",
-              type: {
-                displayName: ["psp22_external", "TransferInput3"],
-                type: 24,
               },
             },
           ],
           default: false,
           docs: [],
-          label: "PSP22::transfer",
-          mutates: true,
+          label: "PSP22::balance_of",
+          mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 25,
+            type: 20,
           },
-          selector: "0xdb20f9f5",
+          selector: "0x6568382f",
         },
         {
           args: [
@@ -506,50 +617,9 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 25,
+            type: 24,
           },
           selector: "0x96d6b57a",
-        },
-        {
-          args: [
-            {
-              label: "spender",
-              type: {
-                displayName: ["psp22_external", "DecreaseAllowanceInput1"],
-                type: 1,
-              },
-            },
-            {
-              label: "delta_value",
-              type: {
-                displayName: ["psp22_external", "DecreaseAllowanceInput2"],
-                type: 0,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "PSP22::decrease_allowance",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 25,
-          },
-          selector: "0xfecb57d5",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
-          label: "PSP22::total_supply",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 22,
-          },
-          selector: "0x162df8c2",
         },
         {
           args: [],
@@ -568,19 +638,6 @@ const betaz_token_contract = {
           args: [],
           default: false,
           docs: [],
-          label: "PSP22Metadata::token_name",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 27,
-          },
-          selector: "0x3d261bd4",
-        },
-        {
-          args: [],
-          default: false,
-          docs: [],
           label: "PSP22Metadata::token_decimals",
           mutates: false,
           payable: false,
@@ -589,6 +646,19 @@ const betaz_token_contract = {
             type: 28,
           },
           selector: "0x7271b782",
+        },
+        {
+          args: [],
+          default: false,
+          docs: [],
+          label: "PSP22Metadata::token_name",
+          mutates: false,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 27,
+          },
+          selector: "0x3d261bd4",
         },
         {
           args: [
@@ -614,7 +684,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 25,
+            type: 24,
           },
           selector: "0xfc3c75d4",
         },
@@ -642,9 +712,30 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 25,
+            type: 24,
           },
           selector: "0x7a9da510",
+        },
+        {
+          args: [
+            {
+              label: "new_owner",
+              type: {
+                displayName: ["ownable_external", "TransferOwnershipInput1"],
+                type: 29,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "Ownable::transfer_ownership",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 30,
+          },
+          selector: "0x11f43efd",
         },
         {
           args: [],
@@ -655,7 +746,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 29,
+            type: 30,
           },
           selector: "0x5e228753",
         },
@@ -668,30 +759,9 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 31,
+            type: 32,
           },
           selector: "0x4fa43c8c",
-        },
-        {
-          args: [
-            {
-              label: "new_owner",
-              type: {
-                displayName: ["ownable_external", "TransferOwnershipInput1"],
-                type: 32,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "Ownable::transfer_ownership",
-          mutates: true,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 29,
-          },
-          selector: "0x11f43efd",
         },
         {
           args: [],
@@ -702,7 +772,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 23,
+            type: 21,
           },
           selector: "0xd123ce11",
         },
@@ -732,34 +802,6 @@ const betaz_token_contract = {
             {
               label: "role",
               type: {
-                displayName: ["accesscontrol_external", "HasRoleInput1"],
-                type: 5,
-              },
-            },
-            {
-              label: "address",
-              type: {
-                displayName: ["accesscontrol_external", "HasRoleInput2"],
-                type: 32,
-              },
-            },
-          ],
-          default: false,
-          docs: [],
-          label: "AccessControl::has_role",
-          mutates: false,
-          payable: false,
-          returnType: {
-            displayName: ["ink", "MessageResult"],
-            type: 23,
-          },
-          selector: "0xc1d9ac18",
-        },
-        {
-          args: [
-            {
-              label: "role",
-              type: {
                 displayName: ["accesscontrol_external", "RenounceRoleInput1"],
                 type: 5,
               },
@@ -768,7 +810,7 @@ const betaz_token_contract = {
               label: "account",
               type: {
                 displayName: ["accesscontrol_external", "RenounceRoleInput2"],
-                type: 32,
+                type: 29,
               },
             },
           ],
@@ -788,28 +830,21 @@ const betaz_token_contract = {
             {
               label: "role",
               type: {
-                displayName: ["accesscontrol_external", "RevokeRoleInput1"],
+                displayName: ["accesscontrol_external", "GetRoleAdminInput1"],
                 type: 5,
-              },
-            },
-            {
-              label: "account",
-              type: {
-                displayName: ["accesscontrol_external", "RevokeRoleInput2"],
-                type: 32,
               },
             },
           ],
           default: false,
           docs: [],
-          label: "AccessControl::revoke_role",
-          mutates: true,
+          label: "AccessControl::get_role_admin",
+          mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 37,
+            type: 23,
           },
-          selector: "0x6e4f0991",
+          selector: "0x83da3bb2",
         },
         {
           args: [
@@ -824,7 +859,7 @@ const betaz_token_contract = {
               label: "account",
               type: {
                 displayName: ["accesscontrol_external", "GrantRoleInput2"],
-                type: 32,
+                type: 29,
               },
             },
           ],
@@ -844,21 +879,56 @@ const betaz_token_contract = {
             {
               label: "role",
               type: {
-                displayName: ["accesscontrol_external", "GetRoleAdminInput1"],
+                displayName: ["accesscontrol_external", "HasRoleInput1"],
                 type: 5,
+              },
+            },
+            {
+              label: "address",
+              type: {
+                displayName: ["accesscontrol_external", "HasRoleInput2"],
+                type: 29,
               },
             },
           ],
           default: false,
           docs: [],
-          label: "AccessControl::get_role_admin",
+          label: "AccessControl::has_role",
           mutates: false,
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 20,
+            type: 21,
           },
-          selector: "0x83da3bb2",
+          selector: "0xc1d9ac18",
+        },
+        {
+          args: [
+            {
+              label: "role",
+              type: {
+                displayName: ["accesscontrol_external", "RevokeRoleInput1"],
+                type: 5,
+              },
+            },
+            {
+              label: "account",
+              type: {
+                displayName: ["accesscontrol_external", "RevokeRoleInput2"],
+                type: 29,
+              },
+            },
+          ],
+          default: false,
+          docs: [],
+          label: "AccessControl::revoke_role",
+          mutates: true,
+          payable: false,
+          returnType: {
+            displayName: ["ink", "MessageResult"],
+            type: 37,
+          },
+          selector: "0x6e4f0991",
         },
         {
           args: [
@@ -880,7 +950,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 20,
+            type: 23,
           },
           selector: "0xf1b1a9d7",
         },
@@ -914,7 +984,7 @@ const betaz_token_contract = {
           payable: false,
           returnType: {
             displayName: ["ink", "MessageResult"],
-            type: 31,
+            type: 32,
           },
           selector: "0x163469e0",
         },
@@ -1751,13 +1821,17 @@ const betaz_token_contract = {
                   name: "CannotBuyAtThisTime",
                 },
                 {
+                  index: 36,
+                  name: "NotTimeToFinalize",
+                },
+                {
                   fields: [
                     {
                       type: 15,
                       typeName: "OwnableError",
                     },
                   ],
-                  index: 36,
+                  index: 37,
                   name: "OwnableError",
                 },
                 {
@@ -1767,7 +1841,7 @@ const betaz_token_contract = {
                       typeName: "AccessControlError",
                     },
                   ],
-                  index: 37,
+                  index: 38,
                   name: "AccessControlError",
                 },
                 {
@@ -1777,7 +1851,7 @@ const betaz_token_contract = {
                       typeName: "PSP22Error",
                     },
                   ],
-                  index: 38,
+                  index: 39,
                   name: "PSP22Error",
                 },
                 {
@@ -1787,11 +1861,11 @@ const betaz_token_contract = {
                       typeName: "PausableError",
                     },
                   ],
-                  index: 39,
+                  index: 40,
                   name: "PausableError",
                 },
                 {
-                  index: 40,
+                  index: 41,
                   name: "CheckedOperations",
                 },
               ],
@@ -1999,86 +2073,6 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 5,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 11,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 5,
-            },
-            {
-              name: "E",
-              type: 11,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
-        id: 21,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
-                      type: 8,
-                    },
-                  ],
-                  index: 0,
-                  name: "Ok",
-                },
-                {
-                  fields: [
-                    {
-                      type: 11,
-                    },
-                  ],
-                  index: 1,
-                  name: "Err",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 8,
-            },
-            {
-              name: "E",
-              type: 11,
-            },
-          ],
-          path: ["Result"],
-        },
-      },
-      {
-        id: 22,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  fields: [
-                    {
                       type: 0,
                     },
                   ],
@@ -2111,7 +2105,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 23,
+        id: 21,
         type: {
           def: {
             variant: {
@@ -2151,17 +2145,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 24,
-        type: {
-          def: {
-            sequence: {
-              type: 3,
-            },
-          },
-        },
-      },
-      {
-        id: 25,
+        id: 22,
         type: {
           def: {
             variant: {
@@ -2169,7 +2153,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 26,
+                      type: 8,
                     },
                   ],
                   index: 0,
@@ -2190,7 +2174,7 @@ const betaz_token_contract = {
           params: [
             {
               name: "T",
-              type: 26,
+              type: 8,
             },
             {
               name: "E",
@@ -2201,7 +2185,87 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 26,
+        id: 23,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 5,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 11,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 5,
+            },
+            {
+              name: "E",
+              type: 11,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 24,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 25,
+                    },
+                  ],
+                  index: 0,
+                  name: "Ok",
+                },
+                {
+                  fields: [
+                    {
+                      type: 11,
+                    },
+                  ],
+                  index: 1,
+                  name: "Err",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 25,
+            },
+            {
+              name: "E",
+              type: 11,
+            },
+          ],
+          path: ["Result"],
+        },
+      },
+      {
+        id: 25,
         type: {
           def: {
             variant: {
@@ -2238,6 +2302,16 @@ const betaz_token_contract = {
             },
           ],
           path: ["Result"],
+        },
+      },
+      {
+        id: 26,
+        type: {
+          def: {
+            sequence: {
+              type: 3,
+            },
+          },
         },
       },
       {
@@ -2327,9 +2401,40 @@ const betaz_token_contract = {
             variant: {
               variants: [
                 {
+                  index: 0,
+                  name: "None",
+                },
+                {
                   fields: [
                     {
-                      type: 30,
+                      type: 1,
+                    },
+                  ],
+                  index: 1,
+                  name: "Some",
+                },
+              ],
+            },
+          },
+          params: [
+            {
+              name: "T",
+              type: 1,
+            },
+          ],
+          path: ["Option"],
+        },
+      },
+      {
+        id: 30,
+        type: {
+          def: {
+            variant: {
+              variants: [
+                {
+                  fields: [
+                    {
+                      type: 31,
                     },
                   ],
                   index: 0,
@@ -2350,7 +2455,7 @@ const betaz_token_contract = {
           params: [
             {
               name: "T",
-              type: 30,
+              type: 31,
             },
             {
               name: "E",
@@ -2361,7 +2466,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 30,
+        id: 31,
         type: {
           def: {
             variant: {
@@ -2401,7 +2506,7 @@ const betaz_token_contract = {
         },
       },
       {
-        id: 31,
+        id: 32,
         type: {
           def: {
             variant: {
@@ -2409,7 +2514,7 @@ const betaz_token_contract = {
                 {
                   fields: [
                     {
-                      type: 32,
+                      type: 29,
                     },
                   ],
                   index: 0,
@@ -2430,7 +2535,7 @@ const betaz_token_contract = {
           params: [
             {
               name: "T",
-              type: 32,
+              type: 29,
             },
             {
               name: "E",
@@ -2438,37 +2543,6 @@ const betaz_token_contract = {
             },
           ],
           path: ["Result"],
-        },
-      },
-      {
-        id: 32,
-        type: {
-          def: {
-            variant: {
-              variants: [
-                {
-                  index: 0,
-                  name: "None",
-                },
-                {
-                  fields: [
-                    {
-                      type: 1,
-                    },
-                  ],
-                  index: 1,
-                  name: "Some",
-                },
-              ],
-            },
-          },
-          params: [
-            {
-              name: "T",
-              type: 1,
-            },
-          ],
-          path: ["Option"],
         },
       },
       {

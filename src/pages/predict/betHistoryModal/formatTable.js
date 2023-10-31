@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { AddressCopier } from "components/addressCopier";
 import { AppIcon } from "components/icons";
-import { formatNumDynDecimal } from "utils";
+import { formatNumDynDecimal, formatTokenBalance } from "utils";
 
 export const formatTableValue = (value, key) => {
   switch (key) {
@@ -23,7 +23,6 @@ export const formatTableValue = (value, key) => {
           <AppIcon size="16px" />
         </Box>
       );
-
     case "type":
       return value ? (
         <Text textAlign="center" color="#FFA000">
