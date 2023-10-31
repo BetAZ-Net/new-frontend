@@ -280,7 +280,7 @@ const StakingPool = () => {
                       </Flex>
                     </Box>
                     <Box className="deposit-box-amount-box">
-                      <Text>Requet unstake</Text>
+                      <Text>Requets unstake</Text>
                       <Flex className="deposit-box-amount-input">
                         <Input
                           focusBorderColor="transparent"
@@ -296,7 +296,7 @@ const StakingPool = () => {
                         onClick={() => {
                           toast.success("Comming soon...");
                         }}
-                        text="Request unstake"
+                        text="Requets unstake"
                         isLoading={isLoading}
                       />
                       <CommonButton onClick={onOpenUnstakeModal} text="Unstake" />
