@@ -9,6 +9,7 @@ import {
 import betaz_core_contract from "utils/contracts/betaz_core";
 import betaz_token_contract from "utils/contracts/betaz_token";
 import staking_pool_contract from "utils/contracts/staking_pool";
+import treasury_pool_contract from "utils/contracts/treasury_pool";
 
 const localCurrentAccount = window?.localStorage?.getItem(
   "localCurrentAccount"
@@ -171,18 +172,14 @@ export const fetchBalance = createAsyncThunk(
         getAzeroBalanceOfAddress({
           address: staking_pool_contract?.CONTRACT_ADDRESS,
         }),
-        execContractQuerybyMetadata(
-          defaultCaller,
-          betaz_core_contract.CONTRACT_ABI,
-          betaz_core_contract.CONTRACT_ADDRESS,
-          0,
-          "betA0CoreTrait::getTreasuryPoolAmount"
-        ),
+        getAzeroBalanceOfAddress({
+          address: treasury_pool_contract?.CONTRACT_ADDRESS,
+        }),
       ]);
 
     const core = formatQueryResultToNumber(corePoolBalance);
     const staking = formatNumDynDecimal(stakingPoolBalance);
-    const treasury = formatQueryResultToNumber(treasuryPoolBalance);
+    const treasury = formatNumDynDecimal(treasuryPoolBalance);
 
     return { core, staking, treasury };
   }
