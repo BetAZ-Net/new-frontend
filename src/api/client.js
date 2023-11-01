@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = process.env.REACT_APP_BACKEND_API || "http://localhost:3002/";
+const baseURL = process.env.REACT_APP_BACKEND_API || "http://localhost:3000/";
 
 export const clientAPI = async (method, url, options) => {
   if (!options) options = {};
