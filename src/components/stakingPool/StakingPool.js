@@ -88,52 +88,58 @@ const StakingPool = () => {
     }
     setIsLoading(true);
 
-    // check reward locked
-    const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
-    const checkLock = await execContractQuery(
-      defaultCaller,
-      staking_pool_contract.CONTRACT_ABI,
-      staking_pool_contract.CONTRACT_ADDRESS,
-      0,
-      "stakingPoolTrait::getIsLocked"
-    );
-    toast.dismiss(toastCheckLock);
-    if (checkLock?.toHuman().Ok) {
-      toast.error("Reward locked!");
-      setIsLoading(false);
-      return;
-    }
-
-    // approve token
-    const toastApprove = toast.loading("Step 2: Approved ...");
-    let allowance = await execContractTx(
-      currentAccount,
-      betaz_token_contract.CONTRACT_ABI,
-      betaz_token_contract.CONTRACT_ADDRESS,
-      0,
-      "psp22::increaseAllowance",
-      staking_pool_contract.CONTRACT_ADDRESS,
-      convertToBalance(stakeValue)
-    );
-    toast.dismiss(toastApprove);
-
-    if (allowance && currentAccount?.address) {
-      const toastStake = toast.loading("Step 3: Staking ...");
-      let stakeAmount = parseFloat(stakeValue);
-      const result = await execContractTx(
-        currentAccount,
+    try {
+      // check reward locked
+      const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
+      const checkLock = await execContractQuery(
+        defaultCaller,
         staking_pool_contract.CONTRACT_ABI,
         staking_pool_contract.CONTRACT_ADDRESS,
         0,
-        "stake",
-        convertToBalance(stakeAmount)
+        "stakingPoolTrait::getIsLocked"
       );
-      if (result) {
-        toast.dismiss(toastStake);
-        toast.success(`Staking success`);
+      toast.dismiss(toastCheckLock);
+      if (checkLock?.toHuman().Ok) {
+        toast.error("Reward locked!");
+        setIsLoading(false);
+        return;
       }
+
+      // approve token
+      const toastApprove = toast.loading("Step 2: Approved ...");
+      let allowance = await execContractTx(
+        currentAccount,
+        betaz_token_contract.CONTRACT_ABI,
+        betaz_token_contract.CONTRACT_ADDRESS,
+        0,
+        "psp22::increaseAllowance",
+        staking_pool_contract.CONTRACT_ADDRESS,
+        convertToBalance(stakeValue)
+      );
+      toast.dismiss(toastApprove);
+
+      if (allowance && currentAccount?.address) {
+        const toastStake = toast.loading("Step 3: Staking ...");
+        let stakeAmount = parseFloat(stakeValue);
+        const result = await execContractTx(
+          currentAccount,
+          staking_pool_contract.CONTRACT_ABI,
+          staking_pool_contract.CONTRACT_ADDRESS,
+          0,
+          "stake",
+          convertToBalance(stakeAmount)
+        );
+        if (result) {
+          toast.dismiss(toastStake);
+          toast.success(`Staking success`);
+        } else toast.dismiss(toastStake);
+      }
+    } catch (error) {
+      // toast.dismiss(toastUnstake);
       setIsLoading(false);
+      console.log(error);
     }
+    setIsLoading(false);
     await delay(2000);
     dispatch(fetchUserBalance({ currentAccount }));
     dispatch(fetchBalance());
@@ -168,48 +174,53 @@ const StakingPool = () => {
     }
     setIsLoading(true);
 
-    // check reward locked
-    const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
-    const checkLock = await execContractQuery(
-      defaultCaller,
-      staking_pool_contract.CONTRACT_ABI,
-      staking_pool_contract.CONTRACT_ADDRESS,
-      0,
-      "stakingPoolTrait::getIsLocked"
-    );
-    toast.dismiss(toastCheckLock);
-    if (checkLock?.toHuman().Ok) {
-      toast.error("Reward locked!");
-      setIsLoading(false);
-      return;
-    }
-
-    const toastUnstake = toast.loading("Step 2: Request unstake ...");
-    let unstakeAmount = parseFloat(unstakeValue);
-    const result = await execContractTx(
-      currentAccount,
-      staking_pool_contract.CONTRACT_ABI,
-      staking_pool_contract.CONTRACT_ADDRESS,
-      0,
-      "requestUnstake",
-      convertToBalance(unstakeAmount)
-    );
-    if (result) {
-      toast.dismiss(toastUnstake);
-      toast.success(`Staking success`);
-
-      // get Time resquest unstake
-      await delay(2000);
-      let endTimeRequest = await getEndTimeUnstake(
-        currentAccount,
-        unstakeAmount
+    try {
+      // check reward locked
+      const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
+      const checkLock = await execContractQuery(
+        defaultCaller,
+        staking_pool_contract.CONTRACT_ABI,
+        staking_pool_contract.CONTRACT_ADDRESS,
+        0,
+        "stakingPoolTrait::getIsLocked"
       );
-      await clientAPI("post", "/addPendingUnstake", {
-        caller: currentAccount?.address,
-        amount: unstakeAmount,
-        time: endTimeRequest,
-      });
-      // console.log({ currentAccount?.address ,endTimeRequest, unstakeAmount });
+      toast.dismiss(toastCheckLock);
+      if (checkLock?.toHuman().Ok) {
+        toast.error("Reward locked!");
+        setIsLoading(false);
+        return;
+      }
+
+      const toastUnstake = toast.loading("Step 2: Request unstake ...");
+      let unstakeAmount = parseFloat(unstakeValue);
+      const result = await execContractTx(
+        currentAccount,
+        staking_pool_contract.CONTRACT_ABI,
+        staking_pool_contract.CONTRACT_ADDRESS,
+        0,
+        "requestUnstake",
+        convertToBalance(unstakeAmount)
+      );
+      if (result) {
+        toast.dismiss(toastUnstake);
+        toast.success(`Staking success`);
+
+        // get Time resquest unstake
+        await delay(2000);
+        let endTimeRequest = await getEndTimeUnstake(
+          currentAccount,
+          unstakeAmount
+        );
+        await clientAPI("post", "/addPendingUnstake", {
+          caller: currentAccount?.address,
+          amount: unstakeAmount,
+          time: endTimeRequest,
+        });
+      } else toast.dismiss(toastUnstake);
+    } catch (error) {
+      // toast.dismiss(toastUnstake);
+      setIsLoading(false);
+      console.log(error);
     }
     setIsLoading(false);
 

@@ -24,40 +24,46 @@ export default function PendingUnstakeButton({ data }) {
     }
     setIsLoading(true);
 
-    // check reward locked
-    const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
-    const checkLock = await execContractQuery(
-      defaultCaller,
-      staking_pool_contract.CONTRACT_ABI,
-      staking_pool_contract.CONTRACT_ADDRESS,
-      0,
-      "stakingPoolTrait::getIsLocked"
-    );
-    toast.dismiss(toastCheckLock);
-    if (checkLock?.toHuman().Ok) {
-      toast.error("Reward locked!");
+    try {
+      // check reward locked
+      const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
+      const checkLock = await execContractQuery(
+        defaultCaller,
+        staking_pool_contract.CONTRACT_ABI,
+        staking_pool_contract.CONTRACT_ADDRESS,
+        0,
+        "stakingPoolTrait::getIsLocked"
+      );
+      toast.dismiss(toastCheckLock);
+      if (checkLock?.toHuman().Ok) {
+        toast.error("Reward locked!");
+        setIsLoading(false);
+        return;
+      }
+
+      const toastUnstake = toast.loading("Step 2: Unstake ...");
+      const result = await execContractTx(
+        currentAccount,
+        staking_pool_contract.CONTRACT_ABI,
+        staking_pool_contract.CONTRACT_ADDRESS,
+        0,
+        "unstake",
+        convertToBalance(parseFloat(data?.amount))
+      );
+      if (result) {
+        toast.dismiss(toastUnstake);
+        toast.success(`Staking success`);
+
+        // delete resquest unstake
+        await delay(2000);
+        await clientAPI("delete", "/deletePendingUnstake", {
+          id: data?.id,
+        });
+      } else toast.dismiss(toastUnstake);
+    } catch (error) {
+      // toast.dismiss(toastUnstake);
       setIsLoading(false);
-      return;
-    }
-
-    const toastUnstake = toast.loading("Step 2: Unstake ...");
-    const result = await execContractTx(
-      currentAccount,
-      staking_pool_contract.CONTRACT_ABI,
-      staking_pool_contract.CONTRACT_ADDRESS,
-      0,
-      "unstake",
-      convertToBalance(parseFloat(data?.amount))
-    );
-    if (result) {
-      toast.dismiss(toastUnstake);
-      toast.success(`Staking success`);
-
-      // delete resquest unstake
-      await delay(2000);
-      await clientAPI("delete", "/deletePendingUnstake", {
-        id: data?.id,
-      });
+      console.log(error);
     }
     setIsLoading(false);
 
@@ -73,40 +79,45 @@ export default function PendingUnstakeButton({ data }) {
     }
     setIsLoading(true);
 
-    // check reward locked
-    const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
-    const checkLock = await execContractQuery(
-      defaultCaller,
-      staking_pool_contract.CONTRACT_ABI,
-      staking_pool_contract.CONTRACT_ADDRESS,
-      0,
-      "stakingPoolTrait::getIsLocked"
-    );
-    toast.dismiss(toastCheckLock);
-    if (checkLock?.toHuman().Ok) {
-      toast.error("Reward locked!");
+    try {
+      // check reward locked
+      const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
+      const checkLock = await execContractQuery(
+        defaultCaller,
+        staking_pool_contract.CONTRACT_ABI,
+        staking_pool_contract.CONTRACT_ADDRESS,
+        0,
+        "stakingPoolTrait::getIsLocked"
+      );
+      toast.dismiss(toastCheckLock);
+      if (checkLock?.toHuman().Ok) {
+        toast.error("Reward locked!");
+        setIsLoading(false);
+        return;
+      }
+
+      const toastUnstake = toast.loading("Step 2: Cancel request unstake ...");
+      const result = await execContractTx(
+        currentAccount,
+        staking_pool_contract.CONTRACT_ABI,
+        staking_pool_contract.CONTRACT_ADDRESS,
+        0,
+        "cancelRequestUnstake",
+        convertToBalance(parseFloat(data?.amount))
+      );
+      if (result) {
+        toast.dismiss(toastUnstake);
+        toast.success(`Staking success`);
+
+        // delete resquest unstake
+        await delay(2000);
+        await clientAPI("delete", "/deletePendingUnstake", {
+          id: data?.id,
+        });
+      } else toast.dismiss(toastUnstake);
+    } catch (error) {
       setIsLoading(false);
-      return;
-    }
-
-    const toastUnstake = toast.loading("Step 2: Cancel request unstake ...");
-    const result = await execContractTx(
-      currentAccount,
-      staking_pool_contract.CONTRACT_ABI,
-      staking_pool_contract.CONTRACT_ADDRESS,
-      0,
-      "cancelRequestUnstake",
-      convertToBalance(parseFloat(data?.amount))
-    );
-    if (result) {
-      toast.dismiss(toastUnstake);
-      toast.success(`Staking success`);
-
-      // delete resquest unstake
-      await delay(2000);
-      await clientAPI("delete", "/deletePendingUnstake", {
-        id: data?.id,
-      });
+      console.log(error);
     }
     setIsLoading(false);
 
