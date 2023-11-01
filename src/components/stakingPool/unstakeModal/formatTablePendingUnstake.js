@@ -20,7 +20,7 @@ export const formatTableValue = (value, key) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: "2px"
+              gap: "2px",
             }}
           >
             <Text textAlign="center">{value}</Text>
@@ -35,7 +35,7 @@ export const formatTableValue = (value, key) => {
         </Flex>
       );
     case "action":
-      return <PendingUnstakeButton date={value} />;
+      return <PendingUnstakeButton data={value} />;
     default:
       return <Text textAlign="center">{value}</Text>;
   }

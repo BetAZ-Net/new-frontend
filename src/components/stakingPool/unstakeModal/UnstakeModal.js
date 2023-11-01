@@ -43,12 +43,18 @@ const UnstakeModal = ({ isOpen, onClose }) => {
       offset: 10 * (currentPage - 1),
     });
     const addActionTime = (item) => {
-      item.action = item?.time;
+      const action = {};
+      action.id = item?.id;
+      action.caller = item?.caller;
+      action.amount = item?.amount;
+      action.time = item?.time;
+      item.action = action;
     };
     data.forEach(addActionTime);
-    setdata(data);
+    let newData = data.map(({ id, ...rest }) => rest);
+    setdata(newData);
   };
-  useInterval(() => getData(), 5000);
+  useInterval(() => getData(), 3000);
 
   useEffect(() => {
     getData();

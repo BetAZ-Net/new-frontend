@@ -218,14 +218,6 @@ const StakingPool = () => {
     dispatch(fetchBalance());
   };
 
-  // let a = async () => {
-  //   // b = await staking_pool_calls.getRequestTimeUnstake();
-  //   let c = await staking_pool_calls.getlimitTimeUnstake(defaultCaller);
-  //   console.log(c);
-  // };
-
-  // a();
-
   return (
     <>
       <Modal
