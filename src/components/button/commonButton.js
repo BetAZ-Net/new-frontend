@@ -16,6 +16,8 @@ function CommonButton(props) {
         onClick={onClick}
         isDisabled={isDisabled}
         isLoading={!isDisabled && isLoading ? true : false}
+        // height="20px"
+        // fontSize="14px"
         spinner={<ClipLoader color="#7ae7ff" size={14} loading />}
       >
         {text}

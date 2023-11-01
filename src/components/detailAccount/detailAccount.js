@@ -14,6 +14,7 @@ import { useWallet } from "contexts/useWallet";
 import { useModal } from "contexts/useModal";
 import { useSelector } from "react-redux";
 import { memo } from "react";
+import UnstakeModal from "components/stakingPool/unstakeModal/UnstakeModal";
 
 const DetailAccountBox = ({
   onClickSwitch,
@@ -21,8 +22,14 @@ const DetailAccountBox = ({
   onCloseModalDetailAccount,
 }) => {
   const { logoutAccountHandler } = useWallet();
-  const { setStakingPoolModalVisible } = useModal();
+  const {
+    setStakingPoolModalVisible,
+    setUnstakeModalVisible,
+    unstakeModalVisible,
+  } = useModal();
   const { currentAccount } = useSelector((s) => s.substrate);
+  const onOpenUnstakeModal = () => setUnstakeModalVisible(true);
+  const onCloseUnstakeModal = () => setUnstakeModalVisible(false);
 
   return (
     <>
@@ -112,6 +119,17 @@ const DetailAccountBox = ({
                   mb: "8px",
                 }}
                 onClick={() => {
+                  onOpenUnstakeModal(true);
+                }}
+              >
+                Pending Unstake
+              </Button>
+              <Button
+                className="landing-page-banner-button"
+                sx={{
+                  mb: "8px",
+                }}
+                onClick={() => {
                   onClickSwitch();
                 }}
               >
@@ -129,6 +147,10 @@ const DetailAccountBox = ({
           </ModalBody>
         </ModalContent>
       </Modal>
+      <UnstakeModal
+        isOpen={unstakeModalVisible}
+        onClose={onCloseUnstakeModal}
+      />
     </>
   );
 };

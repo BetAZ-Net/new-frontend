@@ -22,6 +22,7 @@ import {
   formatChainStringToNumber,
   convertTimeStampToNumber,
   convertToBalance,
+  delay,
 } from "utils";
 import CommonButton from "components/button/commonButton";
 import useInterval from "hooks/useInterval";
@@ -29,7 +30,8 @@ import { execContractQuery, execContractTx } from "utils/contracts";
 import staking_pool_contract from "utils/contracts/staking_pool";
 import betaz_token_contract from "utils/contracts/betaz_token";
 import { useModal } from "contexts/useModal";
-import { delay } from "utils";
+import staking_pool_calls from "utils/contracts/staking_pool_calls";
+import { clientAPI } from "api/client";
 
 const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
@@ -42,6 +44,21 @@ const StakingPool = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { stakingPoolModalVisible, setStakingPoolModalVisible } = useModal();
   const onCloseStakingPoolModal = () => setStakingPoolModalVisible(false);
+
+  const getEndTimeUnstake = async (currentAccount, unstakeAmount) => {
+    const [requestTime, limitTime] = await Promise.all([
+      staking_pool_calls.getRequestTimeUnstake(
+        currentAccount?.address,
+        convertToBalance(unstakeAmount)
+      ),
+      staking_pool_calls.getlimitTimeUnstake(defaultCaller),
+    ]);
+
+    return (
+      convertTimeStampToNumber(requestTime) +
+      convertTimeStampToNumber(limitTime)
+    );
+  };
 
   /** Stake token */
   const onChangeStakeValue = useCallback((e) => {
@@ -180,6 +197,19 @@ const StakingPool = () => {
     if (result) {
       toast.dismiss(toastUnstake);
       toast.success(`Staking success`);
+
+      // get Time resquest unstake
+      await delay(2000);
+      let endTimeRequest = await getEndTimeUnstake(
+        currentAccount,
+        unstakeAmount
+      );
+      await clientAPI("post", "/addPendingUnstake", {
+        caller: currentAccount?.address,
+        amount: unstakeAmount,
+        time: endTimeRequest,
+      });
+      // console.log({ currentAccount?.address ,endTimeRequest, unstakeAmount });
     }
     setIsLoading(false);
 
@@ -187,6 +217,14 @@ const StakingPool = () => {
     dispatch(fetchUserBalance({ currentAccount }));
     dispatch(fetchBalance());
   };
+
+  // let a = async () => {
+  //   // b = await staking_pool_calls.getRequestTimeUnstake();
+  //   let c = await staking_pool_calls.getlimitTimeUnstake(defaultCaller);
+  //   console.log(c);
+  // };
+
+  // a();
 
   return (
     <>
