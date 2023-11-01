@@ -144,6 +144,50 @@ const StakingPool = () => {
     }
   });
 
+  const requestUnstake = async () => {
+    if (unstakeValue === "" || unstakeValue == 0) {
+      toast.error("invalid inputs!");
+      return;
+    }
+    setIsLoading(true);
+
+    // check reward locked
+    const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
+    const checkLock = await execContractQuery(
+      defaultCaller,
+      staking_pool_contract.CONTRACT_ABI,
+      staking_pool_contract.CONTRACT_ADDRESS,
+      0,
+      "stakingPoolTrait::getIsLocked"
+    );
+    toast.dismiss(toastCheckLock);
+    if (checkLock?.toHuman().Ok) {
+      toast.error("Reward locked!");
+      setIsLoading(false);
+      return;
+    }
+
+    const toastUnstake = toast.loading("Step 2: Request unstake ...");
+    let unstakeAmount = parseFloat(unstakeValue);
+    const result = await execContractTx(
+      currentAccount,
+      staking_pool_contract.CONTRACT_ABI,
+      staking_pool_contract.CONTRACT_ADDRESS,
+      0,
+      "requestUnstake",
+      convertToBalance(unstakeAmount)
+    );
+    if (result) {
+      toast.dismiss(toastUnstake);
+      toast.success(`Staking success`);
+    }
+    setIsLoading(false);
+
+    await delay(2000);
+    dispatch(fetchUserBalance({ currentAccount }));
+    dispatch(fetchBalance());
+  };
+
   return (
     <>
       <Modal
@@ -284,9 +328,7 @@ const StakingPool = () => {
                       </Flex>
                     </Box>
                     <CommonButton
-                      onClick={() => {
-                        toast.success("Comming soon...");
-                      }}
+                      onClick={() => requestUnstake()}
                       text="Requets unstake"
                       isLoading={isLoading}
                     />
