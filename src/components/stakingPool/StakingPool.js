@@ -12,8 +12,6 @@ import {
 import { IoMdClose } from "react-icons/io";
 import { AppIcon } from "components/icons";
 import { useDispatch, useSelector } from "react-redux";
-import betaz_token from "utils/contracts/betaz_token_calls";
-import betaz_core from "utils/contracts/betaz_core_calls";
 import { useState, useCallback, useEffect, useRef, memo } from "react";
 import toast from "react-hot-toast";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";

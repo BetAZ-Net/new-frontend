@@ -25,11 +25,6 @@ const SetClaimedStatus = () => {
       toast.error("Invalid address");
       return;
     }
-    
-    if (value === isClaimed) {
-      toast.error("Invalid status!");
-      return;
-    }
 
     const toastCheckLock = toast.loading("Step 1: Check reward locked ...");
     const checkLock = await execContractQuery(

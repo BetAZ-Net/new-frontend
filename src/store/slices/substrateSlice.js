@@ -23,10 +23,9 @@ const initialState = {
   currentAccount: JSON.parse(localCurrentAccount) || null,
   adapter: null,
   poolBalance: {
-    betaz: 0,
-    azero: 0,
-    contract: 0,
     core: 0,
+    staking: 0,
+    treasury: 0,
   },
   betRates: {
     overRates: [

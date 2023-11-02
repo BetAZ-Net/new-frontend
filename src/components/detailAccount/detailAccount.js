@@ -23,7 +23,6 @@ const DetailAccountBox = ({
 }) => {
   const { logoutAccountHandler } = useWallet();
   const {
-    setStakingPoolModalVisible,
     setUnstakeModalVisible,
     unstakeModalVisible,
   } = useModal();
@@ -108,21 +107,10 @@ const DetailAccountBox = ({
                   mb: "8px",
                 }}
                 onClick={() => {
-                  setStakingPoolModalVisible(true);
-                }}
-              >
-                Stake
-              </Button>
-              <Button
-                className="landing-page-banner-button"
-                sx={{
-                  mb: "8px",
-                }}
-                onClick={() => {
                   onOpenUnstakeModal(true);
                 }}
               >
-                Pending Unstake
+                Unstake Request management
               </Button>
               <Button
                 className="landing-page-banner-button"
