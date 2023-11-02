@@ -73,7 +73,8 @@ const UnstakeModal = memo(({ isOpen, onClose }) => {
   const { dataPending, currentPage, currentTab } = useSelector(
     (s) => s.staking
   );
-  const { setStakingPoolModalVisible } = useModal();
+  const { setStakingPoolModalVisible, setUnstakeStakingPoolModalVisible } =
+    useModal();
   const [isLoading, setIsLoading] = useState(false);
 
   useInterval(() => dispatch(fetchPendingUnstake(currentAccount)), 3000);
@@ -232,7 +233,18 @@ const UnstakeModal = memo(({ isOpen, onClose }) => {
                     setStakingPoolModalVisible(true);
                   }}
                 >
-                  Stake & Unstake
+                  Stake
+                </Button>
+                <Button
+                  className="landing-page-banner-button"
+                  sx={{
+                    mb: "8px",
+                  }}
+                  onClick={() => {
+                    setUnstakeStakingPoolModalVisible(true);
+                  }}
+                >
+                  Unstake
                 </Button>
               </Flex>
             </Box>

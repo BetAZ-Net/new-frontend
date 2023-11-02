@@ -34,7 +34,8 @@ import {
 import { delay } from "utils";
 import { AppIcon, TokenIcon } from "components/icons";
 import CommonButton from "components/button/commonButton";
-import StakingPool from "components/stakingPool/StakingPool";
+import StakeStakingPool from "components/stakingPool/StakeStakingPool";
+import UnstakeStakingPool from "components/stakingPool/UnstakeStakingPool";
 
 const labelStyles = {
   fontSize: "20px",
@@ -259,7 +260,10 @@ const Predict = () => {
         visible={depositModalVisible}
         onClose={() => setDepositModalVisible(false)}
       />
-      <StakingPool />
+      {/* Modal unstake & stake */}
+      <StakeStakingPool />
+      <UnstakeStakingPool />
+      {/* End modal unstake & stake */}
       <Box>
         <Box
           bgSize="contain"

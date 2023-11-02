@@ -4,6 +4,8 @@ const ModalContext = createContext();
 
 export const ModalProvider = ({ children }) => {
   const [stakingPoolModalVisible, setStakingPoolModalVisible] = useState(false);
+  const [unstakeStakingPoolModalVisible, setUnstakeStakingPoolModalVisible] =
+    useState(false);
   const [unstakeModalVisible, setUnstakeModalVisible] = useState(false);
 
   return (
@@ -12,7 +14,9 @@ export const ModalProvider = ({ children }) => {
         stakingPoolModalVisible,
         setStakingPoolModalVisible,
         unstakeModalVisible,
-        setUnstakeModalVisible
+        setUnstakeModalVisible,
+        unstakeStakingPoolModalVisible,
+        setUnstakeStakingPoolModalVisible,
       }}
     >
       {children}

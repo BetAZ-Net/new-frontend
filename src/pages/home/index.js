@@ -35,8 +35,9 @@ import { convertTimeStampToNumber } from "utils";
 import CommonButton from "components/button/commonButton";
 import useInterval from "hooks/useInterval";
 import BETAZCountDown from "components/countdown/CountDown";
-import StakingPool from "components/stakingPool/StakingPool";
+import StakeStakingPool from "components/stakingPool/StakeStakingPool";
 import BuyTokenButton from "components/button/buyTokenButton";
+import UnstakeStakingPool from "components/stakingPool/UnstakeStakingPool";
 
 const teamList = [
   {
@@ -655,7 +656,10 @@ const HomePage = () => {
           </FormControl>
         </SectionContainer>
       </Box>
-      <StakingPool />
+      {/* Modal unstake & stake */}
+      <StakeStakingPool />
+      <UnstakeStakingPool />
+      {/* End modal unstake & stake */}
     </Box>
   );
 };
