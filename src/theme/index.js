@@ -1,5 +1,10 @@
 import { extendTheme } from "@chakra-ui/react";
 
+const buttonDisableStyle = {
+  backgroundColor: "#DEDEDE",
+  color: "#A4B0B6",
+};
+
 const customTheme = extendTheme({
   fonts: {
     heading: `'Space Grotesk', sans-serif`,

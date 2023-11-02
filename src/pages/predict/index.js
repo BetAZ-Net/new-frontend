@@ -32,7 +32,7 @@ import {
   fetchRates,
 } from "store/slices/substrateSlice";
 import { delay } from "utils";
-import { AppIcon } from "components/icons";
+import { AppIcon, TokenIcon } from "components/icons";
 import CommonButton from "components/button/commonButton";
 import StakingPool from "components/stakingPool/StakingPool";
 

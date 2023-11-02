@@ -21,7 +21,7 @@ import TokenomicBG from "assets/img/tokenomic-bg.png";
 import TokenomicCup from "assets/img/tokenomic-cup.png";
 import { NavbarLandingPage } from "components/Navbar/NavbarLandingPage";
 import { SectionContainer } from "components/container";
-import { AppIcon } from "components/icons";
+import { AppIcon, TokenIcon } from "components/icons";
 import { LuAtSign } from "react-icons/lu";
 import "./styles.css";
 import betaz_token from "utils/contracts/betaz_token_calls";
@@ -36,6 +36,7 @@ import CommonButton from "components/button/commonButton";
 import useInterval from "hooks/useInterval";
 import BETAZCountDown from "components/countdown/CountDown";
 import StakingPool from "components/stakingPool/StakingPool";
+import BuyTokenButton from "components/button/buyTokenButton";
 
 const teamList = [
   {
@@ -188,6 +189,12 @@ const HomePage = () => {
   };
   /*************** End Send mail ******************************/
 
+  const fomartMaxBuyAmount = () => {
+    if (maxbuyAmount == 0) return "0";
+    else return formatTokenBalance(maxbuyAmount * tokenRatio, 4);
+  };
+
+  const colorMaxBuyAmount = maxbuyAmount == 0 ? null : "linear-text-color-01";
   return (
     <Box>
       <Box className="landing-page-banner-container" bgImage={HomeBannerBG}>
@@ -201,23 +208,31 @@ const HomePage = () => {
         >
           <Text
             id="text-1"
+            maxWidth="1000px"
             className="landing-page-banner-text linear-text-color-01"
           >
-            Turbocharge Your Profits
-            <br />
-            with Automated Trading Bots
+            What is BetAZ
+            <br />A online gaming and betting platform running on Aleph Zero
+            Blockchain.
           </Text>
           <Text id="text-2" className="landing-page-banner-text">
-            A trading platform with advance tools and essential bots for all
-            financial markets.
+            Get revenue from your betting by joining BetAZ
             <br />
             24/7. Always at your service.
           </Text>
           <Flex mt="32px">
-            <Button className="landing-page-banner-button" px="48px">
+            <Button
+              className="landing-page-banner-button"
+              px="48px"
+              onClick={() => window.open("/app", "_blank")}
+            >
               Testnet Demo
             </Button>
-            <Button className="landing-page-banner-button" ml="32px">
+            <Button
+              className="landing-page-banner-button"
+              ml="32px"
+              onClick={() => toast.success("Comming soon!")}
+            >
               Mainnet Access
             </Button>
           </Flex>
@@ -233,7 +248,9 @@ const HomePage = () => {
         >
           <SimpleGrid columns={2}>
             <Box pt="48px">
-              <Heading className="heading">Our Tokenomics</Heading>
+              <Heading className="heading" pb="48px">
+                Our Tokenomics
+              </Heading>
               <Flex className="token-infor-container">
                 <Box className="token-infor-content-container">
                   <Text className="token-infor-content-title">Token Name:</Text>
@@ -245,7 +262,7 @@ const HomePage = () => {
                     Token Symbol:
                   </Text>
                   <Flex justify="center" alignItems="center" mt="12px">
-                    <AppIcon size="32px" />
+                    <TokenIcon size="32px" />
                     <Text className="token-infor-symbol">BetAZ</Text>
                   </Flex>
                 </Box>
@@ -257,39 +274,34 @@ const HomePage = () => {
               >
                 {[
                   {
-                    color: "#FACC15",
-                    value: 3,
-                    label: "Seed Round",
-                  },
-                  {
-                    color: "#A855F7",
-                    value: 10,
-                    label: "Marketing & Partnership",
-                  },
-                  {
-                    color: "#14B8A6",
-                    value: 40,
-                    label: "Burn pool",
-                  },
-                  {
-                    color: "#F59E0B",
+                    color: "#70FF01",
                     value: 5,
-                    label: "Liquidity (Liquidity Pool & Market Making)",
+                    label: "Private Invesment",
                   },
                   {
-                    color: "#6366F1",
-                    value: 15,
+                    color: "#C7840F",
+                    value: 3,
+                    label: "Airdrop & Marketing",
+                  },
+                  {
+                    color: "#EC486F",
+                    value: 5,
                     label: "Team",
                   },
                   {
-                    color: "#3B82F6",
-                    value: 20,
-                    label: "Ecosystem Incentive (Farming, Staking, Bonuses)",
+                    color: "#A649FF",
+                    value: 10,
+                    label: "Developement",
                   },
                   {
-                    color: "#EC4899",
-                    value: 7,
-                    label: "Private Round",
+                    color: "#6366F1",
+                    value: 27,
+                    label: "Reward Pool",
+                  },
+                  {
+                    color: "#1AE0A6",
+                    value: 50,
+                    label: "Core Pool",
                   },
                 ].map((e, index) => (
                   <Box
@@ -343,16 +355,19 @@ const HomePage = () => {
                       pl="4px"
                       borderLeft="2px solid rgba(255, 255, 255, 0.4)"
                     >
-                      <AppIcon size="18px" />
+                      <TokenIcon size="18px" />
                       BetAZ
                     </Flex>
                   </Flex>
                 </Box>
                 <Flex direction="column" alignItems="center" mt="24px">
-                  <CommonButton
+                  <BuyTokenButton
                     onClick={() => buy()}
                     text="BUY NOW"
                     isLoading={isLoading}
+                    date={endTimeNumber}
+                    max={maxbuyAmount}
+                    status={buyStatus?.status}
                   />
                   <Text mt="24px">By Clicking your agree with our</Text>
                   <Text className="linear-text-color-01 term-aggreement-text">
@@ -386,10 +401,11 @@ const HomePage = () => {
                 <Text className="deposit-circle-quote">
                   Easy way for crypto Play
                 </Text>
-                <Text className="deposit-circle-amount linear-text-color-01">
-                  {!isNaN(maxbuyAmount)
-                    ? formatTokenBalance(maxbuyAmount * tokenRatio, 4)
-                    : 0}
+                <Text
+                  className={`deposit-circle-amount ${colorMaxBuyAmount}`}
+                  color="#a4b0b6"
+                >
+                  ${!isNaN(maxbuyAmount) ? fomartMaxBuyAmount() : 0}
                 </Text>
                 <Box>
                   <Text className="deposit-circle-finish-title">
@@ -410,7 +426,7 @@ const HomePage = () => {
           id="section-roadmap"
         >
           <Heading className="heading">Roadmap</Heading>
-          <Box py="256px">
+          <Box pt="256px" pb="84px">
             <SimpleGrid
               alignItems="center"
               display="flex"
@@ -418,12 +434,13 @@ const HomePage = () => {
               spacing="40px"
             >
               <Box className="shining-container">
-                <Text className="shining-text">H1-2023</Text>
+                <Text className="shining-text">Q4 - 2023</Text>
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
+                minW="600px"
               >
                 <Box className="roadmap-title-container">
                   <Text>Foundation and Infrastructure Development</Text>
@@ -435,10 +452,8 @@ const HomePage = () => {
                   borderBottomRadius="12px"
                 >
                   {[
-                    "Core infrastructure and architecture development for a decentralized trading platform",
-                    "Implementation of connections to multiple exchanges to provide liquidity",
-                    "Development of advanced trading features and tools",
-                    "Research and implementation of robust security measures",
+                    "First public demo on testnet",
+                    "Revamp UI/UX appearance",
                   ].map((e) => (
                     <Flex alignItems="center">
                       <Box className="diamon-icon" />
@@ -448,12 +463,13 @@ const HomePage = () => {
                 </SimpleGrid>
               </Box>
               <Box className="shining-container">
-                <Text className="shining-text">H2-2023</Text>
+                <Text className="shining-text">Q1 - 2024</Text>
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
+                minW="600px"
               >
                 <Box className="roadmap-title-container">
                   <Text>Beta Launch</Text>
@@ -465,11 +481,9 @@ const HomePage = () => {
                   borderBottomRadius="12px"
                 >
                   {[
-                    "Release the trading application with a variety of advanced trading bots and customization settings",
-                    "Launch NFT collection genesis and enable trading of NFT assets",
-                    "Conduct thorough user testing and gather feedback for iterative improvements",
-                    "Implement risk management features to ensure user fund safety",
-                    "Integration of KYC/AML compliance protocols",
+                    "Airdrop Campaigns",
+                    "Early Contributor Program",
+                    "Mainnet Launch",
                   ].map((e) => (
                     <Flex alignItems="center">
                       <Box className="diamon-icon" />
@@ -479,12 +493,13 @@ const HomePage = () => {
                 </SimpleGrid>
               </Box>
               <Box className="shining-container">
-                <Text className="shining-text">H1-2024</Text>
+                <Text className="shining-text">Q2 - 2024</Text>
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
+                minW="600px"
               >
                 <Box className="roadmap-title-container">
                   <Text>Ecosystem Expansion</Text>
@@ -495,26 +510,24 @@ const HomePage = () => {
                   bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
                   borderBottomRadius="12px"
                 >
-                  {[
-                    "Expand the platform's functionality by integrating with other trading platforms and decentralized exchanges (DEX)",
-                    "Provide users with access to a wider range of trading options and liquidity pools",
-                    "Enable seamless and secure asset transfers between integrated platforms",
-                    "Implement cross-platform portfolio tracking and management features",
-                  ].map((e) => (
-                    <Flex alignItems="center">
-                      <Box className="diamon-icon" />
-                      <Text color="#A4B0B6">{e}</Text>
-                    </Flex>
-                  ))}
+                  {["Support more blockchains", "Mobile App Development"].map(
+                    (e) => (
+                      <Flex alignItems="center">
+                        <Box className="diamon-icon" />
+                        <Text color="#A4B0B6">{e}</Text>
+                      </Flex>
+                    )
+                  )}
                 </SimpleGrid>
               </Box>
               <Box className="shining-container">
-                <Text className="shining-text">H2-2024</Text>
+                <Text className="shining-text">Q2 - 2024</Text>
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
+                minW="600px"
               >
                 <Box className="roadmap-title-container">
                   <Text>AI Trading</Text>
@@ -525,13 +538,7 @@ const HomePage = () => {
                   bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
                   borderBottomRadius="12px"
                 >
-                  {[
-                    "Integrate AI Trading capabilities to enhance trading strategies",
-                    "Implement machine learning algorithms and predictive models to assist users in making informed trading decisions",
-                    "Offer AI-powered trade signals and market analysis tools",
-                    "Develop customizable AI trading bots to cater to different user preferences",
-                    "Continuously refine AI algorithms based on real-time market data",
-                  ].map((e) => (
+                  {["Bring more games to the platform"].map((e) => (
                     <Flex alignItems="center">
                       <Box className="diamon-icon" />
                       <Text color="#A4B0B6">{e}</Text>
@@ -539,7 +546,7 @@ const HomePage = () => {
                   ))}
                 </SimpleGrid>
               </Box>
-              <Box className="shining-container">
+              {/* <Box className="shining-container">
                 <Text className="shining-text">H1-2025</Text>
               </Box>
               <Box
@@ -568,7 +575,7 @@ const HomePage = () => {
                     </Flex>
                   ))}
                 </SimpleGrid>
-              </Box>
+              </Box> */}
             </SimpleGrid>
           </Box>
         </SectionContainer>

@@ -28,6 +28,7 @@ import CommonButton from "components/button/commonButton";
 import useInterval from "hooks/useInterval";
 import { fetchBuyStatus } from "store/slices/substrateSlice";
 import BETAZCountDown from "components/countdown/CountDown";
+import BuyTokenButton from "components/button/buyTokenButton";
 
 const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
@@ -172,6 +173,12 @@ const DepositModal = ({ visible, onClose }) => {
     getHoldAmount();
   }, [currentAccount?.address]);
 
+  const fomartMaxBuyAmount = () => {
+    if (maxbuyAmount == 0) return "0";
+    else return formatTokenBalance(maxbuyAmount * tokenRatio, 4);
+  };
+
+  const colorMaxBuyAmount = maxbuyAmount == 0 ? null : "linear-text-color-01";
   return (
     <>
       <Modal size="full" isCentered isOpen={visible} onClose={onClose}>
@@ -340,10 +347,11 @@ const DepositModal = ({ visible, onClose }) => {
                   <Text className="deposit-circle-quote">
                     Easy way for crypto Play
                   </Text>
-                  <Text className="deposit-circle-amount linear-text-color-01">
-                    {!isNaN(maxbuyAmount)
-                      ? formatTokenBalance(maxbuyAmount * tokenRatio, 4)
-                      : 0}
+                  <Text
+                    className={`deposit-circle-amount ${colorMaxBuyAmount}`}
+                    color="#a4b0b6"
+                  >
+                    ${!isNaN(maxbuyAmount) ? fomartMaxBuyAmount() : 0}
                   </Text>
                   <Box>
                     <Text className="deposit-circle-finish-title">

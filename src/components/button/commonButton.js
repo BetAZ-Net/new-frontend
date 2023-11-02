@@ -4,7 +4,17 @@ import { ClipLoader } from "react-spinners";
 import { useSelector } from "react-redux";
 
 function CommonButton(props) {
-  const { type, text, onClick, isLoading, isDisabled, ...rest } = props;
+  const {
+    type,
+    text,
+    onClick,
+    isLoading,
+    isDisabled,
+    backgroundColor,
+    color,
+    sx,
+    ...rest
+  } = props;
 
   const { currentAccount } = useSelector((s) => s.substrate);
 
@@ -13,6 +23,9 @@ function CommonButton(props) {
       <Button
         {...rest}
         type={type}
+        sx={sx}
+        backgroundColor={backgroundColor}
+        color={color}
         onClick={onClick}
         isDisabled={isDisabled}
         isLoading={!isDisabled && isLoading ? true : false}
