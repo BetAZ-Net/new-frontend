@@ -38,7 +38,8 @@ const StakingPool = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { unstakeStakingPoolModalVisible, setUnstakeStakingPoolModalVisible } =
     useModal();
-  const onCloseStakingPoolModal = () => setUnstakeStakingPoolModalVisible(false);
+  const onCloseStakingPoolModal = () =>
+    setUnstakeStakingPoolModalVisible(false);
 
   const getEndTimeUnstake = async (currentAccount, unstakeAmount) => {
     const [requestTime, limitTime] = await Promise.all([
@@ -168,10 +169,7 @@ const StakingPool = () => {
                   </Flex>
                 </Flex>
                 {/* Unstake */}
-                <SimpleGrid
-                  spacing="24px"
-                  mt="24px"
-                >
+                <SimpleGrid spacing="24px" mt="24px">
                   <Flex flexDirection="column" gap="24px">
                     <Box className="deposit-box-amount-box">
                       <Text>Your Betaz token Balance</Text>
@@ -230,4 +228,4 @@ const StakingPool = () => {
   );
 };
 
-export default memo(StakingPool);
+export default StakingPool;

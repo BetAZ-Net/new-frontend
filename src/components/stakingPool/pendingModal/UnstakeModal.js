@@ -66,7 +66,7 @@ const tabData = [
 
 const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
-const UnstakeModal = memo(({ isOpen, onClose }) => {
+const UnstakeModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const [uiPage, setUIPage] = useState(1);
   const { currentAccount, poolBalance } = useSelector((s) => s.substrate);
@@ -408,6 +408,6 @@ const UnstakeModal = memo(({ isOpen, onClose }) => {
       </Modal>
     </>
   );
-});
+};
 
 export default UnstakeModal;

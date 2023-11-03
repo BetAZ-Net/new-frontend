@@ -140,4 +140,4 @@ const DetailAccountBox = ({
   );
 };
 
-export default memo(DetailAccountBox);
+export default DetailAccountBox;

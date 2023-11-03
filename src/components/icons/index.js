@@ -1,6 +1,9 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Box, Image, Text } from "@chakra-ui/react";
 import AppLogo from "assets/img/app-logo.png";
 import TokenLogo from "assets/img/token-logo.png";
+import IconBGEclipse from "assets/img/ellipse.png";
+import IconSmallRec from "assets/img/icon-small-rectangle.png";
+import IconBigRec from "assets/img/icon-big-rectangle.png";
 
 export const AppIcon = ({ size = "24px", padding = "0px", rest }) => {
   return (
@@ -20,6 +23,43 @@ export const TokenIcon = ({ size = "24px", padding = "0px", rest }) => {
         alt="logo-token"
         src={TokenLogo}
       />
+    </Box>
+  );
+};
+
+export const EclipseIcon = ({ sx, text }) => {
+  return (
+    <Box sx={sx} position="relative">
+      <Text
+        className="shining-text"
+        sx={{
+          w: "100%",
+          textAlign: "center",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        {text || ""}
+      </Text>
+      <Image aspectRatio={1} alt="bg-eclipse" src={IconBGEclipse} />
+    </Box>
+  );
+};
+
+export const SmallRecIcon = ({ sx }) => {
+  return (
+    <Box sx={sx}>
+      <Image aspectRatio={1} alt="icon-small-rectangle" src={IconSmallRec} />
+    </Box>
+  );
+};
+
+export const BigRecIcon = ({ sx, size }) => {
+  return (
+    <Box sx={sx}>
+      <Image aspectRatio={1} h={size} w={size} alt="icon-big-rectangle" src={IconBigRec} />
     </Box>
   );
 };

@@ -213,7 +213,8 @@
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
-  text-shadow: 0px 0px 14px #fff;
+  color: rgba(247, 247, 248, 1);
+  /* text-shadow: 0px 0px 14px #fff; */
 }
 .member-name-text {
   font-size: 24px;

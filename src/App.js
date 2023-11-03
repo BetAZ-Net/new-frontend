@@ -37,7 +37,7 @@ const App = () => {
   const { setCurrentApi } = useWallet();
   const [api, setApi] = useState(null);
   const setupProvider = async () => {
-    toast(`Connecting to ${providerUrl}...`);
+    toast.success(`Connecting to ${providerUrl}...`);
     const provider = new WsProvider(providerUrl);
 
     const wsApi = await ApiPromise.create({
@@ -104,10 +104,7 @@ const App = () => {
         <Route path="*" element={<Predict />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/app" element={<Predict />} />
-        <Route
-          path="/admin"
-          element={<PrivateRouter />}
-        />
+        <Route path="/admin" element={<PrivateRouter />} />
       </Routes>
     </DefaultLayout>
   );

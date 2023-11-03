@@ -38,6 +38,9 @@ import BETAZCountDown from "components/countdown/CountDown";
 import StakeStakingPool from "components/stakingPool/StakeStakingPool";
 import BuyTokenButton from "components/button/buyTokenButton";
 import UnstakeStakingPool from "components/stakingPool/UnstakeStakingPool";
+import { EclipseIcon } from "components/icons";
+import { SmallRecIcon } from "components/icons";
+import { BigRecIcon } from "components/icons";
 
 const teamList = [
   {
@@ -427,7 +430,28 @@ const HomePage = () => {
           id="section-roadmap"
         >
           <Heading className="heading">Roadmap</Heading>
-          <Box pt="256px" pb="84px">
+          <Box pt="128px" pb="84px" position="relative">
+            <BigRecIcon
+              size="34px"
+              sx={{
+                position: "absolute",
+                top: "0",
+                left: "50%",
+                zIndex:"2",
+                transform: "translateX(-50%)",
+              }}
+            />
+            <Box
+              w="2px"
+              h="90%"
+              backgroundColor="#1BBEF5"
+              sx={{
+                position: "absolute",
+                top: "0",
+                left: "50%",
+                transform: "translateX(-50%)",
+              }}
+            ></Box>
             <SimpleGrid
               alignItems="center"
               display="flex"
@@ -435,14 +459,24 @@ const HomePage = () => {
               spacing="40px"
             >
               <Box className="shining-container">
-                <Text className="shining-text">Q4 - 2023</Text>
+                <EclipseIcon text={"Q4 - 2023"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
                 minW="600px"
+                position="relative"
               >
+                <BigRecIcon
+                  size={"24px"}
+                  sx={{
+                    position: "absolute",
+                    top: "-12px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                />
                 <Box className="roadmap-title-container">
                   <Text>Foundation and Infrastructure Development</Text>
                 </Box>
@@ -464,14 +498,24 @@ const HomePage = () => {
                 </SimpleGrid>
               </Box>
               <Box className="shining-container">
-                <Text className="shining-text">Q1 - 2024</Text>
+                <EclipseIcon text={"Q1 - 2024"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
                 minW="600px"
+                position="relative"
               >
+                <BigRecIcon
+                  size={"24px"}
+                  sx={{
+                    position: "absolute",
+                    top: "-12px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                />
                 <Box className="roadmap-title-container">
                   <Text>Beta Launch</Text>
                 </Box>
@@ -494,14 +538,24 @@ const HomePage = () => {
                 </SimpleGrid>
               </Box>
               <Box className="shining-container">
-                <Text className="shining-text">Q2 - 2024</Text>
+                <EclipseIcon text={"Q2 - 2024"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
                 minW="600px"
+                position="relative"
               >
+                <BigRecIcon
+                  size={"24px"}
+                  sx={{
+                    position: "absolute",
+                    top: "-12px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                />
                 <Box className="roadmap-title-container">
                   <Text>Ecosystem Expansion</Text>
                 </Box>
@@ -522,14 +576,24 @@ const HomePage = () => {
                 </SimpleGrid>
               </Box>
               <Box className="shining-container">
-                <Text className="shining-text">Q2 - 2024</Text>
+                <EclipseIcon text={"Q3 - 2024"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
                 minW="600px"
+                position="relative"
               >
+                <BigRecIcon
+                  size={"24px"}
+                  sx={{
+                    position: "absolute",
+                    top: "-12px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                />
                 <Box className="roadmap-title-container">
                   <Text>AI Trading</Text>
                 </Box>
@@ -547,14 +611,25 @@ const HomePage = () => {
                   ))}
                 </SimpleGrid>
               </Box>
-              {/* <Box className="shining-container">
-                <Text className="shining-text">H1-2025</Text>
+              <Box className="shining-container">
+                <EclipseIcon text={"Q4 - 2024"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
+                minW="600px"
+                position="relative"
               >
+                <BigRecIcon
+                  size={"24px"}
+                  sx={{
+                    position: "absolute",
+                    top: "-12px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                />
                 <Box className="roadmap-title-container">
                   <Text>Mobile App Development</Text>
                 </Box>
@@ -564,19 +639,14 @@ const HomePage = () => {
                   bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
                   borderBottomRadius="12px"
                 >
-                  {[
-                    "Begin development of a mobile app for iOS and Android",
-                    "Design intuitive and user-friendly mobile interfaces for seamless trading experiences",
-                    "Implement core trading functionalities in the mobile app, including order placement, portfolio tracking, and real-time market data",
-                    "Enable push notifications and real-time alerts for price movements and trading opportunities",
-                  ].map((e) => (
+                  {["Begin development of a mobile app for iOS and Android"].map((e) => (
                     <Flex alignItems="center">
                       <Box className="diamon-icon" />
                       <Text color="#A4B0B6">{e}</Text>
                     </Flex>
                   ))}
                 </SimpleGrid>
-              </Box> */}
+              </Box>
             </SimpleGrid>
           </Box>
         </SectionContainer>

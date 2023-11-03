@@ -14,6 +14,38 @@ import { Toaster } from "react-hot-toast";
 import store from "store/store";
 import { ModalProvider } from "contexts/useModal";
 
+const toastStyle = {
+  className: "toast-config",
+  success: {
+    iconTheme: {
+      primary: "#1BECA6",
+      secondary: "#122126",
+    },
+  },
+  error: {
+    iconTheme: {
+      primary: "#FB1149",
+      secondary: "#122126",
+    },
+  },
+  warning: {
+    iconTheme: {
+      primary: "#FFD426",
+      secondary: "#122126",
+    },
+  },
+  style: {
+    padding: "12px 16px",
+    fontSize: "16px",
+    color: "#fff",
+    borderRadius: "8px",
+    background: "#122126",
+    boxShadow:
+      "0px 8px 10px 0px rgba(0, 0, 0, 0.20), 0px 6px 30px 0px rgba(0, 0, 0, 0.12), 0px 16px 24px 0px rgba(0, 0, 0, 0.14)",
+    border: "2px solid rgba(255, 255, 255, 0.4)",
+  },
+};
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -26,15 +58,7 @@ root.render(
                 <Toaster
                   position="bottom-right"
                   reverseOrder={true}
-                  toastOptions={{
-                    style: {
-                      padding: "8px",
-                      fontSize: "16px",
-                      color: "#57527E",
-                      borderRadius: "5px",
-                      background: "#E8FDFF",
-                    },
-                  }}
+                  toastOptions={toastStyle}
                 />
                 <App />
               </GameProvider>
