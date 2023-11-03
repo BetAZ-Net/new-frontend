@@ -12,6 +12,7 @@ import {
   Menu,
   MenuButton,
   MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { useWallet } from "contexts/useWallet";
 import { useEffect, useState } from "react";
@@ -42,7 +43,7 @@ const WalletNotConnected = ({ openModal }) => {
 };
 const WalletConnected = ({ onClickSwitch, isOpen, onOpen, onClose }) => {
   const { currentAccount } = useWallet();
-  const isMobile = useCheckMobileScreen(768);
+  const isMobile = useCheckMobileScreen(992);
   return (
     <Menu>
       <MenuButton>
@@ -86,7 +87,18 @@ const WalletConnected = ({ onClickSwitch, isOpen, onOpen, onClose }) => {
           )}
         </Box>
       </MenuButton>
-      <MenuList className="deposit-modal-container" border="none">
+      <MenuList
+        sx={{
+          background: "#122126",
+          border: "2px solid rgba(255, 255, 255, 0.70)",
+          boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
+        }}
+        minW={{ base: "92vw", sm: "340px" }}
+        marginLeft={{ base: "16px" }}
+        marginRight={{ base: "16px" }}
+        marginTop={{ base: "24px", sm: "unset" }}
+        borderRadius={{ base: "12px" }}
+      >
         <DetailAccountBox onClickSwitch={onClickSwitch} />
       </MenuList>
     </Menu>

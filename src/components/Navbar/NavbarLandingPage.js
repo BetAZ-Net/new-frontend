@@ -25,7 +25,6 @@ import "./navbar-landing-page.css";
 import { SectionContainer } from "components/container";
 import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { useRef } from "react";
 
 const tabs = [
   {
@@ -52,8 +51,8 @@ const tabs = [
 
 export const NavbarLandingPage = () => {
   const navigate = useNavigate();
-
   const isMobile = useCheckMobileScreen(1440);
+  const isTablet = useCheckMobileScreen(576);
   return (
     <SectionContainer>
       <Flex className="navbar-container" position="relative">
@@ -62,7 +61,7 @@ export const NavbarLandingPage = () => {
             <Image
               className="navbar-logo"
               alt="logo-app"
-              src={isMobile ? AppLogo2 : AppLogo}
+              src={isTablet ? AppLogo2 : AppLogo}
             />
           </Link>
         </Flex>
@@ -90,7 +89,7 @@ export const NavbarLandingPage = () => {
           w={{ sm: "100%", md: "unset" }}
           display="flex"
           alignItems="center"
-          justifyContent="center"
+          justifyContent="end"
           gap="24px"
         >
           <Box
@@ -102,14 +101,12 @@ export const NavbarLandingPage = () => {
             <NetWorkButton />
             <WalletButton />
           </Box>
-          {isMobile ? null : (
+          {isTablet ? null : (
             <Button onClick={() => window.open("/app", "_blank")}>
               Launch App
             </Button>
           )}
-          <Box>
-            {isMobile ? <NavbarLandingPageMobileMenu /> : null}
-          </Box>
+          <Box>{isTablet ? <NavbarLandingPageMobileMenu /> : null}</Box>
         </Box>
       </Flex>
     </SectionContainer>
@@ -128,43 +125,47 @@ const NavbarLandingPageMobileMenu = () => {
               <AiOutlineMenu size="24px" />
             )}
           </MenuButton>
-          <MenuList className="deposit-modal-container" border="none">
-            <Box className="deposit-modal-box-container" w="100%">
-              <Box
-                sx={{
-                  w: "100%",
-                  borderRadius: "12px",
-                  border: "2px solid rgba(255, 255, 255, 0.7)",
-                  background: "#122126",
-                  backdropFilter: "blur(7.5px)",
-                  padding: "24px",
-                }}
-              >
-                <Flex justify="center" gap="4px" direction="column">
-                  {tabs?.map((e, index) => {
-                    return (
-                      <Box
-                        sx={{ px: "16px", py: "8px" }}
-                        cursor="pointer"
-                        onClick={() => {
-                          document
-                            .getElementById(e.key)
-                            .scrollIntoView({ behavior: "smooth" });
-                        }}
-                      >
-                        <Text>{e.label}</Text>
-                      </Box>
-                    );
-                  })}
-                </Flex>
-                <Box pt="24px">
-                  <Button
-                    w="100%"
-                    onClick={() => window.open("/app", "_blank")}
-                  >
-                    Launch App
-                  </Button>
-                </Box>
+          <MenuList
+            maxW="100%"
+            sx={{
+              background: "#122126",
+              border: "2px solid rgba(255, 255, 255, 0.70)",
+              boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
+            }}
+            marginTop="24px"
+            marginRight={{ base: "16px", md: "70px" }}
+            marginLeft={{ base: "16px", md: "70px" }}
+            borderRadius={{ base: "12px" }}
+            // w="100vw"
+          >
+            <Box
+              minW={{ base: "90vw"}}
+              sx={{
+                padding: "24px",
+                margin: "auto",
+              }}
+            >
+              <Flex justify="center" gap="4px" direction="column">
+                {tabs?.map((e, index) => {
+                  return (
+                    <Box
+                      sx={{ px: "16px", py: "8px" }}
+                      cursor="pointer"
+                      onClick={() => {
+                        document
+                          .getElementById(e.key)
+                          .scrollIntoView({ behavior: "smooth" });
+                      }}
+                    >
+                      <Text>{e.label}</Text>
+                    </Box>
+                  );
+                })}
+              </Flex>
+              <Box pt="24px">
+                <Button w="100%" onClick={() => window.open("/app", "_blank")}>
+                  Launch App
+                </Button>
               </Box>
             </Box>
           </MenuList>

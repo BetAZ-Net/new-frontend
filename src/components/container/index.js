@@ -5,8 +5,8 @@ export const SectionContainer = ({ title, right, children, sx, ...rest }) => {
     <Box
       {...rest}
       sx={sx}
-      paddingLeft={{ md: "70px" }}
-      paddingRight={{ md: "70px" }}
+      paddingLeft={{  base: "16px", md: "70px" }}
+      paddingRight={{ base: "16px",  md: "70px"}}
     >
       <Box w="100%" mx="auto">
         <Box

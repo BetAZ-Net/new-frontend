@@ -292,7 +292,7 @@ const Predict = () => {
               <Box py="14px" px="80px" className="inforBox">
                 <Slider
                   onChange={(e) => onChangePosition(e)}
-                  zIndex={10}
+                  zIndex={1}
                   min={
                     rollOver
                       ? betRollNumbers?.numberOverRollMin

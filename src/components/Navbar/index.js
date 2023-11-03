@@ -13,6 +13,7 @@ const Navbar = () => {
         className="navbar-container"
         ml={{ sm: "unset" }}
         mr={{ sm: "unset" }}
+        position="relative"
       >
         <Flex className="navbar-logo-container">
           <Link to={"/"}>
@@ -24,7 +25,7 @@ const Navbar = () => {
           w={{ sm: "100%", md: "unset" }}
           display="flex"
           alignItems="center"
-          justifyContent="center"
+          justifyContent="end"
           flexWrap="wrap"
           gap="14px"
         >

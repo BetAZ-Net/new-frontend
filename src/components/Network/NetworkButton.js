@@ -43,7 +43,7 @@ const ChainItem = ({ data }) => {
 };
 const NetWorkButton = () => {
   const { currentNetwork } = useNetwork();
-  const isMobile = useCheckMobileScreen(768);
+  const isMobile = useCheckMobileScreen(992);
   return (
     <>
       <Menu>
@@ -104,12 +104,16 @@ const NetWorkButton = () => {
               </Box>
             </MenuButton>
             <MenuList
+              style={{ position: "relative", zIndex: 11 }}
               sx={{
                 background: "#122126",
                 border: "2px solid rgba(255, 255, 255, 0.70)",
                 boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
               }}
-              minW={{ base: "340px" }}
+              minW={{ base: "92vw", sm: "340px" }}
+              marginLeft={{ base: "16px" }}
+              marginRight={{ base: "16px" }}
+              marginTop={{ base: "24px", sm: "unset" }}
               borderRadius={{ base: "12px" }}
             >
               {supportedChain.map((e, index) => {
