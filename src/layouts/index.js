@@ -9,7 +9,7 @@ const AppLayout = ({ children }) => {
     <Box
       background="#0F3435"
       sx={{
-        paddingTop: "20px",
+        paddingTop: "32px",
         minHeight: "100vh",
       }}
       bgImage={BackgroundImage}
@@ -17,7 +17,7 @@ const AppLayout = ({ children }) => {
     >
       <Navbar />
       <Box
-        width={{ sm: "100%", md: "calc(100vw - 140px)" }}
+        width={{ sm: "100%" }}
         mx="auto"
         sx={{ paddingTop: "20px" }}
         overflow="auto"

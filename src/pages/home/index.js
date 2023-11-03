@@ -430,12 +430,12 @@ const HomePage = () => {
           id="section-roadmap"
         >
           <Heading className="heading">Roadmap</Heading>
-          <Box pt="128px" pb="84px" position="relative">
+          <Box pb="60px" position="relative">
             <BigRecIcon
               size="34px"
               sx={{
                 position: "absolute",
-                top: "0",
+                top: "-33px",
                 left: "50%",
                 zIndex:"2",
                 transform: "translateX(-50%)",
@@ -456,9 +456,9 @@ const HomePage = () => {
               alignItems="center"
               display="flex"
               flexDirection="column"
-              spacing="40px"
+              spacing="24px"
             >
-              <Box className="shining-container">
+              <Box className="shining-container" mt="72px">
                 <EclipseIcon text={"Q4 - 2023"} />
               </Box>
               <Box
@@ -497,7 +497,7 @@ const HomePage = () => {
                   ))}
                 </SimpleGrid>
               </Box>
-              <Box className="shining-container">
+              <Box className="shining-container" mt="72px">
                 <EclipseIcon text={"Q1 - 2024"} />
               </Box>
               <Box
@@ -537,7 +537,7 @@ const HomePage = () => {
                   ))}
                 </SimpleGrid>
               </Box>
-              <Box className="shining-container">
+              <Box className="shining-container" mt="72px">
                 <EclipseIcon text={"Q2 - 2024"} />
               </Box>
               <Box
@@ -575,7 +575,7 @@ const HomePage = () => {
                   )}
                 </SimpleGrid>
               </Box>
-              <Box className="shining-container">
+              <Box className="shining-container" mt="72px">
                 <EclipseIcon text={"Q3 - 2024"} />
               </Box>
               <Box
@@ -611,7 +611,7 @@ const HomePage = () => {
                   ))}
                 </SimpleGrid>
               </Box>
-              <Box className="shining-container">
+              <Box className="shining-container" mt="72px">
                 <EclipseIcon text={"Q4 - 2024"} />
               </Box>
               <Box
@@ -639,7 +639,7 @@ const HomePage = () => {
                   bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
                   borderBottomRadius="12px"
                 >
-                  {["Bring more games to the platform"].map((e) => (
+                  {["Begin development of a mobile app for iOS and Android"].map((e) => (
                     <Flex alignItems="center">
                       <Box className="diamon-icon" />
                       <Text color="#A4B0B6">{e}</Text>

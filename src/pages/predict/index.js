@@ -255,23 +255,16 @@ const Predict = () => {
   }, 5000);
 
   return (
-    <Box>
-      <DepositModal
-        visible={depositModalVisible}
-        onClose={() => setDepositModalVisible(false)}
-      />
-      {/* Modal unstake & stake */}
-      <StakeStakingPool />
-      <UnstakeStakingPool />
-      {/* End modal unstake & stake */}
-      <Box>
-        <Box
-          bgSize="contain"
-          bgRepeat="no-repeat"
-          bgImage={FloorImage}
-          bgPosition="bottom"
-        >
-          <SimpleGrid columns={{ md: 1, lg: 2 }} spacing={10}>
+    <>
+      <Box
+        bgSize="contain"
+        bgRepeat="no-repeat"
+        bgImage={FloorImage}
+        bgPosition="bottom"
+        pb="24px"
+      >
+        <SectionContainer>
+          <SimpleGrid columns={{ md: 1, lg: 2 }}>
             <LuckyNumberBox />
             <Box className="container">
               <Text className="title">Prediction</Text>
@@ -379,7 +372,6 @@ const Predict = () => {
                       })}
                     </SimpleGrid>
                   </Box>
-
                   <Box w="120px" minW="100px">
                     <Text className="small-header">Win Chance</Text>
                     <SimpleGrid columns={2} className="bet-amount-box-content">
@@ -438,7 +430,6 @@ const Predict = () => {
                       />
                     </Box>
                   </Box>
-
                   <Box w="120px" minW="100px">
                     <Text className="small-header">Multiplier</Text>
                     <Box className="small-content-container horizontal-box">
@@ -485,7 +476,6 @@ const Predict = () => {
                 ) : (
                   <CommonButton />
                 )}
-
                 <Button
                   minW="50%"
                   py="10px"
@@ -497,15 +487,28 @@ const Predict = () => {
               </SimpleGrid>
             </Box>
           </SimpleGrid>
-        </Box>
+        </SectionContainer>
+      </Box>
+
+      <SectionContainer>
         <Pools />
         <HistoryButton onClick={() => setBetHistoryModalVisible(true)} />
-        <BetHistoryModal
-          isOpen={betHistoryModalVisible}
-          onClose={() => setBetHistoryModalVisible(false)}
-        />
-      </Box>
-    </Box>
+      </SectionContainer>
+
+      {/**************** Modal **************/}
+      <DepositModal
+        visible={depositModalVisible}
+        onClose={() => setDepositModalVisible(false)}
+      />
+      {/* Modal unstake & stake */}
+      <StakeStakingPool />
+      <UnstakeStakingPool />
+      {/* End modal unstake & stake */}
+      <BetHistoryModal
+        isOpen={betHistoryModalVisible}
+        onClose={() => setBetHistoryModalVisible(false)}
+      />
+    </>
   );
 };
 

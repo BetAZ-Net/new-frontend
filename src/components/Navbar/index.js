@@ -8,11 +8,11 @@ import { SectionContainer } from "components/container";
 
 const Navbar = () => {
   return (
-    <Box paddingLeft={{ md: "65px" }} paddingRight={{ md: "65px" }}>
+    <SectionContainer>
       <Flex
         className="navbar-container"
-        // ml={{ sm: "unset" }}
-        // mr={{ sm: "unset" }}
+        ml={{ sm: "unset" }}
+        mr={{ sm: "unset" }}
       >
         <Flex className="navbar-logo-container">
           <Link to={"/"}>
@@ -39,7 +39,7 @@ const Navbar = () => {
           <WalletButton />
         </Box>
       </Flex>
-    </Box>
+    </SectionContainer>
   );
 };
 
