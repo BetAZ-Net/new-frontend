@@ -1,7 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const buttonDisableStyle = {
-  backgroundColor: "#DEDEDE",
+  background: "#DEDEDE",
   color: "#A4B0B6",
 };
 
@@ -27,6 +27,12 @@ const customTheme = extendTheme({
       variants: {
         solid: {
           background: "linear-gradient(180deg, #1BECA6 0%, #1BBEF5 100%)",
+          _disabled: {
+            ...buttonDisableStyle,
+          },
+        },
+        _disabled: {
+          ...buttonDisableStyle,
         },
       },
     },

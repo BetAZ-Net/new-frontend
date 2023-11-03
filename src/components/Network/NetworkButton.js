@@ -12,6 +12,7 @@ import { useNetwork } from "./useNetWork";
 import { AiOutlineCheck } from "react-icons/ai";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { useState } from "react";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 
 const ChainItem = ({ data }) => {
   const { currentNetwork, updateNetwork } = useNetwork();
@@ -42,6 +43,7 @@ const ChainItem = ({ data }) => {
 };
 const NetWorkButton = () => {
   const { currentNetwork } = useNetwork();
+  const isMobile = useCheckMobileScreen(768);
   return (
     <>
       <Menu>
@@ -55,7 +57,7 @@ const NetWorkButton = () => {
                 background: "#0D171B",
                 px: "12px",
                 py: "10px",
-                minW: "180px",
+                // minW: "180px",
               }}
             >
               <Box
@@ -81,16 +83,18 @@ const NetWorkButton = () => {
                       />
                     )}
                   </Box>
-                  <Text
-                    sx={{
-                      color: "#FFF",
-                      fontsize: "16px",
-                      marginLeft: "12px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    {currentNetwork?.label || "Select Network"}
-                  </Text>
+                  {isMobile ? null : (
+                    <Text
+                      sx={{
+                        color: "#FFF",
+                        fontsize: "16px",
+                        marginLeft: "12px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {currentNetwork?.label || "Select Network"}
+                    </Text>
+                  )}
                 </Box>
                 {isOpen ? (
                   <BiChevronUp size={24} style={{ marginLeft: "10px" }} />

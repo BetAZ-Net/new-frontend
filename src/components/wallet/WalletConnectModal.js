@@ -19,10 +19,12 @@ import { addressShortener } from "utils";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setCurrentAccount } from "store/slices/substrateSlice";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 
 const WalletItem = ({ data }) => {
   const { connectWallet } = useWallet();
   const { currentNetwork } = useNetwork();
+  const isMobile = useCheckMobileScreen(1280)
   return (
     <Box
       sx={{

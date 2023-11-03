@@ -9,6 +9,9 @@ import {
   ModalContent,
   useDisclosure,
   ModalBody,
+  Menu,
+  MenuButton,
+  MenuList,
 } from "@chakra-ui/react";
 import { useWallet } from "contexts/useWallet";
 import { useEffect, useState } from "react";
@@ -19,6 +22,7 @@ import { BiWallet } from "react-icons/bi";
 import { AddressCopier } from "components/addressCopier";
 import { useDispatch, useSelector } from "react-redux";
 import DetailAccountBox from "components/detailAccount/detailAccount";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 
 const WalletNotConnected = ({ openModal }) => {
   return (
@@ -38,50 +42,54 @@ const WalletNotConnected = ({ openModal }) => {
 };
 const WalletConnected = ({ onClickSwitch, isOpen, onOpen, onClose }) => {
   const { currentAccount } = useWallet();
-
+  const isMobile = useCheckMobileScreen(768);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        background: "#0D171B",
-        py: "10px",
-        px: "12px",
-        borderRadius: "12px",
-        width: "max-content",
-      }}
-      cursor="pointer"
-      onClick={() => {
-        if (isOpen) onClose();
-        else onOpen();
-      }}
-    >
-      <Box
-        sx={{
-          width: "24px",
-          height: "24px",
-          borderRadius: "24px",
-          position: "relative",
-        }}
-      >
-        <BiWallet size="24px" color="white" />
-      </Box>
-      <Text
-        sx={{
-          color: "#FFF",
-          fontWeight: "500",
-          fontSize: "16px",
-          marginLeft: "10px",
-        }}
-      >
-        {addressShortener(currentAccount?.address)}
-      </Text>
-      <DetailAccountBox
-        onClickSwitch={onClickSwitch}
-        isOpenModalDetailAccount={isOpen}
-        onCloseModalDetailAccount={onClose}
-      />
-    </Box>
+    <Menu>
+      <MenuButton>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            background: "#0D171B",
+            py: "10px",
+            px: "12px",
+            borderRadius: "12px",
+            width: "max-content",
+          }}
+          cursor="pointer"
+          onClick={() => {
+            if (isOpen) onClose();
+            else onOpen();
+          }}
+        >
+          <Box
+            sx={{
+              width: "24px",
+              height: "24px",
+              borderRadius: "24px",
+              position: "relative",
+            }}
+          >
+            <BiWallet size="24px" color="white" />
+          </Box>
+          {isMobile ? null : (
+            <Text
+              sx={{
+                color: "#FFF",
+                fontWeight: "500",
+                fontSize: "16px",
+                marginLeft: "10px",
+              }}
+            >
+              {addressShortener(currentAccount?.address)}
+            </Text>
+          )}
+        </Box>
+      </MenuButton>
+      <MenuList className="deposit-modal-container" border="none">
+        <DetailAccountBox onClickSwitch={onClickSwitch} />
+      </MenuList>
+    </Menu>
   );
 };
 
