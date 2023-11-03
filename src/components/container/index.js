@@ -2,8 +2,13 @@ import { Box } from "@chakra-ui/react";
 
 export const SectionContainer = ({ title, right, children, sx, ...rest }) => {
   return (
-    <Box {...rest} sx={sx}>
-      <Box maxWidth="1440px" mx="auto">
+    <Box
+      {...rest}
+      sx={sx}
+      paddingLeft={{ md: "70px" }}
+      paddingRight={{ md: "70px" }}
+    >
+      <Box w="100%" mx="auto">
         <Box
           sx={{
             display: "flex",

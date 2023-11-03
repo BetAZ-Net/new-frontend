@@ -255,7 +255,7 @@ const Predict = () => {
   }, 5000);
 
   return (
-    <SectionContainer>
+    <Box>
       <DepositModal
         visible={depositModalVisible}
         onClose={() => setDepositModalVisible(false)}
@@ -505,7 +505,7 @@ const Predict = () => {
           onClose={() => setBetHistoryModalVisible(false)}
         />
       </Box>
-    </SectionContainer>
+    </Box>
   );
 };
 

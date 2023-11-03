@@ -639,7 +639,7 @@ const HomePage = () => {
                   bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
                   borderBottomRadius="12px"
                 >
-                  {["Begin development of a mobile app for iOS and Android"].map((e) => (
+                  {["Bring more games to the platform"].map((e) => (
                     <Flex alignItems="center">
                       <Box className="diamon-icon" />
                       <Text color="#A4B0B6">{e}</Text>

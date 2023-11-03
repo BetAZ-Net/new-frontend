@@ -4,6 +4,7 @@ import NetWorkButton from "components/Network/NetworkButton";
 import WalletButton from "components/wallet/WalletButton";
 import { Link, useNavigate } from "react-router-dom";
 import "./navbar-landing-page.css";
+import { SectionContainer } from "components/container";
 
 export const NavbarLandingPage = () => {
   const navigate = useNavigate();
@@ -30,51 +31,56 @@ export const NavbarLandingPage = () => {
     },
   ];
   return (
-    <Flex className="navbar-container">
-      <Flex className="navbar-logo-container">
-        <Link to={"/"}>
-          <Image className="navbar-logo" alt="logo-app" src={AppLogo} />
-        </Link>
-      </Flex>
-      <Flex justify="center" flex={1}>
-        {tabs?.map((e, index) => {
-          return (
-            <Box
-              sx={{ px: "16px", py: "8px" }}
-              cursor="pointer"
-              onClick={() => {
-                document
-                  .getElementById(e.key)
-                  .scrollIntoView({ behavior: "smooth" });
-              }}
-            >
-              <Text>{e.label}</Text>
-            </Box>
-          );
-        })}
-      </Flex>
-      <Box
-        ms="auto"
-        w={{ sm: "100%", md: "unset" }}
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        gap="24px"
+    <SectionContainer>
+      <Flex
+        className="navbar-container"
+        // marginLeft={{ md: "70px" }}
+        // marginRight={{ md: "70px" }}
       >
+        <Flex className="navbar-logo-container">
+          <Link to={"/"}>
+            <Image className="navbar-logo" alt="logo-app" src={AppLogo} />
+          </Link>
+        </Flex>
+        <Flex justify="center" flex={1}>
+          {tabs?.map((e, index) => {
+            return (
+              <Box
+                sx={{ px: "16px", py: "8px" }}
+                cursor="pointer"
+                onClick={() => {
+                  document
+                    .getElementById(e.key)
+                    .scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                <Text>{e.label}</Text>
+              </Box>
+            );
+          })}
+        </Flex>
         <Box
+          ms="auto"
+          w={{ sm: "100%", md: "unset" }}
           display="flex"
           alignItems="center"
           justifyContent="center"
           gap="24px"
         >
-          <NetWorkButton />
-          <WalletButton />
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap="24px"
+          >
+            <NetWorkButton />
+            <WalletButton />
+          </Box>
+          <Button onClick={() => window.open("/app", "_blank")}>
+            Launch App
+          </Button>
         </Box>
-
-        <Button onClick={() => window.open("/app", "_blank")}>
-          Launch App
-        </Button>
-      </Box>
-    </Flex>
+      </Flex>
+    </SectionContainer>
   );
 };

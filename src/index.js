@@ -42,7 +42,7 @@ const toastStyle = {
     background: "#122126",
     boxShadow:
       "0px 8px 10px 0px rgba(0, 0, 0, 0.20), 0px 6px 30px 0px rgba(0, 0, 0, 0.12), 0px 16px 24px 0px rgba(0, 0, 0, 0.14)",
-    border: "2px solid rgba(255, 255, 255, 0.4)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
   },
 };
 

@@ -39,7 +39,7 @@ const DetailAccountBox = ({
           sx={{
             position: "absolute",
             top: { sm: "25px" },
-            right: { md: "75px" },
+            right: { md: "100px" },
             transform: "translate(0, 0)",
           }}
         >
