@@ -32,6 +32,8 @@ export const EclipseIcon = ({ sx, text }) => {
     <Box sx={sx} position="relative">
       <Text
         className="shining-text"
+        fontSize={{base: "16px", sm: "24px"}}
+        fontWeight={{base: "500", sm: "700"}}
         sx={{
           w: "100%",
           textAlign: "center",

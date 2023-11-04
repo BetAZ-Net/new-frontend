@@ -105,4 +105,4 @@ const DetailAccountBox = ({ onClickSwitch }) => {
   );
 };
 
-export default DetailAccountBox;
+export default memo(DetailAccountBox);

@@ -15,10 +15,15 @@ const BETAZFooter = () => {
       bgSize="cover"
       bgRepeat="no-repeat"
       direction="column"
+      gap={{base: "24px"}}
     >
-      <Flex flex={1} direction="column" justify="center">
+      <Flex flex={1} direction="column" justify="center" mt={{base: "24px"}}>
         <SectionContainer>
-          <Flex justify="space-between">
+          <Flex
+            justify="space-between"
+            direction={{ base: "column", md: "row" }}
+            gap={{base: "24px"}}
+          >
             <Box>
               <Flex>
                 <Image
@@ -69,7 +74,7 @@ const BETAZFooter = () => {
                 Contact us: contact@betaz.com
               </Text>
             </Box>
-            <SimpleGrid columns={4} spacing="24px">
+            <SimpleGrid columns={{ base: 2, sm: 4 }} spacing="24px">
               {[
                 {
                   label: "Tokenomic",

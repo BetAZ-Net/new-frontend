@@ -46,7 +46,6 @@ const customTheme = extendTheme({
         color: "#F7F7F8",
       },
     },
-    
   },
 });
 

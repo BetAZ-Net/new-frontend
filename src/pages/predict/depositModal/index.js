@@ -49,7 +49,7 @@ const DepositModal = ({ visible, onClose }) => {
   let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
   useInterval(() => {
     dispatch(fetchBuyStatus());
-  }, 7000);
+  }, 5000);
 
   /** Buy token */
   const getMaxbuy = async () => {
@@ -340,21 +340,22 @@ const DepositModal = ({ visible, onClose }) => {
                   flexDirection="column"
                 >
                   <Image
-                    height={{ base: "32px" }}
+                    height={{ base: "20px", sm: "32px" }}
                     alt="app-logo-text"
                     src={AppLogoText}
                   />
-                  <Text className="deposit-circle-quote">
+                  <Text className="deposit-circle-quote" fontSize={{ base: "14px", sm: "24px" }}>
                     Easy way for crypto Play
                   </Text>
                   <Text
                     className={`deposit-circle-amount ${colorMaxBuyAmount}`}
                     color="#a4b0b6"
+                    fontSize={{ base: "28px", sm: "48px" }}
                   >
                     ${!isNaN(maxbuyAmount) ? fomartMaxBuyAmount() : 0}
                   </Text>
                   <Box>
-                    <Text className="deposit-circle-finish-title">
+                    <Text className="deposit-circle-finish-title" fontSize={{ base: "10px", sm: "16px" }}>
                       Finishes in:
                     </Text>
                     <BETAZCountDown date={endTimeNumber} />

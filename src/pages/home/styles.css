@@ -13,10 +13,11 @@
   /* flex-direction: column; */
   /* justify-content: center; */
   /* align-items: center; */
-  aspect-ratio: 2;
+  /* aspect-ratio: 2; */
   background-repeat: no-repeat;
   background-size: cover;
   padding-top: 32px;
+  background-position: left;
 }
 .landing-page-banner-text {
   text-align: center;
@@ -33,12 +34,24 @@
   font-weight: 400;
   margin-top: 12px;
 }
+
+#text-1-mobile.landing-page-banner-text {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+#text-2-mobile.landing-page-banner-text {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 12px;
+}
+
 .landing-page-banner-button {
   background: #122126;
   color: #f7f7f8;
   box-shadow: 4px 4px 6px 0px rgba(255, 255, 255, 0.2) inset;
-  padding-left: 48px;
-  padding-right: 48px;
   border: 2px solid rgba(255, 255, 255, 0.4);
 }
 .heading {
@@ -46,7 +59,6 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 48px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -74,18 +86,19 @@
 .token-infor-text {
   color: #f7f7f8;
   text-align: center;
-  font-size: 24px;
+  /* font-size: 24px; */
   font-style: normal;
   font-weight: 700;
   margin-top: 12px;
 }
 .token-infor-symbol {
   color: #f7f7f8;
-  font-size: 24px;
+  /* font-size: 24px; */
   font-style: normal;
   font-weight: 700;
   margin-left: 8px;
 }
+
 .tokenomic-container {
   border-radius: 12px;
   border: 2px solid rgba(255, 255, 255, 0.7);
@@ -100,17 +113,17 @@
 }
 .tokenomic-item-color {
   height: 14px;
-  width: 60%;
+  /* width: 60%; */
   border-radius: 4px;
 }
 .tokenomic-item-value {
-  font-size: 18px;
+  /* font-size: 18px; */
   font-style: normal;
   font-weight: 400;
   margin-top: 12px;
 }
 .tokenomic-item-describle {
-  font-size: 14px;
+  /* font-size: 14px; */
   font-style: normal;
   font-weight: 400;
   margin-top: 12px;
@@ -129,7 +142,8 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 24px;
+  margin-bottom: 24px;
+  /* font-size: 24px; */
   font-style: normal;
   font-weight: 700;
   text-align: center;
@@ -155,41 +169,41 @@
   margin-top: 12px;
 }
 .term-aggreement-text {
-  font-size: 20px;
+  /* font-size: 20px; */
   font-style: normal;
   font-weight: 700;
   cursor: pointer;
 }
 .deposit-circle-quote {
-  font-size: 24px;
+  /* font-size: 24px; */
   font-style: normal;
   font-weight: 700;
   text-align: center;
 }
 .deposit-circle-amount {
-  font-size: 48px;
+  /* font-size: 48px; */
   font-style: normal;
   font-weight: 700;
   text-align: center;
 }
 .deposit-circle-finish-title {
   color: #a4b0b6 !important;
-  font-size: 16px;
+  /* font-size: 16px; */
   font-style: normal;
   font-weight: 500;
   text-align: center;
 }
 .deposit-circle-finish-countdown {
-  font-size: 32px;
+  /* font-size: 32px; */
   font-style: normal;
   font-weight: 700;
 }
 .deposit-circle-finish-countdown-unit {
   color: #a4b0b6 !important;
-  font-size: 18px;
+  /* font-size: 18px; */
   font-style: normal;
   font-weight: 400;
-  margin-bottom: 6px;
+  /* margin-bottom: 6px; */
 }
 .roadmap-title-container {
   padding: 24px;
@@ -210,9 +224,9 @@
   margin-right: 12px;
 }
 .shining-text {
-  font-size: 24px;
+  /* font-size: 24px; */
   font-style: normal;
-  font-weight: 700;
+  /* font-weight: 700; */
   color: rgba(247, 247, 248, 1);
   /* text-shadow: 0px 0px 14px #fff; */
 }
@@ -259,16 +273,17 @@
   align-items: center;
 }
 .contact-title {
-  font-size: 48px;
+  /* font-size: 48px; */
   font-style: normal;
   font-weight: 700;
 }
 .contact-description {
-  font-size: 20px;
+  /* font-size: 20px; */
   font-style: normal;
-  font-weight: 700;
+  /* font-weight: 700; */
   color: #a4b0b6 !important;
   margin-top: 12px;
+  text-align: center;
 }
 .contact-email-container {
   margin-top: 32px;
@@ -286,3 +301,19 @@
   border: 0px !important;
   color: #fff !important;
 }
+
+/* slide */
+/* .slick-track {
+  display: flex;
+  width: 100%;
+  height: 600px;
+}
+
+.slick-slide{
+  height: 600px;
+}
+
+.slick-slider {
+  width: 100%;
+  height: 600px;
+} */

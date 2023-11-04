@@ -75,10 +75,6 @@ const AdminPage = () => {
       <SubcribeEmailButton
         onClick={() => setBetSubcribeEmailModalVisible(true)}
       />
-      {/* Modal unstake & stake */}
-      <StakeStakingPool />
-      <UnstakeStakingPool />
-      {/* End modal unstake & stake */}
     </SectionContainer>
   );
 };

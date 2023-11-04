@@ -51,21 +51,21 @@ const tabs = [
 
 export const NavbarLandingPage = () => {
   const navigate = useNavigate();
-  const isMobile = useCheckMobileScreen(1440);
-  const isTablet = useCheckMobileScreen(576);
+  const isTablet = useCheckMobileScreen(1440);
+  const isMobile = useCheckMobileScreen(576);
   return (
     <SectionContainer>
-      <Flex className="navbar-container" position="relative">
+      <Flex className="navbar-container" position="relative" padding={{base:"8px 12px", sm: "16px 24px"}}>
         <Flex className="navbar-logo-container">
           <Link to={"/"}>
             <Image
               className="navbar-logo"
               alt="logo-app"
-              src={isTablet ? AppLogo2 : AppLogo}
+              src={isMobile ? AppLogo2 : AppLogo}
             />
           </Link>
         </Flex>
-        {isMobile ? null : (
+        {isTablet ? null : (
           <Flex justify="center" flex={1}>
             {tabs?.map((e, index) => {
               return (
@@ -90,18 +90,18 @@ export const NavbarLandingPage = () => {
           display="flex"
           alignItems="center"
           justifyContent="end"
-          gap="24px"
+          gap={{base:"12px", sm:"24px"}}
         >
           <Box
             display="flex"
             alignItems="center"
             justifyContent="center"
-            gap="24px"
+            gap={{base:"12px", sm:"24px"}}
           >
             <NetWorkButton />
             <WalletButton />
           </Box>
-          {isTablet ? null : (
+          {isMobile ? null : (
             <Button onClick={() => window.open("/app", "_blank")}>
               Launch App
             </Button>
@@ -118,7 +118,11 @@ const NavbarLandingPageMobileMenu = () => {
     <Menu>
       {({ isOpen }) => (
         <>
-          <MenuButton p="8px" isActive={isOpen} as={Button}>
+          <MenuButton
+            p="8px"
+            isActive={isOpen}
+            as={Button}
+          >
             {isOpen ? (
               <AiOutlineClose size="24px" />
             ) : (
@@ -126,7 +130,6 @@ const NavbarLandingPageMobileMenu = () => {
             )}
           </MenuButton>
           <MenuList
-            maxW="100%"
             sx={{
               background: "#122126",
               border: "2px solid rgba(255, 255, 255, 0.70)",
@@ -136,10 +139,10 @@ const NavbarLandingPageMobileMenu = () => {
             marginRight={{ base: "16px", md: "70px" }}
             marginLeft={{ base: "16px", md: "70px" }}
             borderRadius={{ base: "12px" }}
+            minW={{ base: "90vw" }}
             // w="100vw"
           >
             <Box
-              minW={{ base: "90vw"}}
               sx={{
                 padding: "24px",
                 margin: "auto",

@@ -15,6 +15,7 @@ import ContactBg from "assets/img/contact-bg.png";
 import DepositAmountCircle from "assets/img/deposit-amount-circle.png";
 import DepositBG from "assets/img/deposit-home-bg.png";
 import HomeBannerBG from "assets/img/home-banner-bg.png";
+import HomeBannerBGTablet from "assets/img/home-banner-bg-tablet.png";
 import RoadmapBG from "assets/img/roadmap-bg.png";
 import TeamBG from "assets/img/team-bg.png";
 import TokenomicBG from "assets/img/tokenomic-bg.png";
@@ -23,7 +24,6 @@ import { NavbarLandingPage } from "components/Navbar/NavbarLandingPage";
 import { SectionContainer } from "components/container";
 import { AppIcon, TokenIcon } from "components/icons";
 import { LuAtSign } from "react-icons/lu";
-import "./styles.css";
 import betaz_token from "utils/contracts/betaz_token_calls";
 import { useState, useCallback, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
@@ -41,32 +41,38 @@ import UnstakeStakingPool from "components/stakingPool/UnstakeStakingPool";
 import { EclipseIcon } from "components/icons";
 import { SmallRecIcon } from "components/icons";
 import { BigRecIcon } from "components/icons";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
+import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
+
+// css
+import "./styles.css";
+import SliderTeam from "./sliderTeam/SliderTeam";
 
 const teamList = [
   {
     name: "Romeo De Luca - CTO",
-    role: "Head of Technology",
+    role: "Head of Technology 1",
     description:
       "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
     avatar: AvatarImage,
   },
   {
     name: "Romeo De Luca - CTO",
-    role: "Head of Technology",
+    role: "Head of Technology 2",
     description:
       "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
     avatar: AvatarImage,
   },
   {
     name: "Romeo De Luca - CTO",
-    role: "Head of Technology",
+    role: "Head of Technology 3",
     description:
       "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
     avatar: AvatarImage,
   },
   {
     name: "Romeo De Luca - CTO",
-    role: "Head of Technology",
+    role: "Head of Technology 4",
     description:
       "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
     avatar: AvatarImage,
@@ -87,7 +93,7 @@ const HomePage = () => {
   let endTimeNumber = convertTimeStampToNumber(buyStatus?.endTime);
   useInterval(() => {
     dispatch(fetchBuyStatus());
-  }, 7000);
+  }, 5000);
 
   /*************** End Count down time ********************/
 
@@ -199,42 +205,57 @@ const HomePage = () => {
   };
 
   const colorMaxBuyAmount = maxbuyAmount == 0 ? null : "linear-text-color-01";
+  const isMobile = useCheckMobileScreen(576);
+  const isTablet = useCheckMobileScreen(1200);
+
   return (
-    <Box>
-      <Box className="landing-page-banner-container" bgImage={HomeBannerBG}>
+    <Box maxW={"100%"} overflowX="hidden">
+      <Box
+        className="landing-page-banner-container"
+        bgImage={isMobile ? HomeBannerBGTablet : HomeBannerBG}
+        minH={{ base: "600px", md: "unset" }}
+      >
         <NavbarLandingPage />
         <Flex
           direction="column"
           h="full"
           alignItems="center"
-          pt="calc(1/4 * 100vh)"
+          pt={isMobile ? "48px" : "calc(1/4 * 100vh)"}
+          pb="48px"
           className="landing-page-banner-content-container"
         >
           <Text
-            id="text-1"
-            maxWidth="1000px"
+            id={isMobile ? "text-1-mobile" : "text-1"}
+            maxWidth={{ base: "320px", sm: "576px", md: "992px" }}
             className="landing-page-banner-text linear-text-color-01"
           >
             What is BetAZ
             <br />A online gaming and betting platform running on Aleph Zero
             Blockchain.
           </Text>
-          <Text id="text-2" className="landing-page-banner-text">
+          <Text
+            id={isMobile ? "text-2-mobile" : "text-2"}
+            className="landing-page-banner-text"
+          >
             Get revenue from your betting by joining BetAZ
             <br />
             24/7. Always at your service.
           </Text>
-          <Flex mt="32px">
+          <Flex
+            mt="32px"
+            direction={isMobile ? "column" : "row"}
+            gap={isMobile ? "12px" : "24px"}
+          >
             <Button
               className="landing-page-banner-button"
-              px="48px"
+              px={isMobile ? "24px" : "48px"}
               onClick={() => window.open("/app", "_blank")}
             >
               Testnet Demo
             </Button>
             <Button
+              px={isMobile ? "24px" : "48px"}
               className="landing-page-banner-button"
-              ml="32px"
               onClick={() => toast.success("Comming soon!")}
             >
               Mainnet Access
@@ -248,17 +269,28 @@ const HomePage = () => {
           bgImage={TokenomicBG}
           bgRepeat="no-repeat"
           bgSize="cover"
+          bgPosition="center"
           id="section-tokenomic"
+          pt={{ base: "24px", sm: "138px" }}
         >
-          <SimpleGrid columns={2}>
-            <Box pt="48px">
-              <Heading className="heading" pb="48px">
+          <SimpleGrid columns={{ base: 1, lg: 2 }}>
+            <Box>
+              <Heading
+                className="heading"
+                pb={{ base: "24px", sm: "48px" }}
+                fontSize={{ base: "24px", sm: "48px" }}
+              >
                 Our Tokenomics
               </Heading>
               <Flex className="token-infor-container">
                 <Box className="token-infor-content-container">
                   <Text className="token-infor-content-title">Token Name:</Text>
-                  <Text className="token-infor-text">BetAZ TOKEN</Text>
+                  <Text
+                    className="token-infor-text"
+                    fontSize={{ base: "16px", sm: "24px" }}
+                  >
+                    BetAZ TOKEN
+                  </Text>
                 </Box>
                 <Box width="2px" bg="#706A78" />
                 <Box className="token-infor-content-container" ml="12px">
@@ -266,8 +298,13 @@ const HomePage = () => {
                     Token Symbol:
                   </Text>
                   <Flex justify="center" alignItems="center" mt="12px">
-                    <TokenIcon size="32px" />
-                    <Text className="token-infor-symbol">BetAZ</Text>
+                    <TokenIcon size={{ base: "20px", sm: "32px" }} />
+                    <Text
+                      className="token-infor-symbol"
+                      fontSize={{ base: "16px", sm: "24px" }}
+                    >
+                      BetAZ
+                    </Text>
                   </Flex>
                 </Box>
               </Flex>
@@ -312,16 +349,28 @@ const HomePage = () => {
                     className="tokenomic-item"
                     key={`tokenomic-item-${index}`}
                   >
-                    <Box className="tokenomic-item-color" bg={e.color} />
-                    <Text className="tokenomic-item-value">{`${e.value}%`}</Text>
-                    <Text className="tokenomic-item-describle">{e.label}</Text>
+                    <Box
+                      className="tokenomic-item-color"
+                      bg={e.color}
+                      w={{ base: "100%", sm: "60%" }}
+                    />
+                    <Text
+                      className="tokenomic-item-value"
+                      fontSize={{ base: "16px", sm: "18px" }}
+                    >{`${e.value}%`}</Text>
+                    <Text
+                      className="tokenomic-item-describle"
+                      fontSize={{ base: "10px", sm: "14px" }}
+                    >
+                      {e.label}
+                    </Text>
                   </Box>
                 ))}
               </SimpleGrid>
             </Box>
             <Flex justify="center">
               <Image
-                height={{ base: "770px" }}
+                height={{ sm: "770px" }}
                 alt="Tokenomic-cup"
                 src={TokenomicCup}
               />
@@ -332,16 +381,28 @@ const HomePage = () => {
           aspectRatio={1.8}
           bgImage={DepositBG}
           bgRepeat="no-repeat"
+          bgPosition="center"
           bgSize="cover"
-          pt="48px"
+          pt={{ base: "24px", sm: "48px" }}
           id="section-deposit"
           pb="84px"
         >
-          <Heading className="heading">Deposit and Play</Heading>
-          <SimpleGrid columns={2} spacing="100px">
+          <Heading className="heading" fontSize={{ base: "24px", sm: "48px" }}>
+            Deposit and Play
+          </Heading>
+          <SimpleGrid
+            columns={{ base: 1, lg: 2 }}
+            spacing={{ base: "24px", md: "100px" }}
+            mt="24px"
+          >
             <Flex direction="column" justify="center">
               <Box className="deposit-box-container">
-                <Text className="deposit-box-title">Deposit now</Text>
+                <Text
+                  className="deposit-box-title"
+                  fontSize={{ base: "20px", sm: "24px" }}
+                >
+                  Deposit now
+                </Text>
                 <Box className="deposit-box-amount-box">
                   <Text>Amount</Text>
                   <Flex className="deposit-box-amount-input">
@@ -353,7 +414,7 @@ const HomePage = () => {
                       // type="number"
                     />
                     <Flex
-                      w="100px"
+                      w="120px"
                       alignItems="center"
                       gap={1}
                       pl="4px"
@@ -373,8 +434,13 @@ const HomePage = () => {
                     max={maxbuyAmount}
                     status={buyStatus?.status}
                   />
-                  <Text mt="24px">By Clicking your agree with our</Text>
-                  <Text className="linear-text-color-01 term-aggreement-text">
+                  <Text mt="24px" fontSize={{ base: "14px", sm: "16px" }}>
+                    By Clicking your agree with our
+                  </Text>
+                  <Text
+                    className="linear-text-color-01 term-aggreement-text"
+                    fontSize={{ base: "14px", sm: "20px" }}
+                  >
                     Terms and Conditions, Privacy Policy
                   </Text>
                 </Flex>
@@ -392,27 +458,34 @@ const HomePage = () => {
               alignItems="center"
             >
               <SimpleGrid
-                spacing="32px"
+                spacing={{ base: "18px", sm: "32px" }}
                 alignItems="center"
                 display="flex"
                 flexDirection="column"
               >
                 <Image
-                  height={{ base: "32px" }}
+                  height={{ base: "20px", sm: "32px" }}
                   alt="app-logo-text"
                   src={AppLogoText}
                 />
-                <Text className="deposit-circle-quote">
+                <Text
+                  className="deposit-circle-quote"
+                  fontSize={{ base: "14px", sm: "24px" }}
+                >
                   Easy way for crypto Play
                 </Text>
                 <Text
                   className={`deposit-circle-amount ${colorMaxBuyAmount}`}
                   color="#a4b0b6"
+                  fontSize={{ base: "28px", sm: "48px" }}
                 >
                   ${!isNaN(maxbuyAmount) ? fomartMaxBuyAmount() : 0}
                 </Text>
                 <Box>
-                  <Text className="deposit-circle-finish-title">
+                  <Text
+                    className="deposit-circle-finish-title"
+                    fontSize={{ base: "10px", sm: "16px" }}
+                  >
                     Finishes in:
                   </Text>
                   <BETAZCountDown date={endTimeNumber} />
@@ -422,14 +495,16 @@ const HomePage = () => {
           </SimpleGrid>
         </SectionContainer>
         <SectionContainer
-          pt="48px"
+          pt={{ base: "24px", sm: "48px" }}
           aspectRatio={0.7}
           bgImage={RoadmapBG}
           bgRepeat="no-repeat"
           bgSize="cover"
           id="section-roadmap"
         >
-          <Heading className="heading">Roadmap</Heading>
+          <Heading className="heading" fontSize={{ base: "24px", sm: "48px" }}>
+            Roadmap
+          </Heading>
           <Box pb="60px" position="relative">
             <BigRecIcon
               size="34px"
@@ -437,7 +512,7 @@ const HomePage = () => {
                 position: "absolute",
                 top: "-33px",
                 left: "50%",
-                zIndex:"2",
+                zIndex: "2",
                 transform: "translateX(-50%)",
               }}
             />
@@ -458,14 +533,17 @@ const HomePage = () => {
               flexDirection="column"
               spacing="24px"
             >
-              <Box className="shining-container" mt="72px">
+              <Box
+                className="shining-container"
+                mt={{ base: "48px", sm: "72px" }}
+              >
                 <EclipseIcon text={"Q4 - 2023"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
-                minW="600px"
+                minW={{ base: "100%", md: "600px" }}
                 position="relative"
               >
                 <BigRecIcon
@@ -497,14 +575,17 @@ const HomePage = () => {
                   ))}
                 </SimpleGrid>
               </Box>
-              <Box className="shining-container" mt="72px">
+              <Box
+                className="shining-container"
+                mt={{ base: "48px", sm: "72px" }}
+              >
                 <EclipseIcon text={"Q1 - 2024"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
-                minW="600px"
+                minW={{ base: "100%", md: "600px" }}
                 position="relative"
               >
                 <BigRecIcon
@@ -537,14 +618,17 @@ const HomePage = () => {
                   ))}
                 </SimpleGrid>
               </Box>
-              <Box className="shining-container" mt="72px">
+              <Box
+                className="shining-container"
+                mt={{ base: "48px", sm: "72px" }}
+              >
                 <EclipseIcon text={"Q2 - 2024"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
-                minW="600px"
+                minW={{ base: "100%", md: "600px" }}
                 position="relative"
               >
                 <BigRecIcon
@@ -575,14 +659,17 @@ const HomePage = () => {
                   )}
                 </SimpleGrid>
               </Box>
-              <Box className="shining-container" mt="72px">
+              <Box
+                className="shining-container"
+                mt={{ base: "48px", sm: "72px" }}
+              >
                 <EclipseIcon text={"Q3 - 2024"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
-                minW="600px"
+                minW={{ base: "100%", md: "600px" }}
                 position="relative"
               >
                 <BigRecIcon
@@ -611,14 +698,17 @@ const HomePage = () => {
                   ))}
                 </SimpleGrid>
               </Box>
-              <Box className="shining-container" mt="72px">
+              <Box
+                className="shining-container"
+                mt={{ base: "48px", sm: "72px" }}
+              >
                 <EclipseIcon text={"Q4 - 2024"} />
               </Box>
               <Box
                 borderRadius="12px"
                 border={"2px solid #1BBEF5"}
                 maxW="760px"
-                minW="600px"
+                minW={{ base: "100%", md: "600px" }}
                 position="relative"
               >
                 <BigRecIcon
@@ -639,7 +729,9 @@ const HomePage = () => {
                   bg="linear-gradient(180deg, #0D171B 0%, #163037 100%)"
                   borderBottomRadius="12px"
                 >
-                  {["Begin development of a mobile app for iOS and Android"].map((e) => (
+                  {[
+                    "Begin development of a mobile app for iOS and Android",
+                  ].map((e) => (
                     <Flex alignItems="center">
                       <Box className="diamon-icon" />
                       <Text color="#A4B0B6">{e}</Text>
@@ -655,48 +747,42 @@ const HomePage = () => {
           bgImage={TeamBG}
           bgRepeat="no-repeat"
           bgSize="cover"
-          pt="48px"
-          pb="84px"
+          pt={{ base: "24px", sm: "48px" }}
+          pb={{ base: "42px", sm: "54px" }}
           id="section-team-member"
         >
-          <Heading className="heading" textAlign="center">
+          <Heading
+            className="heading"
+            textAlign="center"
+            fontSize={{ base: "24px", sm: "48px" }}
+          >
             Team Member
           </Heading>
-          <SimpleGrid columns={teamList.length} spacing="24px">
-            {teamList.map((e, index) => (
-              <Flex direction="column">
-                <Image
-                  w="full"
-                  aspectRatio={0.8}
-                  alt="Tokenomic-cup"
-                  src={e.avatar}
-                />
-                <Box className="member-infor-container">
-                  <Box py="24px" px="12px" bg="#131a20">
-                    <Text className="member-name-text linear-text-color-01">
-                      {e.name}
-                    </Text>
-                  </Box>
-                  <Box className="member-description-container">
-                    <Text className="member-role-text">{e.role}</Text>
-                    <Box h="2px" bg="#2A3741" />
-                    <Text className="member-description-text">
-                      {e.description}
-                    </Text>
-                  </Box>
-                </Box>
-              </Flex>
-            ))}
-          </SimpleGrid>
+          {/* carosel */}
+          <SliderTeam />
         </SectionContainer>
-        <SectionContainer pb="84px" id="section-contact-us">
+        <SectionContainer
+          pb={{ base: "48px", sm: "85px" }}
+          id="section-contact-us"
+        >
           <FormControl>
-            <Flex bgImage={ContactBg} className="contact-container">
-              <Text className="contact-title linear-text-color-01">
+            <Flex
+              bgImage={ContactBg}
+              className="contact-container"
+              padding={{ base: "24px" }}
+            >
+              <Text
+                className="contact-title linear-text-color-01"
+                fontSize={{ base: "24px", sm: "48px" }}
+              >
                 Keep in touch
               </Text>
               <Box>
-                <Text className="contact-description">
+                <Text
+                  className="contact-description"
+                  fontSize={{ base: "16px", sm: "20px" }}
+                  fontWeight={{ base: "500", sm: "700" }}
+                >
                   BETAZ lets you earn fixed interest and other rewards
                 </Text>
                 <Flex className="contact-email-container">
@@ -726,10 +812,6 @@ const HomePage = () => {
           </FormControl>
         </SectionContainer>
       </Box>
-      {/* Modal unstake & stake */}
-      <StakeStakingPool />
-      <UnstakeStakingPool />
-      {/* End modal unstake & stake */}
     </Box>
   );
 };

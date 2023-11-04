@@ -20,9 +20,5 @@ export default function BuyTokenButton({
       />
     );
   };
-  return (
-    <span>
-      <Countdown key={date.toString()} date={date} renderer={renderer} />
-    </span>
-  );
+  return <Countdown key={date.toString()} date={date} renderer={renderer} />;
 }

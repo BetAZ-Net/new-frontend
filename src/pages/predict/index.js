@@ -252,7 +252,7 @@ const Predict = () => {
     if (api) {
       loadMaxBet();
     }
-  }, 5000);
+  }, 3000);
 
   return (
     <>
@@ -500,10 +500,6 @@ const Predict = () => {
         visible={depositModalVisible}
         onClose={() => setDepositModalVisible(false)}
       />
-      {/* Modal unstake & stake */}
-      <StakeStakingPool />
-      <UnstakeStakingPool />
-      {/* End modal unstake & stake */}
       <BetHistoryModal
         isOpen={betHistoryModalVisible}
         onClose={() => setBetHistoryModalVisible(false)}
