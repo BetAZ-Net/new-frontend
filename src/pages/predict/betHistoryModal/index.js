@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   IconButton,
   Modal,
   ModalBody,
@@ -8,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  SimpleGrid,
   Table,
   TableContainer,
   Tbody,
@@ -22,15 +24,20 @@ import { BiLayer } from "react-icons/bi";
 import { GiTwoCoins } from "react-icons/gi";
 import { TbMoodSmileFilled } from "react-icons/tb";
 import { MdSwapVerticalCircle } from "react-icons/md";
-import { RiCopperDiamondFill, RiVipDiamondFill, RiArrowTurnBackFill } from "react-icons/ri";
+import {
+  RiCopperDiamondFill,
+  RiVipDiamondFill,
+  RiArrowTurnBackFill,
+} from "react-icons/ri";
 import "./styles.css";
 import { AiFillStar } from "react-icons/ai";
-import { formatTableValue } from "./formatTable";
+import { formatTableValue, formatTableValueMobile } from "./formatTable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import toast from "react-hot-toast";
 import { clientAPI } from "api/client";
 import { useSelector } from "react-redux";
 import useInterval from "hooks/useInterval";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 
 const tabData = [
   {
@@ -144,17 +151,30 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
       {
         label: "Oracle round",
         key: "round",
-        icon: <RiArrowTurnBackFill size="24px" style={{ marginRight: "8px" }} />,
+        icon: (
+          <RiArrowTurnBackFill size="24px" style={{ marginRight: "8px" }} />
+        ),
       },
     ],
     data: data,
   };
 
+  const isMobile = useCheckMobileScreen(480);
   return (
     <Modal onClose={onClose} size="lg" isOpen={isOpen}>
       <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
-      <ModalContent className="history-modal-content-container">
-        <ModalHeader className="history-modal-content-title linear-text">
+      <ModalContent
+        className="history-modal-content-container"
+        maxW={{
+          base: "calc(100vw) !important",
+          sm: "calc(100vw - 120px) !important",
+        }}
+      >
+        <ModalHeader
+          className="history-modal-content-title linear-text"
+          fontWeight={{ base: "500", sm: "700" }}
+          fontSize={{ base: "20px", sm: "32px" }}
+        >
           Bet History
         </ModalHeader>
         <ModalCloseButton color="#FFF" />
@@ -171,6 +191,8 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
                   onClick={() => setCurrentTab(index)}
                 >
                   <Text
+                    fontSize={{ base: "16px", sm: "unset" }}
+                    fontWeight={{ base: "500", sm: "700" }}
                     className={`history-modal-label ${
                       isActive && "history-modal-label-active"
                     }`}
@@ -181,86 +203,132 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
               );
             })}
           </Box>
-          <TableContainer mt="24px" overflowY="hidden">
-            <Table
-              sx={{
-                overflowX: "auto",
-                minWidth: "1320px",
-              }}
-              variant="unstyled"
-              className="history-table"
-            >
-              <Thead>
-                <Tr className="history-table-header-container">
-                  {historyTableData.headers.map((e, index) => {
-                    const isFirstChild = index === 0;
-                    const isLastChild =
-                      index === historyTableData.headers.length - 1;
+          {isMobile ? (
+            <Flex direction="column" maxH="600px" overflowY="auto" mt="12px">
+              {historyTableData.data.map((e, rowIndex) => {
+                const keyValues = Object.keys(e);
+
+                return (
+                  <Box
+                    sx={{
+                      borderRadius: "12px",
+                      marginTop: "12px",
+                      background: "#122126",
+                      p: "12px 24px 24px 24px",
+                      border: "2px solid rgba(255, 255, 255, 0.4)",
+                    }}
+                  >
+                    {keyValues.map((keyvalue, index) => {
+                      return (
+                        <SimpleGrid columns={2}>
+                          <Flex
+                            direction="column"
+                            justifyContent="start"
+                            alignItems="start"
+                            color="#F7F7F8"
+                          >
+                            <Text mt="12px">
+                              {historyTableData.headers[index].label}
+                            </Text>
+                          </Flex>
+                          <Flex
+                            direction="column"
+                            justifyContent="end"
+                            alignItems="end"
+                          >
+                            <Text mt="12px">
+                              {formatTableValueMobile(e[keyvalue], keyvalue)}
+                            </Text>
+                          </Flex>
+                        </SimpleGrid>
+                      );
+                    })}
+                  </Box>
+                );
+              })}
+            </Flex>
+          ) : (
+            <TableContainer mt="24px" overflowY="hidden">
+              <Table
+                sx={{
+                  overflowX: "auto",
+                  minWidth: "1320px",
+                }}
+                variant="unstyled"
+                className="history-table"
+              >
+                <Thead>
+                  <Tr className="history-table-header-container">
+                    {historyTableData.headers.map((e, index) => {
+                      const isFirstChild = index === 0;
+                      const isLastChild =
+                        index === historyTableData.headers.length - 1;
+                      return (
+                        <Th className="history-table-header-column">
+                          <Box
+                            sx={{
+                              borderY: "1px solid #1beca6",
+                              borderLeft: isFirstChild && "1px solid #1beca6",
+                              borderRight: isLastChild && "1px solid #1beca6",
+                              borderLeftRadius: isFirstChild && "8px",
+                              borderRightRadius: isLastChild && "8px",
+                              paddingLeft: isFirstChild && "20px",
+                              width: "full",
+                              py: "20px",
+                            }}
+                            display="flex"
+                            justifyContent={index > 0 && "center"}
+                            alignItems="center"
+                          >
+                            {e?.icon}
+                            {e.label}
+                          </Box>
+                        </Th>
+                      );
+                    })}
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {historyTableData.data.map((e, rowIndex) => {
+                    const keyValues = Object.keys(e);
+
                     return (
-                      <Th className="history-table-header-column">
-                        <Box
-                          sx={{
-                            borderY: "1px solid #1beca6",
-                            borderLeft: isFirstChild && "1px solid #1beca6",
-                            borderRight: isLastChild && "1px solid #1beca6",
-                            borderLeftRadius: isFirstChild && "8px",
-                            borderRightRadius: isLastChild && "8px",
-                            paddingLeft: isFirstChild && "20px",
-                            width: "full",
-                            py: "20px",
-                          }}
-                          display="flex"
-                          justifyContent={index > 0 && "center"}
-                          alignItems="center"
-                        >
-                          {e?.icon}
-                          {e.label}
-                        </Box>
-                      </Th>
+                      <Tr>
+                        {keyValues.map((keyvalue, index) => {
+                          const isFirstChild = index === 0;
+                          const isLastChild =
+                            index === historyTableData.headers.length - 1;
+                          return (
+                            <Td>
+                              <Box
+                                sx={{
+                                  marginTop: rowIndex === 0 ? "24px" : "8px",
+                                  background: "#0d171b",
+                                  py: "16px",
+                                  pl: isFirstChild && "24px",
+                                  borderY: "1px solid rgba(255, 255, 255, 0.4)",
+                                  borderLeft:
+                                    isFirstChild &&
+                                    "1px solid rgba(255, 255, 255, 0.4)",
+                                  borderRight:
+                                    isLastChild &&
+                                    "1px solid rgba(255, 255, 255, 0.4)",
+                                  borderLeftRadius: isFirstChild && "8px",
+                                  borderRightRadius: isLastChild && "8px",
+                                }}
+                              >
+                                {formatTableValue(e[keyvalue], keyvalue)}
+                              </Box>
+                            </Td>
+                          );
+                        })}
+                      </Tr>
                     );
                   })}
-                </Tr>
-              </Thead>
-              <Tbody>
-                {historyTableData.data.map((e, rowIndex) => {
-                  const keyValues = Object.keys(e);
-
-                  return (
-                    <Tr>
-                      {keyValues.map((keyvalue, index) => {
-                        const isFirstChild = index === 0;
-                        const isLastChild =
-                          index === historyTableData.headers.length - 1;
-                        return (
-                          <Td>
-                            <Box
-                              sx={{
-                                marginTop: rowIndex === 0 ? "24px" : "8px",
-                                background: "#0d171b",
-                                py: "16px",
-                                pl: isFirstChild && "24px",
-                                borderY: "1px solid rgba(255, 255, 255, 0.4)",
-                                borderLeft:
-                                  isFirstChild &&
-                                  "1px solid rgba(255, 255, 255, 0.4)",
-                                borderRight:
-                                  isLastChild &&
-                                  "1px solid rgba(255, 255, 255, 0.4)",
-                                borderLeftRadius: isFirstChild && "8px",
-                                borderRightRadius: isLastChild && "8px",
-                              }}
-                            >
-                              {formatTableValue(e[keyvalue], keyvalue)}
-                            </Box>
-                          </Td>
-                        );
-                      })}
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-          </TableContainer>
+                </Tbody>
+              </Table>
+            </TableContainer>
+          )}
         </ModalBody>
         <ModalFooter className="history-table-footer-container">
           <Box display="flex" gap="8px">

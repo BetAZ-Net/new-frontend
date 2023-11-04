@@ -110,10 +110,7 @@ const NetWorkButton = () => {
                 border: "2px solid rgba(255, 255, 255, 0.70)",
                 boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
               }}
-              minW={{ base: "92vw", sm: "340px" }}
-              marginLeft={{ base: "16px" }}
-              marginRight={{ base: "16px" }}
-              marginTop={{ base: "24px", sm: "unset" }}
+              minW={{ base: "200px", sm: "340px" }}
               borderRadius={{ base: "12px" }}
             >
               {supportedChain.map((e, index) => {

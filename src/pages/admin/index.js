@@ -43,7 +43,10 @@ const AdminPage = () => {
   return (
     <SectionContainer>
       <Box minH="100vh" mt="48px">
-        <Box className="admin-modal-tabs">
+        <Box
+          className="admin-modal-tabs"
+          flexDirection={{ base: "column", sm: "row" }}
+        >
           {tabData.map((e, index) => {
             const isActive = currentTab === index;
             return (

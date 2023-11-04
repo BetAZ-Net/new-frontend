@@ -36,6 +36,7 @@ import { AppIcon, TokenIcon } from "components/icons";
 import CommonButton from "components/button/commonButton";
 import StakeStakingPool from "components/stakingPool/StakeStakingPool";
 import UnstakeStakingPool from "components/stakingPool/UnstakeStakingPool";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 
 const labelStyles = {
   fontSize: "20px",
@@ -254,32 +255,40 @@ const Predict = () => {
     }
   }, 3000);
 
+  const isMobile = useCheckMobileScreen(480);
   return (
     <>
       <Box
-        bgSize="contain"
+        bgSize="center"
         bgRepeat="no-repeat"
         bgImage={FloorImage}
         bgPosition="bottom"
         pb="24px"
+        w="100%"
       >
-        <SectionContainer>
-          <SimpleGrid columns={{ md: 1, lg: 2 }}>
-            <LuckyNumberBox />
-            <Box className="container">
-              <Text className="title">Prediction</Text>
-              <SimpleGrid columns={2} spacing="24px">
-                <Box
-                  py="14px"
-                  className="inforBox"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text className="linear-text amount">{position}</Text>
-                </Box>
+        <SimpleGrid columns={{ md: 1, lg: 2 }}>
+          <LuckyNumberBox />
+          <Box
+            className="container"
+            marginRight={{ base: "16px", md: "70px", lg: "70px" }}
+            marginLeft={{ base: "16px", md: "70px", lg: "unset" }}
+          >
+            <Text className="title" fontSize={{ base: "20px", sm: "unset" }} >
+              Prediction
+            </Text>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing="24px">
+              <Box
+                py="14px"
+                className="inforBox"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text className="linear-text amount" fontSize={{base:"48", sm:"unset"}}>{position}</Text>
+              </Box>
+              {isMobile ? null : (
                 <Box py="14px" px="14px" className="inforBox">
                   <Text className="small-header">Core Pool</Text>
                   <Box className="small-content-container">
@@ -288,206 +297,220 @@ const Predict = () => {
                     </Text>
                   </Box>
                 </Box>
-              </SimpleGrid>
-              <Box py="14px" px="80px" className="inforBox">
-                <Slider
-                  onChange={(e) => onChangePosition(e)}
-                  zIndex={1}
-                  min={
-                    rollOver
-                      ? betRollNumbers?.numberOverRollMin
-                      : betRollNumbers?.numberUnerRollMin
-                  }
-                  max={
-                    rollOver
-                      ? betRollNumbers?.numberOverRollMax
-                      : betRollNumbers?.numberUnerRollMax
-                  }
+              )}
+            </SimpleGrid>
+            <Box
+              py="14px"
+              px={{ base: "12px", sm: "40px", xl: "80px" }}
+              className="inforBox"
+            >
+              <Slider
+                onChange={(e) => onChangePosition(e)}
+                zIndex={1}
+                min={
+                  rollOver
+                    ? betRollNumbers?.numberOverRollMin
+                    : betRollNumbers?.numberUnerRollMin
+                }
+                max={
+                  rollOver
+                    ? betRollNumbers?.numberOverRollMax
+                    : betRollNumbers?.numberUnerRollMax
+                }
+              >
+                <SliderTrack
+                  bg={rollOver ? "#1A74E4" : "#FFA000"}
+                  h="12px"
+                  borderRadius="8px"
                 >
-                  <SliderTrack
-                    bg={rollOver ? "#1A74E4" : "#FFA000"}
-                    h="12px"
-                    borderRadius="8px"
-                  >
-                    <SliderFilledTrack bg={rollOver ? "#FFA000" : "#1A74E4"} />
-                  </SliderTrack>
-                  <SliderThumb w="24px" h="24px" bg="#1BECA6" />
-                </Slider>
-                <Box mt="20px" display="flex" justifyContent="space-between">
-                  <Text
-                    {...labelStyles}
-                    color={rollOver ? "#606060" : "#1A74E4"}
-                    cursor="pointer"
-                    onClick={() => {
-                      setRollOver(false);
-                    }}
-                  >
-                    ROLL UNDER
-                  </Text>
-                  <Text
-                    {...labelStyles}
-                    color={rollOver ? "#FFA000" : "#606060"}
-                    cursor="pointer"
-                    onClick={() => {
-                      setRollOver(true);
-                    }}
-                  >
-                    ROLL OVER
-                  </Text>
+                  <SliderFilledTrack bg={rollOver ? "#FFA000" : "#1A74E4"} />
+                </SliderTrack>
+                <SliderThumb w="24px" h="24px" bg="#1BECA6" />
+              </Slider>
+              <Box
+                mt="20px"
+                display="flex"
+                justifyContent={{ base: "space-around", sm: "space-between" }}
+              >
+                <Text
+                  fontSize={{ base: "16px", sm: "20px" }}
+                  fontWeight={{ base: "500", sm: "700" }}
+                  color={rollOver ? "#606060" : "#1A74E4"}
+                  cursor="pointer"
+                  onClick={() => {
+                    setRollOver(false);
+                  }}
+                >
+                  ROLL UNDER
+                </Text>
+                <Text
+                  fontSize={{ base: "16px", sm: "20px" }}
+                  fontWeight={{ base: "500", sm: "700" }}
+                  color={rollOver ? "#FFA000" : "#606060"}
+                  cursor="pointer"
+                  onClick={() => {
+                    setRollOver(true);
+                  }}
+                >
+                  ROLL OVER
+                </Text>
+              </Box>
+            </Box>
+            <SimpleGrid
+              columns={{ base: 1, sm: 2, lg: 1, xl: 2 }}
+              spacing={{ base: "unset", sm: "24px" }}
+            >
+              <Box
+                py="14px"
+                px="14px"
+                className="inforBox"
+                display="flex"
+                flexWrap="wrap"
+                gap="14px"
+              >
+                <Box className="bet-amount-box" w={{ base: "65%", sm: "" }}>
+                  <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Bet Amount</Text>
+                  <SimpleGrid columns={3} className="bet-amount-box-content">
+                    {betAmountList.map((e, index) => {
+                      const isActive = index == betAmount;
+                      return (
+                        <Box
+                          className={
+                            isActive ? "bet-amount-active" : "bet-amount"
+                          }
+                          onClick={() => {
+                            setBetAmount(index);
+                            selectBetAmount(index);
+                          }}
+                        >
+                          <Text
+                            color={isActive ? "#0D171B" : "#F7F7F8"}
+                            fontSize="16px"
+                            fontWeight={isActive ? "700" : "500"}
+                          >
+                            {e?.label}
+                          </Text>
+                        </Box>
+                      );
+                    })}
+                  </SimpleGrid>
+                </Box>
+                <Box w={{ base: "35%", sm: "" }}>
+                  <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Win Chance</Text>
+                  <SimpleGrid columns={2} className="bet-amount-box-content">
+                    <Text className="linear-text win-chance-text">
+                      {rollOver
+                        ? (99 - position).toString()
+                        : position.toString()}
+                      %
+                    </Text>
+                    <Text className="win-chance-text">%</Text>
+                  </SimpleGrid>
                 </Box>
               </Box>
-              <SimpleGrid columns={2} spacing="24px">
-                <Box
-                  py="14px"
-                  px="14px"
-                  className="inforBox"
-                  display="flex"
-                  flexWrap="wrap"
-                  gap="14px"
-                >
-                  <Box className="bet-amount-box" minW="100px">
-                    <Text className="small-header">Bet Amount</Text>
-                    <SimpleGrid columns={3} className="bet-amount-box-content">
-                      {betAmountList.map((e, index) => {
-                        const isActive = index == betAmount;
-                        return (
-                          <Box
-                            className={
-                              isActive ? "bet-amount-active" : "bet-amount"
-                            }
-                            onClick={() => {
-                              setBetAmount(index);
-                              selectBetAmount(index);
-                            }}
-                          >
-                            <Text
-                              color={isActive ? "#0D171B" : "#F7F7F8"}
-                              fontSize="16px"
-                              fontWeight={isActive ? "700" : "500"}
-                            >
-                              {e?.label}
-                            </Text>
-                          </Box>
-                        );
-                      })}
-                    </SimpleGrid>
-                  </Box>
-                  <Box w="120px" minW="100px">
-                    <Text className="small-header">Win Chance</Text>
-                    <SimpleGrid columns={2} className="bet-amount-box-content">
-                      <Text className="linear-text win-chance-text">
-                        {rollOver
-                          ? (99 - position).toString()
-                          : position.toString()}
-                        %
-                      </Text>
-                      <Text className="win-chance-text">%</Text>
-                    </SimpleGrid>
-                  </Box>
+              <Box py="14px" px="14px" className="inforBox">
+                <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Your AZero Balance</Text>
+                <Box className="small-content-container horizontal-box">
+                  <Text className="linear-text small-content">
+                    {currentAccount?.balance?.azero}
+                  </Text>
+                  <AppIcon size="14px" padding="3px" />
                 </Box>
-                <Box py="14px" px="14px" className="inforBox">
-                  <Text className="small-header">Your AZero Balance</Text>
-                  <Box className="small-content-container horizontal-box">
-                    <Text className="linear-text small-content">
-                      {currentAccount?.balance?.azero}
-                    </Text>
-                    <AppIcon size="14px" padding="3px" />
-                  </Box>
-                </Box>
-              </SimpleGrid>
-              <SimpleGrid columns={2} spacing="24px">
-                <Box
-                  py="14px"
-                  px="14px"
-                  className="inforBox"
-                  display="flex"
-                  flexWrap="wrap"
-                  gap="14px"
-                >
-                  <Box className="bet-amount-box" minW="100px">
-                    <Text className="small-header">Bet Amount</Text>
-                    <Box
-                      className="small-content-container horizontal-box"
-                      sx={{
-                        padding: "0 !important",
-                      }}
-                    >
-                      <Input
-                        focusBorderColor="transparent"
-                        sx={{
-                          border: "0px",
-                          color: rollOver ? "#FFA000" : "#1A74E4",
-                          maxHeight: "max-content",
-                          fontsize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: "500",
-                          lineHeight: "normal",
-                          textAlign: "center",
-                        }}
-                        value={betValue}
-                        // type="Number"
-                        onChange={onChangeBet}
-                      />
-                    </Box>
-                  </Box>
-                  <Box w="120px" minW="100px">
-                    <Text className="small-header">Multiplier</Text>
-                    <Box className="small-content-container horizontal-box">
-                      <Text className="linear-text small-content">
-                        {rollOver
-                          ? (
-                              parseInt(
-                                betRates?.overRates[parseInt(position)]
-                              ) / 10000
-                            ).toFixed(2)
-                          : (
-                              parseInt(
-                                betRates?.underRates[parseInt(position)]
-                              ) / 10000
-                            ).toFixed(2)}
-                        X
-                      </Text>
-                    </Box>
-                  </Box>
-                </Box>
-                <Box py="14px" px="14px" className="inforBox">
-                  <Text className="small-header">Your BET Tokens</Text>
-                  <Box className="small-content-container horizontal-box">
-                    <Text className="linear-text small-content">
-                      {currentAccount?.balance?.betaz}
-                    </Text>
-                    <Text className="unit-text">BET</Text>
-                  </Box>
-                </Box>
-              </SimpleGrid>
-              <SimpleGrid columns={2} spacing="24px" mt="24px">
-                {currentAccount?.address ? (
-                  <Button
-                    minW="50%"
-                    py="10px"
-                    bg="#122126"
-                    color="#F7F7F8"
-                    boxShadow="4px 4px 6px 0px rgba(255, 255, 255, 0.20) inset"
-                    _hover={{ color: "#000", bg: "#E2E8F0" }}
-                    onClick={() => setDepositModalVisible(true)}
+              </Box>
+            </SimpleGrid>
+            <SimpleGrid
+              columns={{ base: 1, sm: 2, lg: 1, xl: 2 }}
+              spacing={{ base: "unset", sm: "24px" }}
+            >
+              <Box
+                py="14px"
+                px="14px"
+                className="inforBox"
+                display="flex"
+                flexWrap="wrap"
+                gap="14px"
+              >
+                <Box className="bet-amount-box" w={{ base: "65%", sm: "" }}>
+                  <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Bet Amount</Text>
+                  <Box
+                    className="small-content-container horizontal-box"
+                    sx={{
+                      padding: "0 !important",
+                    }}
                   >
-                    Deposit
-                  </Button>
-                ) : (
-                  <CommonButton />
-                )}
+                    <Input
+                      focusBorderColor="transparent"
+                      sx={{
+                        border: "0px",
+                        color: rollOver ? "#FFA000" : "#1A74E4",
+                        maxHeight: "max-content",
+                        fontsize: "16px",
+                        fontStyle: "normal",
+                        fontWeight: "500",
+                        lineHeight: "normal",
+                        textAlign: "center",
+                      }}
+                      value={betValue}
+                      // type="Number"
+                      onChange={onChangeBet}
+                    />
+                  </Box>
+                </Box>
+                <Box w={{ base: "35%", sm: "" }}>
+                  <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Multiplier</Text>
+                  <Box className="small-content-container horizontal-box">
+                    <Text className="linear-text small-content">
+                      {rollOver
+                        ? (
+                            parseInt(betRates?.overRates[parseInt(position)]) /
+                            10000
+                          ).toFixed(2)
+                        : (
+                            parseInt(betRates?.underRates[parseInt(position)]) /
+                            10000
+                          ).toFixed(2)}
+                      X
+                    </Text>
+                  </Box>
+                </Box>
+              </Box>
+              <Box py="14px" px="14px" className="inforBox">
+                <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Your BET Tokens</Text>
+                <Box className="small-content-container horizontal-box">
+                  <Text className="linear-text small-content">
+                    {currentAccount?.balance?.betaz}
+                  </Text>
+                  <Text className="unit-text">BET</Text>
+                </Box>
+              </Box>
+            </SimpleGrid>
+            <SimpleGrid columns={{ base: 1, sm: 2 }} spacing="24px" mt="24px">
+              {currentAccount?.address ? (
                 <Button
                   minW="50%"
                   py="10px"
-                  isDisabled={isDisabled}
-                  onClick={() => onRoll()}
+                  bg="#122126"
+                  color="#F7F7F8"
+                  boxShadow="4px 4px 6px 0px rgba(255, 255, 255, 0.20) inset"
+                  _hover={{ color: "#000", bg: "#E2E8F0" }}
+                  onClick={() => setDepositModalVisible(true)}
                 >
-                  ROLL {rollOver ? "OVER" : "UNDER"} {position}
+                  Deposit
                 </Button>
-              </SimpleGrid>
-            </Box>
-          </SimpleGrid>
-        </SectionContainer>
+              ) : (
+                <CommonButton />
+              )}
+              <Button
+                minW="50%"
+                py="10px"
+                isDisabled={isDisabled}
+                onClick={() => onRoll()}
+              >
+                ROLL {rollOver ? "OVER" : "UNDER"} {position}
+              </Button>
+            </SimpleGrid>
+          </Box>
+        </SimpleGrid>
       </Box>
 
       <SectionContainer>

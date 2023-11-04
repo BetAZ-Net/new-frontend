@@ -29,6 +29,7 @@ import useInterval from "hooks/useInterval";
 import { fetchBuyStatus } from "store/slices/substrateSlice";
 import BETAZCountDown from "components/countdown/CountDown";
 import BuyTokenButton from "components/button/buyTokenButton";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 
 const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
@@ -179,14 +180,37 @@ const DepositModal = ({ visible, onClose }) => {
   };
 
   const colorMaxBuyAmount = maxbuyAmount == 0 ? null : "linear-text-color-01";
+  const isMobile = useCheckMobileScreen(992);
   return (
     <>
       <Modal size="full" isCentered isOpen={visible} onClose={onClose}>
         <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
-        <ModalContent className="deposit-modal-container">
-          <ModalBody display="flex" padding="0px">
-            <Box className="deposit-modal-box-container">
-              <Box className="deposit-modal-box">
+        <ModalContent
+          className="deposit-modal-container"
+          maxW={{
+            base: "calc(100vw - 48px) !important",
+            sm: "calc(100vw - 120px) !important",
+          }}
+        >
+          <ModalBody
+            display="flex"
+            flexDirection={isMobile ? "column" : "row"}
+            padding="0px"
+            justifyContent={isMobile ? "center" : "unset"}
+            alignItems={isMobile ? "center" : "unset"}
+          >
+            <Box
+              className="deposit-modal-container"
+              w={{ base: "100%", md: "50%" }}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Box
+                className="deposit-modal-box"
+                w={{ base: "100%", xl: "calc(100vw * 1 / 3)" }}
+                maxW={{ base: "100%", xl: "600px" }}
+              >
                 <Flex justify="space-between">
                   <Text className="linear-text-color deposit-modal-box-title">
                     Deposit / Withdraw
@@ -325,44 +349,53 @@ const DepositModal = ({ visible, onClose }) => {
                 </SimpleGrid>
               </Box>
             </Box>
-            <Box
-              className="deposit-modal-circle-container"
-              bgImage={depositBGLightStage}
-            >
-              <Flex
-                bgImage={DepositAmountCircle}
-                className="deposit-modal-circle-content"
+            {isMobile ? null : (
+              <Box
+                className="deposit-modal-circle-container"
+                bgImage={depositBGLightStage}
               >
-                <SimpleGrid
-                  spacing="32px"
-                  alignItems="center"
-                  display="flex"
-                  flexDirection="column"
+                <Flex
+                  bgImage={DepositAmountCircle}
+                  className="deposit-modal-circle-content"
                 >
-                  <Image
-                    height={{ base: "20px", sm: "32px" }}
-                    alt="app-logo-text"
-                    src={AppLogoText}
-                  />
-                  <Text className="deposit-circle-quote" fontSize={{ base: "14px", sm: "24px" }}>
-                    Easy way for crypto Play
-                  </Text>
-                  <Text
-                    className={`deposit-circle-amount ${colorMaxBuyAmount}`}
-                    color="#a4b0b6"
-                    fontSize={{ base: "28px", sm: "48px" }}
+                  <SimpleGrid
+                    spacing="32px"
+                    alignItems="center"
+                    display="flex"
+                    flexDirection="column"
                   >
-                    ${!isNaN(maxbuyAmount) ? fomartMaxBuyAmount() : 0}
-                  </Text>
-                  <Box>
-                    <Text className="deposit-circle-finish-title" fontSize={{ base: "10px", sm: "16px" }}>
-                      Finishes in:
+                    <Image
+                      height={{ base: "20px", sm: "32px" }}
+                      alt="app-logo-text"
+                      src={AppLogoText}
+                    />
+                    <Text
+                      className="deposit-circle-quote"
+                      fontSize={{ base: "14px", sm: "24px" }}
+                    >
+                      Easy way for crypto Play
                     </Text>
-                    <BETAZCountDown date={endTimeNumber} />
-                  </Box>
-                </SimpleGrid>
-              </Flex>
-            </Box>
+                    <Text
+                      className={`deposit-circle-amount ${colorMaxBuyAmount}`}
+                      color="#a4b0b6"
+                      fontSize={{ base: "28px", sm: "48px" }}
+                    >
+                      ${!isNaN(maxbuyAmount) ? fomartMaxBuyAmount() : 0}
+                    </Text>
+                    <Box>
+                      <Text
+                        className="deposit-circle-finish-title"
+                        fontSize={{ base: "10px", sm: "16px" }}
+                      >
+                        Finishes in:
+                      </Text>
+                      <BETAZCountDown date={endTimeNumber} />
+                    </Box>
+                  </SimpleGrid>
+                </Flex>
+              </Box>
+            )}
+
             {/* {supportWallets?.map((e, index) => (
                 <WalletItem data={e} key={`wallet-item-${index}`} />
               ))}

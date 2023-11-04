@@ -11,22 +11,22 @@ const Pools = () => {
       <Box className="pool-container">
         <Text className="pool-title">Core Pool</Text>
         <Box className="pool-amount-container">
-          <Text className="pool-amount">{poolBalance?.core}</Text>
-          <AppIcon size="18px" padding="8px" />
+          <Text className="pool-amount" fontSize={{base:"20px", sm:"24px"}}>{poolBalance?.core}</Text>
+          <AppIcon  size={{base:"17px", sm:"18px"}} padding="6px" />
         </Box>
       </Box>
       <Box className="pool-container">
         <Text className="pool-title">Staking Pool</Text>
         <Box className="pool-amount-container">
-          <Text className="pool-amount">{poolBalance?.staking}</Text>
-          <AppIcon size="18px" padding="8px" />
+          <Text className="pool-amount" fontSize={{base:"20px", sm:"24px"}}>{poolBalance?.staking}</Text>
+          <AppIcon  size={{base:"17px", sm:"18px"}} padding="6px" />
         </Box>
       </Box>
       <Box className="pool-container">
         <Text className="pool-title">Treasury Pool</Text>
         <Box className="pool-amount-container">
-          <Text className="pool-amount">{poolBalance?.treasury}</Text>
-          <AppIcon size="18px" padding="8px" />
+          <Text className="pool-amount" fontSize={{base:"20px", sm:"24px"}}>{poolBalance?.treasury}</Text>
+          <AppIcon  size={{base:"17px", sm:"18px"}} padding="6px" />
         </Box>
       </Box>
     </SimpleGrid>

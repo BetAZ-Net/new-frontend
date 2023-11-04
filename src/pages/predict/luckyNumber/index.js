@@ -11,17 +11,21 @@ const LuckyNumberBox = () => {
       className="lucky-number-container"
       bgImage={BetStageImage}
       bgRepeat="no-repeat"
+      bgSize={{base:"cover", sm:"unset"}}
       bgPosition="center"
-      pb="40px"
+      height={{base:"500px", sm:"unset"}}
     >
       <Box
         className="lucky-number-circle-image"
         bgImage={LuckyNumberCircleImage}
         bgRepeat="no-repeat"
         bgPosition="center"
+        h={{base:"280px", sm: "340px"}}
+        w={{base:"280px", sm: "340px"}}
+        mb={"40px"}
       >
-        <Text className="lucky-number-title">Lucky Number</Text>
-        <Text className="lucky-number-text">
+        <Text className="lucky-number-title" fontSize={{base:"20px", sm:"24px"}}>Lucky Number</Text>
+        <Text className="lucky-number-text" fontSize={{base:"32px", sm:"48px"}}>
           {luckyNumber < 0 ? "--" : luckyNumber}
         </Text>
       </Box>

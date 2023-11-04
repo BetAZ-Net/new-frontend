@@ -142,7 +142,7 @@ export default function PendingUnstakeButton({ data }) {
         <Flex justifyContent="center">
           <CommonButton
             onClick={() => cancelUnstake()}
-            text="Cancel Request Unstake"
+            text={{ sm: "Cancel", sm: "Cancel Request Unstake" }}
             isLoading={isLoading}
           />
         </Flex>

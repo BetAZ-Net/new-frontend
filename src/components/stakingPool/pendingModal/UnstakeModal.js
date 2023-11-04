@@ -18,11 +18,15 @@ import {
   Tr,
   Flex,
   Button,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
 import { BiTime } from "react-icons/bi";
 import { GiTwoCoins } from "react-icons/gi";
-import { formatTableValue } from "./formatTablePendingUnstake";
+import {
+  formatTableValue,
+  formatTableValueMobile,
+} from "./formatTablePendingUnstake";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { TbMoodSmileFilled } from "react-icons/tb";
 import { MdPendingActions } from "react-icons/md";
@@ -52,6 +56,7 @@ import {
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 import StakeStakingPool from "components/stakingPool/StakeStakingPool";
 import UnstakeStakingPool from "components/stakingPool/UnstakeStakingPool";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 // import StakingPool from "../StakingPool";
 
 const tabData = [
@@ -210,18 +215,40 @@ const UnstakeModal = ({ isOpen, onClose }) => {
     dispatch(fetchBalance());
   };
 
+  const isMobile = useCheckMobileScreen(480);
   return (
     <Modal onClose={onClose} size="lg" isOpen={isOpen}>
       <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
-      <ModalContent className="history-modal-content-container">
-        <ModalHeader className="history-modal-content-title linear-text">
+      <ModalContent
+        className="history-modal-content-container"
+        maxW={{
+          base: "calc(100vw) !important",
+          sm: "calc(100vw - 120px) !important",
+        }}
+      >
+        <ModalHeader
+          className="history-modal-content-title linear-text"
+          fontWeight={{ base: "500", sm: "700" }}
+          fontSize={{ base: "20px", sm: "32px" }}
+          mt={{ base: "24px", sm: "unset" }}
+        >
           Unstake Request management
         </ModalHeader>
         <ModalCloseButton color="#FFF" />
         <ModalBody>
-          <Box padding="24px 0">
-            <Flex justifyContent="end" gap="24px">
-              <CommonButton text="Claim reward" onClick={() => claimReward()} />
+          <Box padding={{ base: "12px 0", sm: "24px 0" }}>
+            <Flex
+              direction={{ base: "column", sm: "row" }}
+              justifyContent={{ base: "space-between", sm: "end" }}
+              gap={{ base: "4px", sm: "24px" }}
+            >
+              <CommonButton
+                text="Claim reward"
+                sx={{
+                  mb: "8px",
+                }}
+                onClick={() => claimReward()}
+              />
               <Button
                 className="landing-page-banner-button"
                 sx={{
@@ -258,6 +285,8 @@ const UnstakeModal = ({ isOpen, onClose }) => {
                   onClick={() => dispatch(setCurrentTab(index))}
                 >
                   <Text
+                    fontSize={{ base: "16px", sm: "unset" }}
+                    fontWeight={{ base: "500", sm: "700" }}
                     className={`history-modal-label ${
                       isActive && "history-modal-label-active"
                     }`}
@@ -268,110 +297,178 @@ const UnstakeModal = ({ isOpen, onClose }) => {
               );
             })}
           </Box>
-          <TableContainer mt="24px" overflowY="hidden">
-            <Table
-              sx={{
-                overflowX: "auto",
-                minWidth: "500px",
-              }}
-              variant="unstyled"
-              className="history-table"
-            >
-              <Thead>
-                <Tr className="history-table-header-container">
-                  {tableData.headers.map((e, index) => {
-                    const isFirstChild = index === 0;
-                    const isLastChild = index === tableData.headers.length - 1;
-                    return (
-                      <Th className="history-table-header-column">
+          {isMobile ? (
+            <Flex direction="column" maxH="600px" overflowY="auto" mt="12px">
+              {dataPending.length === 0 ? (
+                <Box
+                  sx={{
+                    borderRadius: "12px",
+                    marginTop: "12px",
+                    background: "#122126",
+                    p: "12px 24px 24px 24px",
+                    border: "2px solid rgba(255, 255, 255, 0.4)",
+                  }}
+                >
+                  <Text>
+                    {currentTab === 0
+                      ? tabData[0].label
+                      : currentTab === 1
+                      ? tabData[1].label
+                      : tabData[2].label}{" "}
+                    not found!
+                  </Text>
+                </Box>
+              ) : (
+                tableData.data.map((e, rowIndex) => {
+                  const keyValues = Object.keys(e);
+
+                  return (
+                    <Box
+                      sx={{
+                        borderRadius: "12px",
+                        marginTop: "12px",
+                        background: "#122126",
+                        p: "12px 24px 24px 24px",
+                        border: "2px solid rgba(255, 255, 255, 0.4)",
+                      }}
+                    >
+                      {keyValues.map((keyvalue, index) => {
+                        return (
+                          <SimpleGrid columns={2}>
+                            <Flex
+                              direction="column"
+                              justifyContent="start"
+                              alignItems="start"
+                              color="#F7F7F8"
+                            >
+                              <Text mt="12px">
+                                {tableData.headers[index].label}
+                              </Text>
+                            </Flex>
+                            <Flex
+                              direction="column"
+                              justifyContent="end"
+                              alignItems="end"
+                            >
+                              <Text mt="12px">
+                                {formatTableValueMobile(e[keyvalue], keyvalue)}
+                              </Text>
+                            </Flex>
+                          </SimpleGrid>
+                        );
+                      })}
+                    </Box>
+                  );
+                })
+              )}
+            </Flex>
+          ) : (
+            <TableContainer mt="24px" overflowY="hidden">
+              <Table
+                sx={{
+                  overflowX: "auto",
+                  minWidth: "500px",
+                }}
+                variant="unstyled"
+                className="history-table"
+              >
+                <Thead>
+                  <Tr className="history-table-header-container">
+                    {tableData.headers.map((e, index) => {
+                      const isFirstChild = index === 0;
+                      const isLastChild =
+                        index === tableData.headers.length - 1;
+                      return (
+                        <Th className="history-table-header-column">
+                          <Box
+                            sx={{
+                              borderY: "1px solid #1beca6",
+                              borderLeft: isFirstChild && "1px solid #1beca6",
+                              borderRight: isLastChild && "1px solid #1beca6",
+                              borderLeftRadius: isFirstChild && "8px",
+                              borderRightRadius: isLastChild && "8px",
+                              paddingLeft: isFirstChild && "20px",
+                              width: "full",
+                              py: "20px",
+                            }}
+                            display="flex"
+                            justifyContent={index > 0 && "center"}
+                            alignItems="center"
+                          >
+                            {e?.icon}
+                            {e.label}
+                          </Box>
+                        </Th>
+                      );
+                    })}
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {dataPending.length === 0 ? (
+                    <Tr>
+                      <Td colSpan={4}>
                         <Box
                           sx={{
-                            borderY: "1px solid #1beca6",
-                            borderLeft: isFirstChild && "1px solid #1beca6",
-                            borderRight: isLastChild && "1px solid #1beca6",
-                            borderLeftRadius: isFirstChild && "8px",
-                            borderRightRadius: isLastChild && "8px",
-                            paddingLeft: isFirstChild && "20px",
-                            width: "full",
-                            py: "20px",
+                            marginTop: "24px",
+                            background: "#0d171b",
+                            py: "16px",
+                            borderRadius: "8px",
                           }}
-                          display="flex"
-                          justifyContent={index > 0 && "center"}
-                          alignItems="center"
                         >
-                          {e?.icon}
-                          {e.label}
+                          <Text textAlign="center">
+                            {currentTab === 0
+                              ? tabData[0].label
+                              : currentTab === 1
+                              ? tabData[1].label
+                              : tabData[2].label}{" "}
+                            not found!
+                          </Text>
                         </Box>
-                      </Th>
-                    );
-                  })}
-                </Tr>
-              </Thead>
-              <Tbody>
-                {dataPending.length === 0 ? (
-                  <Tr>
-                    <Td colSpan={4}>
-                      <Box
-                        sx={{
-                          marginTop: "24px",
-                          background: "#0d171b",
-                          py: "16px",
-                          borderRadius: "8px",
-                        }}
-                      >
-                        <Text textAlign="center">
-                          {currentTab === 0
-                            ? tabData[0].label
-                            : currentTab === 1
-                            ? tabData[1].label
-                            : tabData[2].label}{" "}
-                          not found!
-                        </Text>
-                      </Box>
-                    </Td>
-                  </Tr>
-                ) : (
-                  tableData.data.map((e, rowIndex) => {
-                    const keyValues = Object.keys(e);
-                    return (
-                      <Tr>
-                        {keyValues.map((keyvalue, index) => {
-                          const isFirstChild = index === 0;
-                          const isLastChild =
-                            index === tableData.headers.length - 1;
-                          return (
-                            <Td>
-                              <Box
-                                sx={{
-                                  marginTop: rowIndex === 0 ? "24px" : "8px",
-                                  background: "#0d171b",
-                                  py: "16px",
-                                  pl: isFirstChild && "24px",
-                                  borderY: "1px solid rgba(255, 255, 255, 0.4)",
-                                  borderLeft:
-                                    isFirstChild &&
-                                    "1px solid rgba(255, 255, 255, 0.4)",
-                                  borderRight:
-                                    isLastChild &&
-                                    "1px solid rgba(255, 255, 255, 0.4)",
-                                  borderLeftRadius: isFirstChild && "8px",
-                                  borderRightRadius: isLastChild && "8px",
-                                }}
-                              >
-                                {formatTableValue(e[keyvalue], keyvalue)}
-                              </Box>
-                            </Td>
-                          );
-                        })}
-                      </Tr>
-                    );
-                  })
-                )}
-                {}
-              </Tbody>
-            </Table>
-          </TableContainer>
-
+                      </Td>
+                    </Tr>
+                  ) : (
+                    tableData.data.map((e, rowIndex) => {
+                      const keyValues = Object.keys(e);
+                      return (
+                        <Tr>
+                          {keyValues.map((keyvalue, index) => {
+                            const isFirstChild = index === 0;
+                            const isLastChild =
+                              index === tableData.headers.length - 1;
+                            return (
+                              <Td>
+                                <Box
+                                  sx={{
+                                    marginTop: rowIndex === 0 ? "24px" : "8px",
+                                    background: "#0d171b",
+                                    py: "16px",
+                                    pl: isFirstChild && "24px",
+                                    borderY:
+                                      "1px solid rgba(255, 255, 255, 0.4)",
+                                    borderLeft:
+                                      isFirstChild &&
+                                      "1px solid rgba(255, 255, 255, 0.4)",
+                                    borderRight:
+                                      isLastChild &&
+                                      "1px solid rgba(255, 255, 255, 0.4)",
+                                    borderLeftRadius: isFirstChild && "8px",
+                                    borderRightRadius: isLastChild && "8px",
+                                  }}
+                                >
+                                  {formatTableValue(e[keyvalue], keyvalue)}
+                                </Box>
+                              </Td>
+                            );
+                          })}
+                        </Tr>
+                      );
+                    })
+                  )}
+                  {}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          )}
           {/* Modal unstake & stake */}
           <StakeStakingPool />
           <UnstakeStakingPool />

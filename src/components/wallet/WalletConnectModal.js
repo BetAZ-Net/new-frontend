@@ -24,7 +24,7 @@ import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 const WalletItem = ({ data }) => {
   const { connectWallet } = useWallet();
   const { currentNetwork } = useNetwork();
-  const isMobile = useCheckMobileScreen(1280)
+  const isMobile = useCheckMobileScreen(1280);
   return (
     <Box
       sx={{
@@ -147,8 +147,9 @@ const WalletConnectModal = ({ connectModalVisible, onClose, onCloseModal }) => {
       >
         <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
         <ModalContent
+          marginRight={{ base: "12px", sm: "32px" }}
+          marginLeft={{ base: "12px", sm: "unset" }}
           sx={{
-            marginRight: "32px",
             height: "calc(100% - 64px)",
             background: "#122126",
             boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",

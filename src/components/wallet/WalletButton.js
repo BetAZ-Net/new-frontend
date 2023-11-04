@@ -26,17 +26,17 @@ import DetailAccountBox from "components/detailAccount/detailAccount";
 import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 
 const WalletNotConnected = ({ openModal }) => {
+  const isMobile = useCheckMobileScreen(768);
   return (
     <>
       <Button
+        p={{ base: "12px", sm: "24px" }}
         sx={{
-          px: "24px",
-          height: "46px",
           width: "max-content",
         }}
         onClick={() => openModal()}
       >
-        Connect Wallet
+        {!isMobile ? "Connect Wallet" : <BiWallet size="24px" color="black" />}
       </Button>
     </>
   );
@@ -93,10 +93,7 @@ const WalletConnected = ({ onClickSwitch, isOpen, onOpen, onClose }) => {
           border: "2px solid rgba(255, 255, 255, 0.70)",
           boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
         }}
-        minW={{ base: "92vw", sm: "340px" }}
-        marginLeft={{ base: "16px" }}
-        marginRight={{ base: "16px" }}
-        marginTop={{ base: "24px", sm: "unset" }}
+        minW={{ base: "340px" }}
         borderRadius={{ base: "12px" }}
       >
         <DetailAccountBox onClickSwitch={onClickSwitch} />

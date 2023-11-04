@@ -1,7 +1,6 @@
 .history-modal-content-container {
   /* height: calc(100vh - 120px); */
   height: max-content;
-  max-width: calc(100vw - 120px) !important;
   background-color: #122126 !important;
   border: 2px solid rgba(255, 255, 255, 0.4);
 }
@@ -12,9 +11,9 @@
 }
 .history-modal-content-title {
   text-align: center;
-  font-size: 32px;
+  /* font-size: 32px; */
   font-style: normal;
-  font-weight: 700;
+  /* font-weight: 700; */
 }
 
 .history-modal-tabs {
@@ -35,7 +34,7 @@
   color: #f7f7f8;
   font-size: 20px;
   font-style: normal;
-  font-weight: 700;
+  /* font-weight: 700; */
 }
 .history-modal-tab-active {
   background: linear-gradient(180deg, #1bbff4 0%, #1beca7 100%);

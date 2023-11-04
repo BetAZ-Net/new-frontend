@@ -1,8 +1,11 @@
 import { Box, Text } from "@chakra-ui/react";
 import HistoryButtonImage from "assets/img/historyButton.png";
+import HistoryButtonImageMobile from "assets/img/historyButtonMobile.png";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 import { BsChevronCompactUp } from "react-icons/bs";
 
 const HistoryButton = ({ onClick }) => {
+  const isMobile = useCheckMobileScreen(576);
   return (
     <Box
       sx={{
@@ -13,8 +16,10 @@ const HistoryButton = ({ onClick }) => {
         alignItems: "center",
         flexDirection: "column",
       }}
-      bgImage={HistoryButtonImage}
+      bgImage={isMobile ? HistoryButtonImageMobile : HistoryButtonImage}
       backgroundSize="cover"
+      bgRepeat="no-repeat"
+      bgPosition="top center"
       w="100%"
       cursor="pointer"
       onClick={onClick}

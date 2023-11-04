@@ -76,7 +76,13 @@ const SubcribeEmailModal = ({ isOpen, onClose }) => {
   return (
     <Modal onClose={onClose} size="lg" isOpen={isOpen}>
       <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
-      <ModalContent className="history-modal-content-container">
+      <ModalContent
+        className="history-modal-content-container"
+        maxW={{
+          base: "calc(100vw) !important",
+          sm: "calc(100vw - 120px) !important",
+        }}
+      >
         <ModalHeader className="history-modal-content-title linear-text">
           Subcribe Emails
         </ModalHeader>

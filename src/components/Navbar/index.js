@@ -11,8 +11,7 @@ const Navbar = () => {
     <SectionContainer>
       <Flex
         className="navbar-container"
-        ml={{ sm: "unset" }}
-        mr={{ sm: "unset" }}
+        padding={{base:"8px 12px", sm: "16px 24px"}}
         position="relative"
       >
         <Flex className="navbar-logo-container">
