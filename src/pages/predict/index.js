@@ -273,7 +273,7 @@ const Predict = () => {
             marginRight={{ base: "16px", md: "70px", lg: "70px" }}
             marginLeft={{ base: "16px", md: "70px", lg: "unset" }}
           >
-            <Text className="title" fontSize={{ base: "20px", sm: "unset" }} >
+            <Text className="title" fontSize={{ base: "20px", sm: "32px" }} >
               Prediction
             </Text>
             <SimpleGrid columns={{ base: 1, sm: 2 }} spacing="24px">
@@ -286,7 +286,7 @@ const Predict = () => {
                   justifyContent: "center",
                 }}
               >
-                <Text className="linear-text amount" fontSize={{base:"48", sm:"unset"}}>{position}</Text>
+                <Text className="linear-text amount">{position}</Text>
               </Box>
               {isMobile ? null : (
                 <Box py="14px" px="14px" className="inforBox">

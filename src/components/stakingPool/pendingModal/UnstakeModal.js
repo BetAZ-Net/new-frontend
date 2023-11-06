@@ -285,7 +285,7 @@ const UnstakeModal = ({ isOpen, onClose }) => {
                   onClick={() => dispatch(setCurrentTab(index))}
                 >
                   <Text
-                    fontSize={{ base: "16px", sm: "unset" }}
+                    fontSize={{ base: "16px", sm: "20px" }}
                     fontWeight={{ base: "500", sm: "700" }}
                     className={`history-modal-label ${
                       isActive && "history-modal-label-active"

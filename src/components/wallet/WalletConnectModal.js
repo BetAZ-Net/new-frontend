@@ -138,68 +138,64 @@ const WalletConnectModal = ({ connectModalVisible, onClose, onCloseModal }) => {
     [currentNetwork]
   );
   return (
-    <>
-      <Modal
-        size="sm"
-        isCentered
-        isOpen={connectModalVisible}
-        onClose={onClose}
+    <Modal size="sm" isCentered isOpen={connectModalVisible} onClose={onClose}>
+      <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
+      <ModalContent
+      containerProps={{
+        justifyContent: "end"
+      }}
+        marginRight={{ base: "12px", sm: "32px" }}
+        marginLeft={{ base: "12px", sm: "unset" }}
+        sx={{
+          height: "calc(100% - 64px)",
+          background: "#122126",
+          boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
+          border: "1px solid rgba(255, 255, 255, 0.70)",
+          zIndex: 200,
+        }}
       >
-        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
-        <ModalContent
-          marginRight={{ base: "12px", sm: "32px" }}
-          marginLeft={{ base: "12px", sm: "unset" }}
-          sx={{
-            height: "calc(100% - 64px)",
-            background: "#122126",
-            boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
-            border: "1px solid rgba(255, 255, 255, 0.70)",
-            zIndex: 200,
-          }}
-        >
-          <ModalHeader sx={{ color: "#1BECA7" }}>Connect a wallet</ModalHeader>
-          <ModalCloseButton color={"white"} />
-          <ModalBody>
-            {supportWallets?.map((e, index) => (
-              <WalletItem data={e} key={`wallet-item-${index}`} />
-            ))}
-            {walletAccounts?.length > 0 && (
-              <Box sx={{ marginTop: "16px" }}>
-                <Divider />
-                <Text
-                  sx={{
-                    color: "#1BECA7",
-                    marginTop: "8px",
-                    fontWeight: "512",
-                    fontSize: "20px",
-                  }}
-                >
-                  Select Account
-                </Text>
-                <Box overflowY="auto" maxH="210px">
-                  {walletAccounts?.map((e, index) => {
-                    return (
-                      <AccountItem
-                        key={`account-item-${index}`}
-                        data={e}
-                        onClose={onClose}
-                        onCloseModal={onCloseModal}
-                      />
-                    );
-                  })}
-                </Box>
+        <ModalHeader sx={{ color: "#1BECA7" }}>Connect a wallet</ModalHeader>
+        <ModalCloseButton color={"white"} />
+        <ModalBody>
+          {supportWallets?.map((e, index) => (
+            <WalletItem data={e} key={`wallet-item-${index}`} />
+          ))}
+          {walletAccounts?.length > 0 && (
+            <Box sx={{ marginTop: "16px" }}>
+              <Divider />
+              <Text
+                sx={{
+                  color: "#1BECA7",
+                  marginTop: "8px",
+                  fontWeight: "512",
+                  fontSize: "20px",
+                }}
+              >
+                Select Account
+              </Text>
+              <Box overflowY="auto" maxH="210px">
+                {walletAccounts?.map((e, index) => {
+                  return (
+                    <AccountItem
+                      key={`account-item-${index}`}
+                      data={e}
+                      onClose={onClose}
+                      onCloseModal={onCloseModal}
+                    />
+                  );
+                })}
               </Box>
-            )}
-          </ModalBody>
-          <ModalFooter>
-            <Text sx={{ color: "#A4B0B6", fontsize: "14px" }}>
-              By connecting a wallet, you agree to Bet AZ Terms of Service and
-              consent to its Privacy Policy.
-            </Text>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            </Box>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Text sx={{ color: "#A4B0B6", fontsize: "14px" }}>
+            By connecting a wallet, you agree to Bet AZ Terms of Service and
+            consent to its Privacy Policy.
+          </Text>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };
 

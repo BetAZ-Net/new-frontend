@@ -191,7 +191,7 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
                   onClick={() => setCurrentTab(index)}
                 >
                   <Text
-                    fontSize={{ base: "16px", sm: "unset" }}
+                    fontSize={{ base: "16px", sm: "20px" }}
                     fontWeight={{ base: "500", sm: "700" }}
                     className={`history-modal-label ${
                       isActive && "history-modal-label-active"
@@ -339,10 +339,10 @@ const BetHistoryModal = ({ isOpen, onClose }) => {
             >
               <IoIosArrowBack />
             </IconButton>
-            <IconButton variant="outline" color="#FFFFFF" disabled="disabled">
+            <IconButton variant="outline" color="#FFFF" disabled="disabled" borderColor="#1BECA6">
               <span
                 style={{
-                  color: "#FFFFFF",
+                  color: "#1BECA6",
                 }}
               >
                 {uiPage}

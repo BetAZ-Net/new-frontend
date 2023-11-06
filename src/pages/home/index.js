@@ -249,12 +249,20 @@ const HomePage = () => {
             <Button
               className="landing-page-banner-button"
               px={isMobile ? "24px" : "48px"}
+              bg="#122126"
+              color="#F7F7F8"
+              boxShadow="4px 4px 6px 0px rgba(255, 255, 255, 0.20) inset"
+              _hover={{ color: "#000", bg: "#E2E8F0" }}
               onClick={() => window.open("/app", "_blank")}
             >
               Testnet Demo
             </Button>
             <Button
               px={isMobile ? "24px" : "48px"}
+              bg="#122126"
+              color="#F7F7F8"
+              boxShadow="4px 4px 6px 0px rgba(255, 255, 255, 0.20) inset"
+              _hover={{ color: "#000", bg: "#E2E8F0" }}
               className="landing-page-banner-button"
               onClick={() => toast.success("Comming soon!")}
             >

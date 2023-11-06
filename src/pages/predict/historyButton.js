@@ -30,9 +30,9 @@ const HistoryButton = ({ onClick }) => {
           background: "linear-gradient(180deg, #1bbff4 0%, #1beca7 100%)",
           "-webkit-background-clip": "text",
           "-webkit-text-fill-color": "transparent",
-          fontsize: "24px",
           fontWeight: "700",
         }}
+        fontSize={{ base: "16px", sm: "24px" }}
       >
         Bet History
       </Text>
