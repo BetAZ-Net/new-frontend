@@ -504,7 +504,7 @@ const HomePage = () => {
         </SectionContainer>
         <SectionContainer
           pt={{ base: "24px", sm: "48px" }}
-          aspectRatio={0.7}
+          aspectRatio={1}
           bgImage={RoadmapBG}
           bgRepeat="no-repeat"
           bgSize="cover"

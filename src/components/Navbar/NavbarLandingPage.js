@@ -55,7 +55,11 @@ export const NavbarLandingPage = () => {
   const isMobile = useCheckMobileScreen(576);
   return (
     <SectionContainer>
-      <Flex className="navbar-container" position="relative" padding={{base:"8px 12px", sm: "16px 24px"}}>
+      <Flex
+        className="navbar-container"
+        position="relative"
+        padding={{ base: "8px 12px", sm: "16px 24px" }}
+      >
         <Flex className="navbar-logo-container">
           <Link to={"/"}>
             <Image
@@ -90,13 +94,13 @@ export const NavbarLandingPage = () => {
           display="flex"
           alignItems="center"
           justifyContent="end"
-          gap={{base:"12px", sm:"24px"}}
+          gap={{ base: "12px", sm: "24px" }}
         >
           <Box
             display="flex"
             alignItems="center"
             justifyContent="center"
-            gap={{base:"12px", sm:"24px"}}
+            gap={{ base: "12px", sm: "24px" }}
           >
             <NetWorkButton />
             <WalletButton />
@@ -118,11 +122,7 @@ const NavbarLandingPageMobileMenu = () => {
     <Menu>
       {({ isOpen }) => (
         <>
-          <MenuButton
-            p="8px"
-            isActive={isOpen}
-            as={Button}
-          >
+          <MenuButton p="8px" isActive={isOpen} as={Button} >
             {isOpen ? (
               <AiOutlineClose size="24px" />
             ) : (
@@ -136,11 +136,15 @@ const NavbarLandingPageMobileMenu = () => {
               boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
             }}
             marginTop="24px"
-            marginRight={{ base: "16px", md: "70px" }}
-            marginLeft={{ base: "16px", md: "70px" }}
+            marginRight={{ base: "-14px",sm:"-20px", md: "-24px" }}
+            // marginRight={{ base: "16px", md: "70px" }}
+            // marginLeft={{ base: "16px", md: "70px" }}
             borderRadius={{ base: "12px" }}
-            minW={{ base: "90vw" }}
-            // w="100vw"
+            w={{
+              base: "calc(100vw - 32px)",
+              sm: "calc(100vw - 40px)",
+              md: "calc(100vw - 160px)",
+            }}
           >
             <Box
               sx={{
