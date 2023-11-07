@@ -9,6 +9,7 @@ import staking_pool_contract from "utils/contracts/staking_pool";
 import { convertToBalance, delay } from "utils";
 import { fetchUserBalance, fetchBalance } from "store/slices/substrateSlice";
 import { execContractQuery, execContractTx } from "utils/contracts";
+import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 
 const defaultCaller = process.env.REACT_APP_DEFAULT_CALLER_ADDRESS;
 
@@ -126,6 +127,7 @@ export default function PendingUnstakeButton({ data }) {
     dispatch(fetchBalance());
   };
 
+  const isMobile = useCheckMobileScreen(480)
   const renderer = ({ completed }) => {
     if (completed) {
       return (
@@ -142,7 +144,7 @@ export default function PendingUnstakeButton({ data }) {
         <Flex justifyContent="center">
           <CommonButton
             onClick={() => cancelUnstake()}
-            text={{ sm: "Cancel", sm: "Cancel Request Unstake" }}
+            text={isMobile ? "Cancel": "Cancel Request Unstake"}
             isLoading={isLoading}
           />
         </Flex>

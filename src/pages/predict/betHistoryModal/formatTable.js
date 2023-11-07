@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { AddressCopierMobile } from "components/addressCopier";
 import { AddressCopier } from "components/addressCopier";
-import { AppIcon } from "components/icons";
+import { AppIcon, AzeroIcon } from "components/icons";
 import { formatNumDynDecimal, formatTokenBalance } from "utils";
 
 export const formatTableValue = (value, key) => {
@@ -21,7 +21,13 @@ export const formatTableValue = (value, key) => {
           }}
         >
           <Text textAlign="center">{formatNumDynDecimal(value)}</Text>
-          <AppIcon size="16px" />
+          <AzeroIcon
+            size={{ base: "11px", sm: "11px" }}
+            padding={{
+              base: "0px 4px 0px 6px",
+              sm: "0px 4px 0px 5px",
+            }}
+          />
         </Box>
       );
     case "type":
@@ -44,7 +50,11 @@ export const formatTableValueMobile = (value, key) => {
     case "player":
       return <AddressCopierMobile address={value} />;
     case "blockNumber":
-      return <Text textAlign="center" className="linear-text">{formatNumDynDecimal(value)}</Text>;
+      return (
+        <Text textAlign="center" className="linear-text">
+          {formatNumDynDecimal(value)}
+        </Text>
+      );
     case "betAmount":
     case "wonAmount":
       return (
@@ -56,7 +66,13 @@ export const formatTableValueMobile = (value, key) => {
           }}
         >
           <Text textAlign="center">{formatNumDynDecimal(value)}</Text>
-          <AppIcon size="14px" padding="4px" />
+          <AzeroIcon
+            size={{ base: "11px", sm: "11px" }}
+            padding={{
+              base: "0px 4px 0px 6px",
+              sm: "0px 4px 0px 5px",
+            }}
+          />
         </Box>
       );
     case "type":
@@ -70,6 +86,10 @@ export const formatTableValueMobile = (value, key) => {
         </Text>
       );
     default:
-      return <Text textAlign="center" className="linear-text">{value}</Text>;
+      return (
+        <Text textAlign="center" className="linear-text">
+          {value}
+        </Text>
+      );
   }
 };

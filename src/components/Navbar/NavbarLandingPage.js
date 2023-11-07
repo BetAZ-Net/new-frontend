@@ -106,7 +106,7 @@ export const NavbarLandingPage = () => {
             <WalletButton />
           </Box>
           {isMobile ? null : (
-            <Button onClick={() => window.open("/app", "_blank")}>
+            <Button onClick={() => window.open("/app", "_blank")} isDisabled>
               Launch App
             </Button>
           )}
@@ -122,7 +122,7 @@ const NavbarLandingPageMobileMenu = () => {
     <Menu>
       {({ isOpen }) => (
         <>
-          <MenuButton p="8px" isActive={isOpen} as={Button} >
+          <MenuButton p="8px" isActive={isOpen} as={Button}>
             {isOpen ? (
               <AiOutlineClose size="24px" />
             ) : (
@@ -136,7 +136,7 @@ const NavbarLandingPageMobileMenu = () => {
               boxShadow: "0px 4px 4px 0px rgba(64, 64, 64, 0.20)",
             }}
             marginTop="24px"
-            marginRight={{ base: "-14px",sm:"-20px", md: "-24px" }}
+            marginRight={{ base: "-14px", sm: "-20px", md: "-24px" }}
             // marginRight={{ base: "16px", md: "70px" }}
             // marginLeft={{ base: "16px", md: "70px" }}
             borderRadius={{ base: "12px" }}
@@ -170,7 +170,11 @@ const NavbarLandingPageMobileMenu = () => {
                 })}
               </Flex>
               <Box pt="24px">
-                <Button w="100%" onClick={() => window.open("/app", "_blank")}>
+                <Button
+                  isDisabled
+                  w="100%"
+                  onClick={() => window.open("/app", "_blank")}
+                >
                   Launch App
                 </Button>
               </Box>

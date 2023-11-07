@@ -32,7 +32,7 @@ import {
   fetchRates,
 } from "store/slices/substrateSlice";
 import { delay } from "utils";
-import { AppIcon, TokenIcon } from "components/icons";
+import { AppIcon, TokenIcon, AzeroIcon } from "components/icons";
 import CommonButton from "components/button/commonButton";
 import StakeStakingPool from "components/stakingPool/StakeStakingPool";
 import UnstakeStakingPool from "components/stakingPool/UnstakeStakingPool";
@@ -273,7 +273,7 @@ const Predict = () => {
             marginRight={{ base: "16px", md: "70px", lg: "70px" }}
             marginLeft={{ base: "16px", md: "70px", lg: "unset" }}
           >
-            <Text className="title" fontSize={{ base: "20px", sm: "32px" }} >
+            <Text className="title" fontSize={{ base: "20px", sm: "32px" }}>
               Prediction
             </Text>
             <SimpleGrid columns={{ base: 1, sm: 2 }} spacing="24px">
@@ -291,10 +291,17 @@ const Predict = () => {
               {isMobile ? null : (
                 <Box py="14px" px="14px" className="inforBox">
                   <Text className="small-header">Core Pool</Text>
-                  <Box className="small-content-container">
+                  <Box className="small-content-container horizontal-box">
                     <Text className="linear-text small-content">
                       {poolBalance?.core}
                     </Text>
+                    <AzeroIcon
+                      size={{ base: "11px", sm: "11px" }}
+                      padding={{
+                        base: "0px 6px 4px 4px",
+                        sm: "0px 6px 4px 4px",
+                      }}
+                    />
                   </Box>
                 </Box>
               )}
@@ -369,7 +376,12 @@ const Predict = () => {
                 gap="14px"
               >
                 <Box className="bet-amount-box" w={{ base: "65%", sm: "" }}>
-                  <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Bet Amount</Text>
+                  <Text
+                    className="small-header"
+                    fontSize={{ base: "14px", sm: "unset" }}
+                  >
+                    Bet Amount
+                  </Text>
                   <SimpleGrid columns={3} className="bet-amount-box-content">
                     {betAmountList.map((e, index) => {
                       const isActive = index == betAmount;
@@ -396,7 +408,12 @@ const Predict = () => {
                   </SimpleGrid>
                 </Box>
                 <Box w={{ base: "35%", sm: "" }}>
-                  <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Win Chance</Text>
+                  <Text
+                    className="small-header"
+                    fontSize={{ base: "14px", sm: "unset" }}
+                  >
+                    Win Chance
+                  </Text>
                   <SimpleGrid columns={2} className="bet-amount-box-content">
                     <Text className="linear-text win-chance-text">
                       {rollOver
@@ -409,12 +426,23 @@ const Predict = () => {
                 </Box>
               </Box>
               <Box py="14px" px="14px" className="inforBox">
-                <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Your AZero Balance</Text>
+                <Text
+                  className="small-header"
+                  fontSize={{ base: "14px", sm: "unset" }}
+                >
+                  Your AZero Balance
+                </Text>
                 <Box className="small-content-container horizontal-box">
                   <Text className="linear-text small-content">
                     {currentAccount?.balance?.azero}
                   </Text>
-                  <AppIcon size="14px" padding="3px" />
+                  <AzeroIcon
+                    size={{ base: "11px", sm: "11px" }}
+                    padding={{
+                      base: "0px 6px 5px 4px",
+                      sm: "0px 6px 5px 4px",
+                    }}
+                  />
                 </Box>
               </Box>
             </SimpleGrid>
@@ -431,7 +459,12 @@ const Predict = () => {
                 gap="14px"
               >
                 <Box className="bet-amount-box" w={{ base: "65%", sm: "" }}>
-                  <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Bet Amount</Text>
+                  <Text
+                    className="small-header"
+                    fontSize={{ base: "14px", sm: "unset" }}
+                  >
+                    Bet Amount
+                  </Text>
                   <Box
                     className="small-content-container horizontal-box"
                     sx={{
@@ -457,7 +490,12 @@ const Predict = () => {
                   </Box>
                 </Box>
                 <Box w={{ base: "35%", sm: "" }}>
-                  <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Multiplier</Text>
+                  <Text
+                    className="small-header"
+                    fontSize={{ base: "14px", sm: "unset" }}
+                  >
+                    Multiplier
+                  </Text>
                   <Box className="small-content-container horizontal-box">
                     <Text className="linear-text small-content">
                       {rollOver
@@ -475,12 +513,17 @@ const Predict = () => {
                 </Box>
               </Box>
               <Box py="14px" px="14px" className="inforBox">
-                <Text className="small-header" fontSize={{base:"14px", sm:"unset"}}>Your BET Tokens</Text>
+                <Text
+                  className="small-header"
+                  fontSize={{ base: "14px", sm: "unset" }}
+                >
+                  Your BET Tokens
+                </Text>
                 <Box className="small-content-container horizontal-box">
                   <Text className="linear-text small-content">
                     {currentAccount?.balance?.betaz}
                   </Text>
-                  <Text className="unit-text">BET</Text>
+                  <AppIcon size="14px" padding="2.5px" />
                 </Box>
               </Box>
             </SimpleGrid>

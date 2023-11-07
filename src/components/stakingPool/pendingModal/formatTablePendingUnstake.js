@@ -2,7 +2,7 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { AddressCopier } from "components/addressCopier";
 import PendingUnstakeButton from "components/button/pendingUnstakeButton";
 import BETAZPendingUnstakeCountDown from "components/countdown/PendingUnstakeCountDown";
-import { AppIcon } from "components/icons";
+import { AppIcon, AzeroIcon } from "components/icons";
 
 export const formatTableValue = (value, key) => {
   switch (key) {
@@ -24,7 +24,10 @@ export const formatTableValue = (value, key) => {
             }}
           >
             <Text textAlign="center">{value}</Text>
-            <AppIcon size="14px" />
+            <AzeroIcon
+              size="11px"
+              padding="0px 6px 0px 6px"
+            />
           </Box>
         </Flex>
       );
@@ -60,14 +63,24 @@ export const formatTableValueMobile = (value, key) => {
               gap: "2px",
             }}
           >
-            <Text textAlign="center" className="linear-text">{value}</Text>
-            <AppIcon size="14px" />
+            <Text textAlign="center" className="linear-text">
+              {value}
+            </Text>
+            <AzeroIcon
+              size="11px"
+              padding="0px 6px 0px 6px"
+            />
           </Box>
         </Flex>
       );
     case "time":
       return (
-        <Flex minH="40px" justifyContent="center" alignItems="center" className="linear-text">
+        <Flex
+          minH="40px"
+          justifyContent="center"
+          alignItems="center"
+          className="linear-text"
+        >
           <BETAZPendingUnstakeCountDown date={value} />
         </Flex>
       );

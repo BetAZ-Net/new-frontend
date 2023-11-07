@@ -3,6 +3,7 @@ import { extendTheme } from "@chakra-ui/react";
 const buttonDisableStyle = {
   background: "#DEDEDE",
   color: "#A4B0B6",
+  opacity: "1"
 };
 
 const customTheme = extendTheme({
@@ -33,6 +34,9 @@ const customTheme = extendTheme({
         },
         _disabled: {
           ...buttonDisableStyle,
+          _hover: {
+            ...buttonDisableStyle,
+          },
         },
       },
     },

@@ -15,14 +15,14 @@ const BETAZFooter = () => {
       bgSize="cover"
       bgRepeat="no-repeat"
       direction="column"
-      gap={{base: "24px"}}
+      gap={{ base: "24px" }}
     >
-      <Flex flex={1} direction="column" justify="center" mt={{base: "24px"}}>
+      <Flex flex={1} direction="column" justify="center" mt={{ base: "24px" }}>
         <SectionContainer>
           <Flex
             justify="space-between"
             direction={{ base: "column", md: "row" }}
-            gap={{base: "24px"}}
+            gap={{ base: "24px" }}
           >
             <Box>
               <Flex>
@@ -39,11 +39,11 @@ const BETAZFooter = () => {
                     },
                     {
                       icon: <RiTwitterXFill size="16px" color="#8991A9" />,
-                      url: "",
+                      url: "https://twitter.com/BETAZ_IO",
                     },
                     {
                       icon: <BsTelegram size="16px" color="#8991A9" />,
-                      url: "",
+                      url: "https://t.me/BetAZ_IO",
                     },
                     {
                       icon: <AiFillRedditCircle size="16px" color="#8991A9" />,
@@ -52,6 +52,7 @@ const BETAZFooter = () => {
                   ].map((e, index) => {
                     return (
                       <Flex
+                        onClick={() => window.open(e.url, "_blank")}
                         w="28px"
                         aspectRatio={1}
                         justify="center"
@@ -71,7 +72,7 @@ const BETAZFooter = () => {
                   mt: "20px",
                 }}
               >
-                Contact us: contact@betaz.com
+                Contact us: admin@betaz.io
               </Text>
             </Box>
             <SimpleGrid columns={{ base: 2, sm: 4 }} spacing="24px">

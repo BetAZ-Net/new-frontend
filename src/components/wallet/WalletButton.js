@@ -24,6 +24,7 @@ import { AddressCopier } from "components/addressCopier";
 import { useDispatch, useSelector } from "react-redux";
 import DetailAccountBox from "components/detailAccount/detailAccount";
 import useCheckMobileScreen from "hooks/useCheckMobileScreen";
+import { useModal } from "contexts/useModal";
 
 const WalletNotConnected = ({ openModal }) => {
   const isMobile = useCheckMobileScreen(768);
@@ -110,7 +111,7 @@ const WalletButton = () => {
       logoutAccountHandler();
   }, [currentNetwork]);
 
-  const [connectModalVisible, setConnectModalVisible] = useState(false);
+  const { connectModalVisible, setConnectModalVisible } = useModal();
   const openModal = () => setConnectModalVisible(true);
   const onClickSwitch = async () => {
     if (currentAccount) openModal();

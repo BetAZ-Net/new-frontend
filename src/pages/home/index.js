@@ -253,6 +253,7 @@ const HomePage = () => {
               color="#F7F7F8"
               boxShadow="4px 4px 6px 0px rgba(255, 255, 255, 0.20) inset"
               _hover={{ color: "#000", bg: "#E2E8F0" }}
+              isDisabled
               onClick={() => window.open("/app", "_blank")}
             >
               Testnet Demo

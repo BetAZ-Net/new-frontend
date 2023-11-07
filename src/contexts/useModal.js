@@ -7,6 +7,7 @@ export const ModalProvider = ({ children }) => {
   const [unstakeStakingPoolModalVisible, setUnstakeStakingPoolModalVisible] =
     useState(false);
   const [unstakeModalVisible, setUnstakeModalVisible] = useState(false);
+  const [connectModalVisible, setConnectModalVisible] = useState(false);
 
   return (
     <ModalContext.Provider
@@ -17,6 +18,8 @@ export const ModalProvider = ({ children }) => {
         setUnstakeModalVisible,
         unstakeStakingPoolModalVisible,
         setUnstakeStakingPoolModalVisible,
+        connectModalVisible,
+        setConnectModalVisible
       }}
     >
       {children}

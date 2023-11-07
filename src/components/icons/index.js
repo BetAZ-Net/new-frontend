@@ -4,11 +4,20 @@ import TokenLogo from "assets/img/token-logo.png";
 import IconBGEclipse from "assets/img/ellipse.png";
 import IconSmallRec from "assets/img/icon-small-rectangle.png";
 import IconBigRec from "assets/img/icon-big-rectangle.png";
+import AzeroLogo from "assets/img/azero.png";
 
 export const AppIcon = ({ size = "24px", padding = "0px", rest }) => {
   return (
     <Box sx={{ ...rest, padding }}>
       <Image aspectRatio={1} h={size} w={size} alt="logo-app" src={AppLogo} />
+    </Box>
+  );
+};
+
+export const AzeroIcon = ({ size = "24px", padding = "0px", rest }) => {
+  return (
+    <Box sx={{ ...rest, padding }}>
+      <Image aspectRatio={1} h={size} w={size} alt="logo-app" src={AzeroLogo} />
     </Box>
   );
 };
@@ -32,8 +41,8 @@ export const EclipseIcon = ({ sx, text }) => {
     <Box sx={sx} position="relative">
       <Text
         className="shining-text"
-        fontSize={{base: "16px", sm: "24px"}}
-        fontWeight={{base: "500", sm: "700"}}
+        fontSize={{ base: "16px", sm: "24px" }}
+        fontWeight={{ base: "500", sm: "700" }}
         sx={{
           w: "100%",
           textAlign: "center",
@@ -61,7 +70,13 @@ export const SmallRecIcon = ({ sx }) => {
 export const BigRecIcon = ({ sx, size }) => {
   return (
     <Box sx={sx}>
-      <Image aspectRatio={1} h={size} w={size} alt="icon-big-rectangle" src={IconBigRec} />
+      <Image
+        aspectRatio={1}
+        h={size}
+        w={size}
+        alt="icon-big-rectangle"
+        src={IconBigRec}
+      />
     </Box>
   );
 };

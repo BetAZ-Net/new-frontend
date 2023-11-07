@@ -1,5 +1,9 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import AvatarImage from "assets/img/avatar.png";
+import AvatarImageCong from "assets/img/team/cong.png";
+import AvatarImageHieu from "assets/img/team/hieu.png";
+import AvatarImageTrung from "assets/img/team/trung.png";
+import AvatarImageThong from "assets/img/team/thong.png";
 import { useState } from "react";
 import useCheckMobileScreen from "hooks/useCheckMobileScreen";
 import "slick-carousel/slick/slick.css";
@@ -12,40 +16,40 @@ import Slider from "react-slick";
 
 const teamList = [
   {
-    name: "Romeo De Luca - CTO",
-    role: "Head of Technology 1",
+    name: "Cong Vu",
+    role: "Business Manager",
     description:
       "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
-    avatar: AvatarImage,
+    avatar: AvatarImageCong,
   },
   {
-    name: "Romeo De Luca - CTO",
-    role: "Head of Technology 2",
+    name: "Hieu Nguyen",
+    role: "CTO",
     description:
       "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
-    avatar: AvatarImage,
+    avatar: AvatarImageHieu,
   },
   {
-    name: "Romeo De Luca - CTO",
-    role: "Head of Technology 3",
+    name: "Trung Pham",
+    role: "Blockchain Developer",
     description:
       "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
-    avatar: AvatarImage,
+    avatar: AvatarImageTrung,
   },
   {
-    name: "Romeo De Luca - CTO",
-    role: "Head of Technology 4",
+    name: "Thong Phung",
+    role: "CEO",
     description:
       "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
-    avatar: AvatarImage,
+    avatar: AvatarImageThong,
   },
-  {
-    name: "Romeo De Luca - CTO",
-    role: "Head of Technology 5",
-    description:
-      "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
-    avatar: AvatarImage,
-  },
+  // {
+  //   name: "Thanh Tran",
+  //   role: "Full Stack Developer",
+  //   description:
+  //     "Romeo has played a significant role in driving technological innovation by demonstrating the system's resilience, efficiency, and security within the exchanges' trading framework. Romeo has held key positions in a number of large technology corporations for more than 15  years.",
+  //   avatar: AvatarImage,
+  // },
 ];
 
 const SliderTeam = () => {
@@ -156,8 +160,8 @@ const SliderTeam = () => {
               </Box>
               <Box className="member-description-container">
                 <Text className="member-role-text">{e.role}</Text>
-                <Box h="2px" bg="#2A3741" />
-                <Text className="member-description-text">{e.description}</Text>
+                {/* <Box h="2px" bg="#2A3741" />
+                <Text className="member-description-text">{e.description}</Text> */}
               </Box>
             </Box>
           </Box>

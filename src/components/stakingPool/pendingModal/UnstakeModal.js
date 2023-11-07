@@ -274,7 +274,7 @@ const UnstakeModal = ({ isOpen, onClose }) => {
             </Flex>
           </Box>
           <Box className="history-modal-tabs">
-            {tabData.map((e, index) => {
+            {tabData?.map((e, index) => {
               const isActive = currentTab === index;
               return (
                 <Box
@@ -299,7 +299,7 @@ const UnstakeModal = ({ isOpen, onClose }) => {
           </Box>
           {isMobile ? (
             <Flex direction="column" maxH="600px" overflowY="auto" mt="12px">
-              {dataPending.length === 0 ? (
+              {dataPending?.length === 0 ? (
                 <Box
                   sx={{
                     borderRadius: "12px",
@@ -319,9 +319,8 @@ const UnstakeModal = ({ isOpen, onClose }) => {
                   </Text>
                 </Box>
               ) : (
-                tableData.data.map((e, rowIndex) => {
+                tableData?.data?.map((e, rowIndex) => {
                   const keyValues = Object.keys(e);
-
                   return (
                     <Box
                       sx={{
@@ -342,7 +341,7 @@ const UnstakeModal = ({ isOpen, onClose }) => {
                               color="#F7F7F8"
                             >
                               <Text mt="12px">
-                                {tableData.headers[index].label}
+                                {tableData?.headers[index].label}
                               </Text>
                             </Flex>
                             <Flex
@@ -351,7 +350,7 @@ const UnstakeModal = ({ isOpen, onClose }) => {
                               alignItems="end"
                             >
                               <Text mt="12px">
-                                {formatTableValueMobile(e[keyvalue], keyvalue)}
+                                {formatTableValue(e[keyvalue], keyvalue)}
                               </Text>
                             </Flex>
                           </SimpleGrid>
@@ -374,10 +373,10 @@ const UnstakeModal = ({ isOpen, onClose }) => {
               >
                 <Thead>
                   <Tr className="history-table-header-container">
-                    {tableData.headers.map((e, index) => {
+                    {tableData?.headers.map((e, index) => {
                       const isFirstChild = index === 0;
                       const isLastChild =
-                        index === tableData.headers.length - 1;
+                        index === tableData?.headers.length - 1;
                       return (
                         <Th className="history-table-header-column">
                           <Box
@@ -404,7 +403,7 @@ const UnstakeModal = ({ isOpen, onClose }) => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {dataPending.length === 0 ? (
+                  {dataPending?.length === 0 ? (
                     <Tr>
                       <Td colSpan={4}>
                         <Box
@@ -427,14 +426,14 @@ const UnstakeModal = ({ isOpen, onClose }) => {
                       </Td>
                     </Tr>
                   ) : (
-                    tableData.data.map((e, rowIndex) => {
+                    tableData?.data?.map((e, rowIndex) => {
                       const keyValues = Object.keys(e);
                       return (
                         <Tr>
                           {keyValues.map((keyvalue, index) => {
                             const isFirstChild = index === 0;
                             const isLastChild =
-                              index === tableData.headers.length - 1;
+                              index === tableData?.headers.length - 1;
                             return (
                               <Td>
                                 <Box
@@ -464,7 +463,6 @@ const UnstakeModal = ({ isOpen, onClose }) => {
                       );
                     })
                   )}
-                  {}
                 </Tbody>
               </Table>
             </TableContainer>

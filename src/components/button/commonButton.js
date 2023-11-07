@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@chakra-ui/react";
 import { ClipLoader } from "react-spinners";
 import { useSelector } from "react-redux";
+import { useModal } from "contexts/useModal";
 
 function CommonButton(props) {
   const {
@@ -17,6 +18,7 @@ function CommonButton(props) {
   } = props;
 
   const { currentAccount } = useSelector((s) => s.substrate);
+  const { connectModalVisible, setConnectModalVisible } = useModal();
 
   if (currentAccount?.address)
     return (
@@ -37,17 +39,7 @@ function CommonButton(props) {
     );
   else
     return (
-      <Button
-        bg="#FFA000"
-        py="10px"
-        boxShadow="4px 4px 6px 0px rgba(255, 255, 255, 0.20) inset"
-        _hover={{ color: "#000", bg: "#E2E8F0" }}
-        onClick={() => {
-          document
-            .getElementById("connect-box")
-            .scrollIntoView({ behavior: "smooth" });
-        }}
-      >
+      <Button onClick={() => setConnectModalVisible(true)}>
         Connect wallet now
       </Button>
     );

@@ -15,7 +15,7 @@ import AppLogoText from "assets/img/app-logo-text.png";
 import DepositAmountCircle from "assets/img/deposit-amount-circle.png";
 import "./styles.css";
 import { IoMdClose } from "react-icons/io";
-import { AppIcon } from "components/icons";
+import { AppIcon, AzeroIcon } from "components/icons";
 import { useDispatch, useSelector } from "react-redux";
 import betaz_token from "utils/contracts/betaz_token_calls";
 import betaz_core from "utils/contracts/betaz_core_calls";
@@ -257,7 +257,13 @@ const DepositModal = ({ visible, onClose }) => {
                         <Text className="linear-text azero-amount">
                           {currentAccount?.balance?.azero}
                         </Text>
-                        <AppIcon size="14px" padding="3px" />
+                        <AzeroIcon
+                          size={{ base: "12px", sm: "12px" }}
+                          padding={{
+                            base: "0px 6px 0px 6px",
+                            sm: "0px 6px 0px 5px",
+                          }}
+                        />
                       </Flex>
                     </Box>
                     <Box className="deposit-box-amount-box">
@@ -314,7 +320,13 @@ const DepositModal = ({ visible, onClose }) => {
                         <Text className="linear-text azero-amount">
                           {holdAmount}
                         </Text>
-                        <AppIcon size="14px" padding="3px" />
+                        <AzeroIcon
+                          size={{ base: "12px", sm: "12px" }}
+                          padding={{
+                            base: "0px 6px 0px 6px",
+                            sm: "0px 6px 0px 5px",
+                          }}
+                        />
                       </Flex>
                     </Box>
                     <Box className="deposit-box-amount-box">
